@@ -31,4 +31,5 @@ Task management for individuals and teams. This project has been done as part of
  - Use modals
  - Calendar + Kalenterikutsu
  - Due dates
- - Assign and view random task 
+ - Assign and view random task
+ - Archive a panel, block and ticket

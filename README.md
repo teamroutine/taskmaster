@@ -1,6 +1,7 @@
 <div align="center">
 ![Taskmaster logo](/Taskmaster.png)
 </div>
+
 # Taskmaster
 Task management for individuals and teams. This project has been done as part of the course Software project 2 @Haaga-helia University of applied sciences.
 Taskmaster will provide simple and fluent task and project management for groups and individuals.

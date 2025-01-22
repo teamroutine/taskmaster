@@ -1,6 +1,7 @@
 !Taskmaster
 # Taskmaster
-Task management for individuals and teams. This project has been done as part of the course Software project 2 @Haaga-helia University of applied sciences
+Task management for individuals and teams. This project has been done as part of the course Software project 2 @Haaga-helia University of applied sciences.
+Taskmaster will provide simple and fluent task and project management for groups and individuals.
 ## Key features
 - Sign up for teamwork teams with codes / link
 - CRUD for panel (project)
@@ -10,8 +11,8 @@ Task management for individuals and teams. This project has been done as part of
 - Assign tasks for users
 - Commenting tasks
 - Analytics on tasks for project
-- Seach and filtering
-- 
+- Search and filtering
+  
 ## Used technologies 
  - Spring Boot
  - Vite React
@@ -23,9 +24,10 @@ Task management for individuals and teams. This project has been done as part of
    - Hilja Katajamäki https://github.com/hilja04
    - Ikechukwu Aniebonam https://github.com/ikeani
 ## Links
+ - __Backlog:__ https://github.com/orgs/teamroutine/projects/2
 ## Developer guide
 ## Data model
-## WORK IN PROGGRESS
+## Work in progress
  - Firebase / Spring security authentication
  - Custom styling for projects 
  - Custom emoji upload 
@@ -35,3 +37,5 @@ Task management for individuals and teams. This project has been done as part of
  - Assign and view random task 
  - Light and darkmode 
  - Mobile styling
+ - Assign and view random task
+ - Archive a panel, block and ticket

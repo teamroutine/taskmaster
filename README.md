@@ -1,3 +1,4 @@
+!Taskmaster
 # Taskmaster
 Task management for individuals and teams. This project has been done as part of the course Software project 2 @Haaga-helia University of applied sciences
 ## Key features
@@ -32,3 +33,5 @@ Task management for individuals and teams. This project has been done as part of
  - Calendar + Kalenterikutsu
  - Due dates
  - Assign and view random task 
+ - Light and darkmode 
+ - Mobile styling

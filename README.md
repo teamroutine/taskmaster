@@ -22,6 +22,7 @@ Task management for individuals and teams. This project has been done as part of
    - Hilja Katajamäki https://github.com/hilja04
    - Ikechukwu Aniebonam https://github.com/ikeani
 ## Links
+ - __Backlog:__ https://github.com/orgs/teamroutine/projects/2
 ## Developer guide
 ## Data model
 ## WORK IN PROGGRESS

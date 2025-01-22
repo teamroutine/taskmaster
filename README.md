@@ -1,5 +1,6 @@
 # Taskmaster
-Task management for individuals and teams. This project has been done as part of the course Software project 2 @Haaga-helia University of applied sciences
+Task management for individuals and teams. This project has been done as part of the course Software project 2 @Haaga-helia University of applied sciences.
+Taskmaster will provide simple and fluent task and project management for groups and individuals.
 ## Key features
 - Sign up for teamwork teams with codes / link
 - CRUD for panel (project)

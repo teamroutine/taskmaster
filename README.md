@@ -9,8 +9,8 @@ Task management for individuals and teams. This project has been done as part of
 - Assign tasks for users
 - Commenting tasks
 - Analytics on tasks for project
-- Seach and filtering
-- 
+- Search and filtering
+  
 ## Used technologies 
  - Spring Boot
  - Vite React
@@ -25,7 +25,7 @@ Task management for individuals and teams. This project has been done as part of
  - __Backlog:__ https://github.com/orgs/teamroutine/projects/2
 ## Developer guide
 ## Data model
-## WORK IN PROGGRESS
+## Work in progress
  - Firebase / Spring security authentication
  - Custom styling for projects 
  - Custom emoji upload 

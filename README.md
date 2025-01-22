@@ -1,3 +1,8 @@
+
+<div align="center">
+  <img src="./Taskmaster.png" alt="Taskmaster logo">
+</div>
+
 # Taskmaster
 Task management for individuals and teams. This project has been done as part of the course Software project 2 @Haaga-helia University of applied sciences.
 Taskmaster will provide simple and fluent task and project management for groups and individuals.
@@ -33,5 +38,8 @@ Taskmaster will provide simple and fluent task and project management for groups
  - Use modals
  - Calendar + Kalenterikutsu
  - Due dates
+ - Assign and view random task 
+ - Light and darkmode 
+ - Mobile styling
  - Assign and view random task
  - Archive a panel, block and ticket

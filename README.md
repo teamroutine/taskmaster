@@ -1,5 +1,6 @@
+
 <div align="center">
-![Taskmaster logo](/Taskmaster.png)
+  <img src="./Taskmaster.png" alt="Taskmaster logo">
 </div>
 
 # Taskmaster

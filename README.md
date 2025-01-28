@@ -31,6 +31,46 @@ Taskmaster will provide simple and fluent task and project management for groups
  - __Backlog:__ https://github.com/orgs/teamroutine/projects/2
 ## Developer guide
 ## Data model
+### Entity relationship diagram
+```mermaid
+  erDiagram
+    User {
+      long id
+      string firstName
+      string lastName
+      string email
+      long phone
+   }
+   Panel ||--o{ Block : ""
+   Panel{
+      long panelId
+      string panelName
+      string description
+   }
+   Block ||--o{ Ticket : ""
+   Block{
+      long blockId
+      string blockName
+      string description
+      string highlightColor
+   }
+   
+   Ticket{
+      long ticketId
+      string name
+      string description
+      boolean status
+      date created
+   }
+    Team }|--o{ User : ""
+    Team ||--o{ Panel : ""
+   Team{
+      long teamId
+      string teamName
+      string description
+   }
+```
+   
 ## Work in progress
  - Firebase / Spring security authentication
  - Custom styling for projects 

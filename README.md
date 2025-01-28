@@ -1,6 +1,6 @@
 
 <div align="center">
-  <img src="./Taskmaster.png" alt="Taskmaster logo">
+  <img src="./taskmaster-logo.png" alt="Taskmaster logo">
 </div>
 
 # Taskmaster

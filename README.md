@@ -53,7 +53,7 @@ The project frontend will be constructed using following Material UI components 
 ### Entity relationship diagram
 ```mermaid
   erDiagram
-    User {
+    AppUser {
       long id
       string firstName
       string lastName
@@ -81,7 +81,7 @@ The project frontend will be constructed using following Material UI components 
       boolean status
       date created
    }
-    Team }|--o{ User : ""
+    Team }|--o{ AppUser : ""
     Team ||--o{ Panel : ""
    Team{
       long teamId

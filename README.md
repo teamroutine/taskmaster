@@ -57,7 +57,7 @@ Taskmaster will provide simple and fluent task and project management for groups
    
    Ticket{
       long ticketId
-      string name
+      string ticketName
       string description
       boolean status
       date created

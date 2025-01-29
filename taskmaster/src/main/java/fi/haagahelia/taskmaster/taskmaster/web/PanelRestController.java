@@ -9,7 +9,10 @@ import org.springframework.web.bind.annotation.RestController;
 import fi.haagahelia.taskmaster.taskmaster.domain.Panel;
 import fi.haagahelia.taskmaster.taskmaster.domain.PanelRepository;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+
 import java.util.List;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @CrossOrigin
 @RestController
@@ -23,11 +26,19 @@ public class PanelRestController {
         this.panelRepository = panelRepository;
     }
 
-    // Get all the teams Panels
+    // Get all the team's Panels
     @GetMapping
     public ResponseEntity<List<Panel>> getAllPanels() {
         List<Panel> panels = panelRepository.findAll();
         return ResponseEntity.ok(panels);
+    }
+
+    // Get one of the team's Panel
+    @GetMapping("/{id}")
+    public ResponseEntity<Panel> getPanelById(@PathVariable Long id) {
+        return panelRepository.findById(id)
+                .map(ResponseEntity::ok)
+                .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
 }

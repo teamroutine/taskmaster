@@ -19,7 +19,7 @@ public class Block {
     private String highlightColor;
 
     @ManyToOne
-    @JsonIgnoreProperties("panels")
+    @JsonIgnoreProperties("blocks")
     @JoinColumn(name = "panelId")
     private Panel panel;
 

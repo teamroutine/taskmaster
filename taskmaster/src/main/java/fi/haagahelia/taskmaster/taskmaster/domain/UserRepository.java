@@ -1,5 +1,5 @@
 package fi.haagahelia.taskmaster.taskmaster.domain;
 
-public interface serRepository {
+public interface UserRepository {
 
 }

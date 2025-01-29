@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.RestController;
 import fi.haagahelia.taskmaster.taskmaster.domain.Team;
 import fi.haagahelia.taskmaster.taskmaster.domain.TeamRepository;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
-
 
 @CrossOrigin
 @RestController
@@ -33,9 +33,13 @@ public class TeamRestController {
         List<Team> teams = teamRepository.findAll();
         return ResponseEntity.ok(teams);
     }
-    
-    
+
+    // Get one team
+    @GetMapping("/{id}")
+    public ResponseEntity<Team> getTeamById(@PathVariable Long id) {
+        return teamRepository.findById(id)
+                .map(ResponseEntity::ok)
+                .orElseGet(() -> ResponseEntity.notFound().build());
     }
-    
 
 }

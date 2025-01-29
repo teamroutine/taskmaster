@@ -22,20 +22,18 @@ public class Panel {
     private Long panelId;
     private String panelName;
     private String description;
-    
-   
+
     @ManyToOne
     @JsonIgnoreProperties("panels")
     @JoinColumn(name = "teamId")
     private Team team;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "panel")
-    private List <Block> blocks;
+    private List<Block> blocks;
 
     public Panel() {
     }
 
-   
     public Panel(Long panelId, String panelName, String description, Team team, List<Block> blocks) {
         this.panelId = panelId;
         this.panelName = panelName;
@@ -43,7 +41,6 @@ public class Panel {
         this.team = team;
         this.blocks = blocks;
     }
-
 
     public Long getPanelId() {
         return panelId;
@@ -68,6 +65,7 @@ public class Panel {
     public void setDescription(String description) {
         this.description = description;
     }
+
     public Team getTeam() {
         return team;
     }
@@ -75,10 +73,10 @@ public class Panel {
     public void setTeam(Team team) {
         this.team = team;
     }
+
     public List<Block> getBlocks() {
         return blocks;
     }
-
 
     public void setBlocks(List<Block> blocks) {
         this.blocks = blocks;
@@ -89,9 +87,5 @@ public class Panel {
         return "Panel [panelId=" + panelId + ", panelName=" + panelName + ", description=" + description + ", team="
                 + team + ", blocks=" + blocks + "]";
     }
-    
 
-    
-
-    
 }

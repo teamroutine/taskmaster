@@ -11,6 +11,8 @@ import fi.haagahelia.taskmaster.taskmaster.domain.Panel;
 import fi.haagahelia.taskmaster.taskmaster.domain.PanelRepository;
 import fi.haagahelia.taskmaster.taskmaster.domain.Team;
 import fi.haagahelia.taskmaster.taskmaster.domain.TeamRepository;
+import fi.haagahelia.taskmaster.taskmaster.domain.Ticket;
+import fi.haagahelia.taskmaster.taskmaster.domain.TicketRepository;
 import fi.haagahelia.taskmaster.taskmaster.domain.Block;
 import fi.haagahelia.taskmaster.taskmaster.domain.BlockRepository;
 
@@ -24,16 +26,16 @@ public class TaskmasterApplication {
 	}
 
 	@Bean
-    public CommandLineRunner demo(PanelRepository prepository, TeamRepository trepository, BlockRepository brepository) {
+    public CommandLineRunner demo(PanelRepository prepository, TeamRepository terepository, BlockRepository brepository, TicketRepository tirepository) {
         return (args) -> {
             log.info("Saving panels and team");
-			Team team1 = new Team(null, "TestTeam", "Team data for testing", null );
-			trepository.save(team1);
+			Team team1 = new Team(null, "Team1", "description for team 1", null );
+			terepository.save(team1);
 			
 
-            Panel panel1 = new Panel(null, "Testi projekt", "testi projekti testaukseen", team1, null);
+            Panel panel1 = new Panel(null, "Project 1", "description for panel 1 ", team1, null);
 			
-            Panel panel2 = new Panel(null, "new project", "test for project testing", team1, null);
+            Panel panel2 = new Panel(null, "Projekct 2", "description for panel 2", team1, null);
 
             prepository.save(panel1);
 			prepository.save(panel2);
@@ -44,11 +46,17 @@ public class TaskmasterApplication {
 			prepository.save(panel1);
 			prepository.save(panel2);
 
-			Block block1 = new Block(null, "test block", "for testing", null);
+			Block block1 = new Block(null, "Block 1", "description for block 1", null, panel2, null);
+
 			brepository.save(block1);
 			block1.setPanel(panel1);
 			brepository.save(block1);
-	
+
+			Ticket ticket1 = new Ticket(null, "Ticket 1 ","description for ticket 1", null, null, block1 );
+			tirepository.save(ticket1);
+			ticket1.setBlock(block1);
+			tirepository.save(ticket1);
+
            
         };
     }

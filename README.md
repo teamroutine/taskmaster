@@ -34,6 +34,7 @@ Taskmaster will provide simple and fluent task and project management for groups
 <div align="center">
   <img src="./FramingPrototype.png" alt="UI prototype">
 </div>
+
 ## Data model
 ### Entity relationship diagram
 ```mermaid

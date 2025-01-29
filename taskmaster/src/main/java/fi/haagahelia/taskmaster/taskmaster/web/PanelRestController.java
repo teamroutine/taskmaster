@@ -56,10 +56,17 @@ public class PanelRestController {
     }
 
     @PutMapping("/{id}")
-    public String putMethodName(@PathVariable String id, @RequestBody String entity) {
-        // TODO: process PUT request
+    public ResponseEntity<Panel> editPanel(@PathVariable Long id,
+            @RequestBody Panel panelData) {
+        Panel editPanel = panelRepository.findById(id)
+                .orElseThrow(() -> new ResponseStatusException(
+                        HttpStatus.NOT_FOUND,
+                        "Panel " + id + "can't be edited, since it doensn't exist."));
 
-        return entity;
+        editPanel.setPanelId(panelData.getPanelId());
+        panelRepository.save(panelData);
+
+        return ResponseEntity.ok(editPanel);
     }
 
 }

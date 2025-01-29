@@ -1,13 +1,18 @@
 package fi.haagahelia.taskmaster.taskmaster.domain;
 
+import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.GenerationType;
 
 @Entity
 
-public class User {
+public class AppUser {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -16,10 +21,13 @@ public class User {
     private String email;
     private String phone;
 
-    public User() {
+    @ManyToMany(mappedBy = "appusers")
+    @JsonIgnoreProperties("appusers")
+    private List <Team> teams;
+    public AppUser() {
     }
 
-    public User(Long id, String firstName, String lastName, String email, String phone) {
+    public AppUser(Long id, String firstName, String lastName, String email, String phone) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;

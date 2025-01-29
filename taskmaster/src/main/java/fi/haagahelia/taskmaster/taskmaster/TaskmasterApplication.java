@@ -15,6 +15,9 @@ import fi.haagahelia.taskmaster.taskmaster.domain.Ticket;
 import fi.haagahelia.taskmaster.taskmaster.domain.TicketRepository;
 import fi.haagahelia.taskmaster.taskmaster.domain.Block;
 import fi.haagahelia.taskmaster.taskmaster.domain.BlockRepository;
+import fi.haagahelia.taskmaster.taskmaster.domain.AppUser;
+import fi.haagahelia.taskmaster.taskmaster.domain.AppUserRepository;
+
 
 
 @SpringBootApplication
@@ -26,12 +29,15 @@ public class TaskmasterApplication {
 	}
 
 	@Bean
-    public CommandLineRunner demo(PanelRepository prepository, TeamRepository terepository, BlockRepository brepository, TicketRepository tirepository) {
+    public CommandLineRunner demo(PanelRepository prepository, TeamRepository terepository, BlockRepository brepository, TicketRepository tirepository, AppUserRepository arepository) {
         return (args) -> {
             log.info("Saving panels and team");
-			Team team1 = new Team(null, "Team1", "description for team 1", null );
+			Team team1 = new Team(null, "Team1", "description for team 1", null, null );
 			terepository.save(team1);
+
+			AppUser appuser1 = new AppUser(null, "Hilja", "Katajamäki", "hilja.example@gmail", null);
 			
+			arepository.save(appuser1);
 
             Panel panel1 = new Panel(null, "Project 1", "description for panel 1 ", team1, null);
 			

@@ -63,7 +63,6 @@ public class PanelRestController {
                         HttpStatus.NOT_FOUND,
                         "Panel " + id + "can't be edited, since it doensn't exist."));
 
-        editPanel.setPanelId(panelData.getPanelId());
         panelRepository.save(panelData);
 
         return ResponseEntity.ok(editPanel);

@@ -1,5 +1,7 @@
 package fi.haagahelia.taskmaster.taskmaster.domain;
 
-public interface PanelRepository {
+import org.springframework.data.repository.CrudRepository;
+
+public interface PanelRepository extends CrudRepository<Panel, Long> {
 
 }

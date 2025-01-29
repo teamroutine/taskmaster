@@ -2,6 +2,7 @@ package fi.haagahelia.taskmaster.taskmaster.domain;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import jakarta.persistence.CascadeType;
@@ -20,7 +21,7 @@ public class Team {
     private String teamName;
     private String description;
 
-    
+   
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "team")
     private List <Panel> panels;
 

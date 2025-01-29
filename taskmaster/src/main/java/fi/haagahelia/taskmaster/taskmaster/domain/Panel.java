@@ -1,6 +1,8 @@
 package fi.haagahelia.taskmaster.taskmaster.domain;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -19,6 +21,7 @@ public class Panel {
     
    
     @ManyToOne
+    @JsonIgnoreProperties("panels")
     @JoinColumn(name = "teamId")
     private Team team;
 

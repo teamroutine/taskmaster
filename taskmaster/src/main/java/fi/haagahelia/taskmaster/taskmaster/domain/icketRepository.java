@@ -1,5 +1,5 @@
 package fi.haagahelia.taskmaster.taskmaster.domain;
 
-public interface TicketRepository {
+public interface icketRepository {
 
 }

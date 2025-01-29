@@ -54,6 +54,7 @@ public class PanelRestController {
         return panelRepository.save(newPanel);
     }
 
+    // Edit one panel
     @PutMapping("/{id}")
     public ResponseEntity<Panel> editPanel(@PathVariable Long id,
             @RequestBody Panel panelData) {

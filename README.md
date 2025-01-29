@@ -35,6 +35,20 @@ Taskmaster will provide simple and fluent task and project management for groups
   <img src="./FramingPrototype.png" alt="UI prototype">
 </div>
 
+### Frontend UI plan
+The project frontend will be constructed using following Material UI components and icons.
+#### Components
+   - Modals for Crud add and edit
+   - Buttons
+   - Textfield
+   - Dividers
+   - Letter avatars
+   - Cards (Ticket)
+   - Paper (Block)
+#### icons
+   - MoreHoriz and MoreVert
+   - AddCircle
+   - CheckCircle
 ## Data model
 ### Entity relationship diagram
 ```mermaid

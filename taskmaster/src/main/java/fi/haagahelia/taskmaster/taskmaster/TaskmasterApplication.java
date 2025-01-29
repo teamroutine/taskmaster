@@ -11,6 +11,8 @@ import fi.haagahelia.taskmaster.taskmaster.domain.Panel;
 import fi.haagahelia.taskmaster.taskmaster.domain.PanelRepository;
 import fi.haagahelia.taskmaster.taskmaster.domain.Team;
 import fi.haagahelia.taskmaster.taskmaster.domain.TeamRepository;
+import fi.haagahelia.taskmaster.taskmaster.domain.Block;
+import fi.haagahelia.taskmaster.taskmaster.domain.BlockRepository;
 
 @SpringBootApplication
 public class TaskmasterApplication {

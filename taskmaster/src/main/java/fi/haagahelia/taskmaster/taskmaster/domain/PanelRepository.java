@@ -1,7 +1,10 @@
 package fi.haagahelia.taskmaster.taskmaster.domain;
 
-import org.springframework.data.repository.CrudRepository;
+import java.util.List;
 
-public interface PanelRepository extends CrudRepository<Panel, Long> {
+import org.springframework.data.jpa.repository.JpaRepository;
 
+
+public interface PanelRepository extends JpaRepository<Panel, Long> {
+    List<Panel> findByPanelName(String panelName);
 }

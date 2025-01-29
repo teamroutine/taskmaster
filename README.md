@@ -30,6 +30,10 @@ Taskmaster will provide simple and fluent task and project management for groups
 ## Links
  - __Backlog:__ https://github.com/orgs/teamroutine/projects/2
 ## Developer guide
+### UI Draft
+<div align="center">
+  <img src="./FramingPrototype.png" alt="UI prototype">
+</div>
 ## Data model
 ### Entity relationship diagram
 ```mermaid

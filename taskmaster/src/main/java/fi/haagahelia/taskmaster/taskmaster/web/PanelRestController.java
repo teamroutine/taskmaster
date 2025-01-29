@@ -19,10 +19,11 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.PutMapping;
 
 @CrossOrigin
 @RestController
-@RequestMapping("/api/panels")
+@RequestMapping("/api/panels") // Is (api/teams/{teamId}/panels) better?
 public class PanelRestController {
 
     private final PanelRepository panelRepository;
@@ -52,6 +53,13 @@ public class PanelRestController {
     @ResponseStatus(value = HttpStatus.CREATED, reason = "New panel created")
     public Panel newPanel(@RequestBody @NonNull Panel newPanel) {
         return panelRepository.save(newPanel);
+    }
+
+    @PutMapping("/{id}")
+    public String putMethodName(@PathVariable String id, @RequestBody String entity) {
+        // TODO: process PUT request
+
+        return entity;
     }
 
 }

@@ -1,8 +1,12 @@
 package fi.haagahelia.taskmaster.taskmaster.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.GenerationType;
 
 @Entity
@@ -13,6 +17,11 @@ public class Block {
     private String blockName;
     private String description;
     private String highlightColor;
+
+    @ManyToOne
+    @JsonIgnoreProperties("panels")
+    @JoinColumn(name = "panelId")
+    private Panel panel;
 
     public Block() {
     }
@@ -55,11 +64,20 @@ public class Block {
     public void setHighlightColor(String highlightColor) {
         this.highlightColor = highlightColor;
     }
+    public Panel getPanel() {
+        return panel;
+    }
+
+    public void setPanel(Panel panel) {
+        this.panel = panel;
+    }
 
     @Override
     public String toString() {
         return "Block [blockId=" + blockId + ", blockName=" + blockName + ", description=" + description
-                + ", highlightColor=" + highlightColor + "]";
+                + ", highlightColor=" + highlightColor + ", panel=" + panel + "]";
     }
+
+    
 
 }

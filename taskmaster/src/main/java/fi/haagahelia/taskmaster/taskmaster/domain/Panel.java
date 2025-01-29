@@ -1,14 +1,18 @@
 package fi.haagahelia.taskmaster.taskmaster.domain;
 
+import java.util.List;
+
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.GenerationType;
 
 @Entity
@@ -25,14 +29,21 @@ public class Panel {
     @JoinColumn(name = "teamId")
     private Team team;
 
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "panel")
+    private List <Block> blocks;
+
     public Panel() {
     }
 
-    public Panel(Long panelId, String panelName, String description) {
+   
+    public Panel(Long panelId, String panelName, String description, Team team, List<Block> blocks) {
         this.panelId = panelId;
         this.panelName = panelName;
         this.description = description;
+        this.team = team;
+        this.blocks = blocks;
     }
+
 
     public Long getPanelId() {
         return panelId;
@@ -64,12 +75,23 @@ public class Panel {
     public void setTeam(Team team) {
         this.team = team;
     }
+    public List<Block> getBlocks() {
+        return blocks;
+    }
+
+
+    public void setBlocks(List<Block> blocks) {
+        this.blocks = blocks;
+    }
 
     @Override
     public String toString() {
         return "Panel [panelId=" + panelId + ", panelName=" + panelName + ", description=" + description + ", team="
-                + team + "]";
+                + team + ", blocks=" + blocks + "]";
     }
+    
+
+    
 
     
 }

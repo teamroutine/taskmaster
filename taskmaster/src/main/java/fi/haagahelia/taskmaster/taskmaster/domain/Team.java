@@ -21,7 +21,7 @@ public class Team {
     private String teamName;
     private String description;
 
-   
+    
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "team")
     private List <Panel> panels;
 

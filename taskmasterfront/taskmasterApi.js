@@ -27,3 +27,13 @@ export function fetchTeams() {
             return response.json();
         });
 }
+
+export function fetchTickets() {
+    return fetch(import.meta.env.VITE_API_URL + "/tickets")
+        .then(response => {
+            if (!response.ok) 
+                throw new Error("Error in fetch: " + response.statusText);
+            
+            return response.json();
+        });
+}

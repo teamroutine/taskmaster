@@ -17,3 +17,13 @@ export function fetchPanels() {
             return response.json();
         });
 }
+
+export function fetchTeams() {
+    return fetch(import.meta.env.VITE_API_URL + "/teams")
+        .then(response => {
+            if (!response.ok) 
+                throw new Error("Error in fetch: " + response.statusText);
+            
+            return response.json();
+        });
+}

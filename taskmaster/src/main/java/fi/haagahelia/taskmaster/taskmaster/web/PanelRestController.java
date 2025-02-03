@@ -61,7 +61,7 @@ public class PanelRestController {
         Panel editPanel = panelRepository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(
                         HttpStatus.NOT_FOUND,
-                        "Panel " + id + "can't be edited, since it doensn't exist."));
+                        "Panel " + id + "can't be edited, since it doesn't exist."));
 
         editPanel.setPanelName(panelData.getPanelName());
         editPanel.setDescription(panelData.getDescription());

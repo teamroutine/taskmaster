@@ -30,6 +30,11 @@ Taskmaster will provide simple and fluent task and project management for groups
 ## Links
  - __Backlog:__ https://github.com/orgs/teamroutine/projects/2
 ## Developer guide
+   #### Minimum requirments for components
+   - Node.js version 22.13.0
+   - Java version 17
+   - Spring version 3.4.1
+   - Vite version 6.0.11
 ### UI Draft
 <div align="center">
   <img src="./FramingPrototype.png" alt="UI prototype">

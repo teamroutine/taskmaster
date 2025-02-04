@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.PutMapping;
 
 @CrossOrigin
@@ -26,9 +25,9 @@ import org.springframework.web.bind.annotation.PutMapping;
 @RequestMapping("/api/panels") // Is (api/teams/{teamId}/panels) better?
 public class PanelRestController {
 
+    @Autowired
     private final PanelRepository panelRepository;
 
-    @Autowired
     public PanelRestController(PanelRepository panelRepository) {
         this.panelRepository = panelRepository;
     }
@@ -55,15 +54,18 @@ public class PanelRestController {
         return panelRepository.save(newPanel);
     }
 
+    // Edit one panel
     @PutMapping("/{id}")
     public ResponseEntity<Panel> editPanel(@PathVariable Long id,
             @RequestBody Panel panelData) {
         Panel editPanel = panelRepository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(
                         HttpStatus.NOT_FOUND,
-                        "Panel " + id + "can't be edited, since it doensn't exist."));
+                        "Panel " + id + "can't be edited, since it doesn't exist."));
 
-        editPanel.setPanelId(panelData.getPanelId());
+        editPanel.setPanelName(panelData.getPanelName());
+        editPanel.setDescription(panelData.getDescription());
+
         panelRepository.save(panelData);
 
         return ResponseEntity.ok(editPanel);

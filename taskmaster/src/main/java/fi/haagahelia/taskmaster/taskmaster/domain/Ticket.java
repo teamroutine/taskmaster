@@ -4,9 +4,13 @@ import java.time.LocalDate;
 
 import org.hibernate.annotations.CreationTimestamp;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.GenerationType;;
 
 @Entity
@@ -20,15 +24,22 @@ public class Ticket {
     @CreationTimestamp
     private LocalDate created;
 
+    @ManyToOne
+    @JsonIgnoreProperties("tickets")
+    @JoinColumn(name = "blockId")
+    private Block block;
+
     public Ticket() {
     }
 
-    public Ticket(Long ticketId, String ticketName, String description, Boolean status, LocalDate created) {
+    public Ticket(Long ticketId, String ticketName, String description, Boolean status, LocalDate created,
+            Block block) {
         this.ticketId = ticketId;
         this.ticketName = ticketName;
         this.description = description;
         this.status = status;
         this.created = created;
+        this.block = block;
     }
 
     public Long getTicketId() {
@@ -71,10 +82,18 @@ public class Ticket {
         this.created = created;
     }
 
+    public Block getBlock() {
+        return block;
+    }
+
+    public void setBlock(Block block) {
+        this.block = block;
+    }
+
     @Override
     public String toString() {
         return "Ticket [ticketId=" + ticketId + ", ticketName=" + ticketName + ", description=" + description
-                + ", status=" + status + ", created=" + created + "]";
+                + ", status=" + status + ", created=" + created + ", block=" + block + "]";
     }
 
 }

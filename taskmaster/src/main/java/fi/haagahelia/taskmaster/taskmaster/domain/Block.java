@@ -1,12 +1,16 @@
 package fi.haagahelia.taskmaster.taskmaster.domain;
 
+import java.util.List;
+
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.GenerationType;
 
 @Entity
@@ -23,14 +27,20 @@ public class Block {
     @JoinColumn(name = "panelId")
     private Panel panel;
 
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "block")
+    private List<Ticket> tickets;
+
     public Block() {
     }
 
-    public Block(Long blockId, String blockName, String description, String highlightColor) {
+    public Block(Long blockId, String blockName, String description, String highlightColor, Panel panel,
+            List<Ticket> tickets) {
         this.blockId = blockId;
         this.blockName = blockName;
         this.description = description;
         this.highlightColor = highlightColor;
+        this.panel = panel;
+        this.tickets = tickets;
     }
 
     public Long getBlockId() {
@@ -64,6 +74,7 @@ public class Block {
     public void setHighlightColor(String highlightColor) {
         this.highlightColor = highlightColor;
     }
+
     public Panel getPanel() {
         return panel;
     }
@@ -72,12 +83,18 @@ public class Block {
         this.panel = panel;
     }
 
+    public List<Ticket> getTickets() {
+        return tickets;
+    }
+
+    public void setTickets(List<Ticket> tickets) {
+        this.tickets = tickets;
+    }
+
     @Override
     public String toString() {
         return "Block [blockId=" + blockId + ", blockName=" + blockName + ", description=" + description
-                + ", highlightColor=" + highlightColor + ", panel=" + panel + "]";
+                + ", highlightColor=" + highlightColor + ", panel=" + panel + ", tickets=" + tickets + "]";
     }
-
-    
 
 }

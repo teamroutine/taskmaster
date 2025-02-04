@@ -1,6 +1,6 @@
 
 <div align="center">
-  <img src="./Taskmaster.png" alt="Taskmaster logo">
+  <img src="./taskmaster-logo.png" alt="Taskmaster logo">
 </div>
 
 # Taskmaster
@@ -30,7 +30,66 @@ Taskmaster will provide simple and fluent task and project management for groups
 ## Links
  - __Backlog:__ https://github.com/orgs/teamroutine/projects/2
 ## Developer guide
+### UI Draft
+<div align="center">
+  <img src="./FramingPrototype.png" alt="UI prototype">
+</div>
+
+### Frontend UI plan
+The project frontend will be constructed using following Material UI components and icons.
+#### Components
+   - Modals for Crud add and edit
+   - Buttons
+   - Textfield
+   - Dividers
+   - Letter avatars
+   - Cards (Ticket)
+   - Paper (Block)
+#### icons
+   - MoreHoriz and MoreVert
+   - AddCircle
+   - CheckCircle
 ## Data model
+### Entity relationship diagram
+```mermaid
+  erDiagram
+    AppUser {
+      long id
+      string firstName
+      string lastName
+      string email
+      long phone
+   }
+   Panel ||--o{ Block : ""
+   Panel{
+      long panelId
+      string panelName
+      string description
+   }
+   Block ||--o{ Ticket : ""
+   Block{
+      long blockId
+      string blockName
+      string description
+      string highlightColor
+   }
+   
+   Ticket{
+      long ticketId
+      string ticketName
+      string description
+      boolean status
+      date created
+   }
+    Team }|--o{ AppUser : ""
+    Team ||--o{ Panel : ""
+   Team{
+      long teamId
+      string teamName
+      string description
+   }
+```
+   
 ## Work in progress
  - Firebase / Spring security authentication
  - Custom styling for projects 

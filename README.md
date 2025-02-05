@@ -35,6 +35,8 @@ Taskmaster will provide simple and fluent task and project management for groups
    - Java version 17
    - Spring version 3.4.1
    - Vite version 6.0.11
+   #### npm packages to install
+   - npm install react-router-dom
 ### UI Draft
 <div align="center">
   <img src="./FramingPrototype.png" alt="UI prototype">

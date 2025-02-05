@@ -1,5 +1,5 @@
 export function fetchBlocksById(panelid) {
-    return fetch(`${import.meta.env.VITE_API_URL}/panels/${panelid}`)
+    return fetch(import.meta.env.VITE_API_URL+"/panels/"+panelid)
         .then(response => {
             if (!response.ok) 
                 throw new Error("Error in fetch: " + response.statusText);

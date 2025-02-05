@@ -19,6 +19,7 @@ function ListBlocks() {
       .catch((err) => setError(err.message));
   }, [panelid]);
 
+  // Add new ticket function with the Blocks id
   const addNewTicket = (newTicket, blockId) => {
     handleAddTicket({ ...newTicket, blockId })
       .then((addedTicket) => {

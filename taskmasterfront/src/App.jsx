@@ -29,6 +29,7 @@ function App() {
                     </Toolbar>
                 </AppBar>
                 <Container>
+                    <Toolbar />
                     <Routes>
                         <Route path="/" element={<Home />} />
                         <Route path="/panels/:panelid" element={<PanelView />} />

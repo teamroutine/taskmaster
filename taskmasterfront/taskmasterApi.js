@@ -39,12 +39,12 @@ export function fetchTickets() {
 }
 
 export const handleAddTicket = (newTicket) => {
-    return fetch(import.meta.env.VITE_API_TICKETS_URL, {
+    return fetch(import.meta.env.VITE_API_URL, {
         method: 'POST',
         headers: { 'Content-type': 'application/json' },
-        body: JSON.stringify(newCustomer)
+        body: JSON.stringify(newTicket)
     })
-        .then(reponse => {
+        .then(response => {
             if (!response.ok)
                 throw new Error("Error when adding ticket: " + response.statusText);
 

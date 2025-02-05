@@ -3,6 +3,9 @@ import { useParams } from "react-router-dom";
 import { fetchBlocksById } from "../../taskmasterApi.js";
 import Paper from "@mui/material/Paper";
 import Box from "@mui/material/Box";
+import Typography from "@mui/material/Typography";
+import ListTickets from "./ListTickets.jsx";
+import Divider from "@mui/material/Divider";
 
 function ListBlocks() {
   const { panelid } = useParams();
@@ -50,9 +53,27 @@ function ListBlocks() {
                   height: 800,
                   padding: 2,
                   textAlign: "center",
+                  display: "flex",
+                  flexDirection: "column",
+                  justifyContent: "space-between",
                 }}
               >
-                {block.blockName}
+                <Box>
+                <Typography variant="h6">{block.blockName}</Typography>
+                <Divider></Divider>
+                </Box>
+                <Box
+                 sx={{ 
+                    p: 1,
+                 }}>
+                  <ListTickets tickets={block.tickets} />
+                </Box>
+                <Box>
+                  <Divider></Divider>
+                  <Typography variant="body2">
+                    Add Ticket +
+                  </Typography>
+                </Box>
               </Paper>
             </Box>
           ))}

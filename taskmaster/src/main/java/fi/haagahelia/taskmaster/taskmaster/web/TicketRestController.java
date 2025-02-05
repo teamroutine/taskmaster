@@ -11,8 +11,11 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
 import fi.haagahelia.taskmaster.taskmaster.domain.TicketRepository;
+import fi.haagahelia.taskmaster.taskmaster.domain.BlockRepository;
+import fi.haagahelia.taskmaster.taskmaster.domain.Block;
 import fi.haagahelia.taskmaster.taskmaster.domain.Panel;
 import fi.haagahelia.taskmaster.taskmaster.domain.Ticket;
+import fi.haagahelia.taskmaster.taskmaster.dto.TicketDTO;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -28,10 +31,12 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 @RequestMapping("/api/tickets")
 public class TicketRestController {
     private final TicketRepository ticketRepository;
+    private final BlockRepository blockRepository;
 
     @Autowired
-    public TicketRestController(TicketRepository ticketRepository) {
+    public TicketRestController(TicketRepository ticketRepository, BlockRepository blockRepository) {
         this.ticketRepository = ticketRepository;
+        this.blockRepository = blockRepository;
     }
 
     @GetMapping
@@ -42,9 +47,17 @@ public class TicketRestController {
 
     // Create a new Ticket
     @PostMapping
-    @ResponseStatus(value = HttpStatus.CREATED, reason = "New ticket created")
-    public Ticket newTicket(@RequestBody @NonNull Ticket newTicket) {
-        return ticketRepository.save(newTicket);
+    public ResponseEntity<Ticket> newTicket(@RequestBody @NonNull TicketDTO ticketDTO) {
+        Block block = blockRepository.findById(ticketDTO.getBlockId())
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Block not found"));
+
+        Ticket newTicket = new Ticket();
+        newTicket.setTicketName(ticketDTO.getTicketName());
+        newTicket.setDescription(ticketDTO.getDescription());
+        newTicket.setBlock(block);
+
+        Ticket savedTicket = ticketRepository.save(newTicket);
+        return ResponseEntity.status(HttpStatus.CREATED).body(savedTicket);
     }
 
     @PutMapping("/{id}")

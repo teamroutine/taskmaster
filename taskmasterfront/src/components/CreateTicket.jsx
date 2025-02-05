@@ -11,7 +11,7 @@ export default function CreateTicket({ createTicket }) {
     const [open, setOpen] = useState(false);
 
     const [ticket, setTicket] = useState({
-        name: '',
+        ticketName: '',
         description: '',
     })
 
@@ -28,14 +28,15 @@ export default function CreateTicket({ createTicket }) {
     // Save new Ticket information 
     const handleSave = () => {
         createTicket(ticket);
+        setTicket({ ticketName: "", description: "" });
         handleClose();
     }
 
     return (
         <>
             {/*Button for adding new Ticket*/}
-            <Button variant='contained' color='success' onCLick={handleClickOpen}>
-                New Ticket
+            <Button variant='contained' color='success' onClick={handleClickOpen}>
+                Add Ticket
             </Button>
             <Dialog
                 open={open}
@@ -47,14 +48,14 @@ export default function CreateTicket({ createTicket }) {
                     <TextField
                         margin='dense'
                         label='Ticket name'
-                        value={ticket.name}
-                        onChange={e => setTicket({ ...ticket, name: e.target.value })}
+                        value={ticket.ticketName}
+                        onChange={e => setTicket({ ...ticket, ticketName: e.target.value })}
                         fullWidth
                         variant='standard'
                     />
                     <TextField
                         margin='dense'
-                        label='Ticket decription'
+                        label='Ticket description'
                         value={ticket.description}
                         onChange={e => setTicket({ ...ticket, description: e.target.value })}
                         fullWidth
@@ -63,7 +64,7 @@ export default function CreateTicket({ createTicket }) {
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={handleClose}>Close</Button> {/*Button for closing modal */}
-                    <Button onCLick={handleSave}>Save</Button>  {/*Button for saving Ticket information */}
+                    <Button onClick={handleSave}>Save</Button>  {/*Button for saving Ticket information */}
                 </DialogActions>
             </Dialog>
         </>

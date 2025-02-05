@@ -3,7 +3,7 @@ import { AppBar, Toolbar, Typography, Button, Container } from "@mui/material";
 import { ThemeProvider } from '@mui/material/styles';
 import taskmasterLogo from "./assets/taskmaster-logo2.png";
 import Home from "./pages/Home";
-import PanelView from "./components/Panelview";
+import PanelView from "./components/PanelView";
 import theme from "./theme";
 import Products from "./pages/Products";
 
@@ -29,6 +29,7 @@ function App() {
                     </Toolbar>
                 </AppBar>
                 <Container>
+                    <Toolbar />
                     <Routes>
                         <Route path="/" element={<Home />} />
                         <Route path="/panels/:panelid" element={<PanelView />} />

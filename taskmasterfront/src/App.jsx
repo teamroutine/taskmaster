@@ -1,10 +1,11 @@
-import { BrowserRouter as Router, Link } from "react-router-dom";
-import { AppBar, Toolbar, Typography, Button } from "@mui/material";
-import taskmasterLogo from './assets/taskmaster-logo2.png'; import AppRoutes from "./routes"
+import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
+import { AppBar, Toolbar, Typography, Button, Container } from "@mui/material";
+import taskmasterLogo from './assets/taskmaster-logo2.png';
+import Home from "./pages/Home";
 
 function App() {
     return (
-        <>
+        <Router>
             <AppBar position="fixed" sx={{ width: '100%', backgroundColor: '#212121' }}>
                 <Toolbar >
                     <Typography variant="h6" style={{ flexGrow: 1 }}>
@@ -13,7 +14,7 @@ function App() {
                             style={{ height: '75px' }}
                         />
                     </Typography>
-                    <Button color="inherit">Home</Button>
+                    <Button color="inherit" component={Link} to="/">Home</Button>
                     <Button color="inherit">Products</Button>
                     <Button color="inherit">Solutions</Button>
                     <Button color="inherit">Contact</Button>
@@ -22,13 +23,13 @@ function App() {
                     <Button variant="outlined" color="inherit">Register</Button>
                 </Toolbar>
             </AppBar>
-            <Router>
-                <nav>
-                    <Link to="/">Home</Link>
-                </nav>
-                <AppRoutes />
-            </Router>
-        </>
+            <Container>
+                <Routes>
+                    <Route path="/" element={<Home />} />
+                </Routes>
+            </Container>
+        </Router>
+
     );
 }
 

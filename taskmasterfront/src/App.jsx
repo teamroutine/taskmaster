@@ -15,7 +15,7 @@ function App() {
                         />
                     </Typography>
                     <Button color="inherit" component={Link} to="/">Home</Button>
-                    <Button color="inherit" component={Link} to="/products">Products</Button>
+                    <Button color="inherit">Products</Button>
                     <Button color="inherit">Solutions</Button>
                     <Button color="inherit">Contact</Button>
 
@@ -26,7 +26,7 @@ function App() {
             <Container>
                 <Routes>
                     <Route path="/" element={<Home />} />
-                    <Route path="/products" element={<Products />} />
+
                 </Routes>
             </Container>
         </Router>

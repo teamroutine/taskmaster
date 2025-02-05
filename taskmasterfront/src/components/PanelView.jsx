@@ -4,7 +4,7 @@ import { useParams } from 'react-router-dom';
 import ListBlocks from './ListBlocks';
 
 const PanelView = () => {
-    const { panelid } = useParams(); 
+    const { panelid } = useParams();
 
     return (
         <div>

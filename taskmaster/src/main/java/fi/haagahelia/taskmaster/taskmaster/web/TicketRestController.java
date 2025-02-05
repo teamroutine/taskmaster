@@ -47,8 +47,7 @@ public class TicketRestController {
 
     // Create a new Ticket
     @PostMapping
-    @ResponseStatus(value = HttpStatus.CREATED, reason = "New ticket created")
-    public Ticket newTicket(@RequestBody @NonNull TicketDTO ticketDTO) {
+    public ResponseEntity<Ticket> newTicket(@RequestBody @NonNull TicketDTO ticketDTO) {
         Block block = blockRepository.findById(ticketDTO.getBlockId())
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Block not found"));
 
@@ -57,7 +56,8 @@ public class TicketRestController {
         newTicket.setDescription(ticketDTO.getDescription());
         newTicket.setBlock(block);
 
-        return ticketRepository.save(newTicket);
+        Ticket savedTicket = ticketRepository.save(newTicket);
+        return ResponseEntity.status(HttpStatus.CREATED).body(savedTicket);
     }
 
     @PutMapping("/{id}")

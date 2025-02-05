@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { fetchBlocksById } from "../../taskmasterApi.js";
+import { fetchBlocksById, handleAddTicket } from "../../taskmasterApi.js";
 import Paper from "@mui/material/Paper";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import ListTickets from "./ListTickets.jsx";
 import Divider from "@mui/material/Divider";
+import CreateTicket from "./CreateTicket.jsx";
 
 function ListBlocks() {
   const { panelid } = useParams();
@@ -17,6 +18,22 @@ function ListBlocks() {
       .then((data) => setBlocks(data.blocks))
       .catch((err) => setError(err.message));
   }, [panelid]);
+
+  const addNewTicket = (newTicket, blockId) => {
+    handleAddTicket({ ...newTicket, blockId })
+      .then((addedTicket) => {
+        setBlocks((prevBlocks) =>
+          prevBlocks.map((block) =>
+            block.blockId === blockId
+              ? { ...block, tickets: [...block.tickets, addedTicket] }
+              : block
+          )
+        );
+      })
+      .catch((err) => {
+        console.error("Error adding ticket:", err);
+      });
+  };
 
   if (error) {
     return (
@@ -59,20 +76,18 @@ function ListBlocks() {
                 }}
               >
                 <Box>
-                <Typography variant="h6">{block.blockName}</Typography>
-                <Divider></Divider>
+                  <Typography variant="h6">{block.blockName}</Typography>
+                  <Divider></Divider>
                 </Box>
                 <Box
-                 sx={{ 
+                  sx={{
                     p: 1,
-                 }}>
+                  }}>
                   <ListTickets tickets={block.tickets} />
                 </Box>
                 <Box>
                   <Divider></Divider>
-                  <Typography variant="body2">
-                    Add Ticket +
-                  </Typography>
+                  <CreateTicket createTicket={(newTicket) => addNewTicket(newTicket, block.blockId)} />
                 </Box>
               </Paper>
             </Box>

@@ -39,7 +39,7 @@ export function fetchTickets() {
 }
 
 export const handleAddTicket = (newTicket) => {
-    return fetch(import.meta.env.VITE_API_URL, {
+    return fetch(import.meta.env.VITE_API_URL + "/tickets", {
         method: 'POST',
         headers: { 'Content-type': 'application/json' },
         body: JSON.stringify(newTicket)

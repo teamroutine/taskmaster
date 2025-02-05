@@ -1,22 +1,27 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { fetchBlocksById } from "../taskmasterApi";
+import { fetchBlocksById } from "../../taskmasterApi.js";
 import Paper from "@mui/material/Paper";
 import Box from "@mui/material/Box";
 
-const ListBlocks = () => {
+function ListBlocks() {
   const { panelid } = useParams();
   const [blocks, setBlocks] = useState([]);
   const [error, setError] = useState(null);
 
   useEffect(() => {
     fetchBlocksById(panelid)
-      .then((data) => setBlocks(data))
+      .then((data) => setBlocks(data.blocks))
       .catch((err) => setError(err.message));
   }, [panelid]);
 
   if (error) {
-    return <Box>Error: {error}</Box>;
+    return (
+      <Box>
+        Error: {error}
+        {panelid}
+      </Box>
+    );
   }
 
   return (
@@ -35,11 +40,11 @@ const ListBlocks = () => {
           {blocks.map((block) => (
             <Box
               component="li"
-              key={block.blockid}
+              key={block.blockId}
               sx={{ display: "inline-block", marginRight: 2 }}
             >
               <Paper
-                elevation={3}
+                elevation={5}
                 sx={{
                   width: 300,
                   height: 800,
@@ -47,7 +52,7 @@ const ListBlocks = () => {
                   textAlign: "center",
                 }}
               >
-                {block.name}
+                {block.blockName}
               </Paper>
             </Box>
           ))}
@@ -55,6 +60,6 @@ const ListBlocks = () => {
       </Box>
     </Box>
   );
-};
+}
 
 export default ListBlocks;

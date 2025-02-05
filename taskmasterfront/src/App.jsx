@@ -1,9 +1,15 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Link } from "react-router-dom";
 
 function App() {
     return (
-        <>
-        </>
+
+        <Router>
+            <nav>
+                <Link to="/">Home</Link>
+            </nav>
+            <AppRoutes />
+        </Router>
+
     );
 }
 

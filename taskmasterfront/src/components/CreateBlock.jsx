@@ -25,10 +25,13 @@ export default function CreateBlock({ createBlock }) {
     };
 
     const handleSave = () => {
-        createBlock(block);
-        setBlock({ blockName: "", description: "", highlightColor: "" })
-        handleClose();
-    }
+        createBlock(block)
+            .then(() => {
+                setBlock({ blockName: "", description: "", highlightColor: "" });
+                handleClose();
+            })
+            .catch(err => console.error("Error adding block:", err));
+    };
 
     return (
         <>

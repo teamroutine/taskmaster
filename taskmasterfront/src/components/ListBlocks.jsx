@@ -48,7 +48,6 @@ function ListBlocks() {
 
   return (
     <Box>
-      <h1>Blocks List</h1>
       <Box sx={{ overflowX: "auto", whiteSpace: "nowrap" }}>
         <Box
           component="ul"

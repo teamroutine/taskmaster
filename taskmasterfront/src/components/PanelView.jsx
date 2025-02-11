@@ -1,25 +1,31 @@
 
 import React from 'react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import ListBlocks from './ListBlocks';
 import CreateBlock from './CreateBlock';
 import Box from "@mui/material/Box";
-import { handleAddBlock } from '../../taskmasterApi';
+import { fetchPanels, handleAddBlock } from '../../taskmasterApi';
 
 const PanelView = () => {
     const { panelid } = useParams();
-    const { panels, setPanels } = useState([]);
+    const [panel, setPanel] = useState();
+    const [error, setError] = useState(null);
+
+    useEffect(() => {
+        fetch(`/api/panel/${panelid}`)
+            .then(response => response.json())
+            .then(data => setPanel(data))
+            .catch(error => console.error("Error fetching panel:", error));
+    }, [panelid]);
 
     const addNewBlock = (newBlock, panelId) => {
         handleAddBlock({ ...newBlock, panelId })
             .then((addedBlock) => {
-                setPanels((prevPanels) =>
-                    prevPanels.map((panel) =>
-                        panel.panelId === panelId
-                            ? { ...panel, blocks: [...panel.blocks, addedBlock] }
-                            : panel
-                    )
+                setPanel((prevPanel) => prevPanel
+                    ? { ...prevPanel, blocks: [...prevPanel.blocks, addedBlock] }
+                    : { blocks: [addedBlock] }
+
                 );
             })
             .catch((err) => {
@@ -32,7 +38,7 @@ const PanelView = () => {
     return (
         <div>
             <h1>Panel View</h1>
-            <ListBlocks panelid={panelid} />
+            <ListBlocks blocks={panel?.blocks ?? []} />
             <Box>
                 <CreateBlock createBlock={(newBlock) => addNewBlock(newBlock, panelid)} />
             </Box>

@@ -52,3 +52,17 @@ export const handleAddTicket = (newTicket) => {
 
         });
 }
+
+export const handelAddBlock = (newBlock) => {
+    return fetch(import.meta.env.VITE_API_URL + "/blocks", {
+        method: 'POST',
+        headers: { 'Content-type': 'application/json' },
+        body: JSON.stringify(newBlock)
+    })
+        .then(response => {
+            if (!response.ok)
+                throw new Error("Error when adding block: " + response.statusText);
+
+            return response.json();
+        });
+}

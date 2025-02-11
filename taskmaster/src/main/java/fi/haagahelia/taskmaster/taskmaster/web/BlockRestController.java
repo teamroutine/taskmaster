@@ -11,8 +11,11 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
 import fi.haagahelia.taskmaster.taskmaster.domain.BlockRepository;
+import fi.haagahelia.taskmaster.taskmaster.domain.Panel;
 import fi.haagahelia.taskmaster.taskmaster.domain.Block;
 import fi.haagahelia.taskmaster.taskmaster.domain.PanelRepository;
+import fi.haagahelia.taskmaster.taskmaster.domain.Block;
+import fi.haagahelia.taskmaster.taskmaster.dto.BlockDto;
 import io.micrometer.common.lang.NonNull;
 
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,10 +30,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 @RequestMapping("/api/blocks")
 public class BlockRestController {
     private final BlockRepository blockRepository;
+    private final PanelRepository panelRepository;
 
     @Autowired
-    public BlockRestController(BlockRepository blockRepository) {
+    public BlockRestController(BlockRepository blockRepository, PanelRepository panelRepository) {
         this.blockRepository = blockRepository;
+        this.panelRepository = panelRepository;
     }
 
     // Get all blocks
@@ -42,9 +47,18 @@ public class BlockRestController {
 
     // Create a new block
     @PostMapping
-    @ResponseStatus(value = HttpStatus.CREATED, reason = "New block created")
-    public Block createBlock(@RequestBody @NonNull Block newBlock) {
-        return blockRepository.save(newBlock);
+    public ResponseEntity<Block> newBlock(@RequestBody @NonNull BlockDto blockDto) {
+        Panel panel = panelRepository.findById(blockDto.getPanelId())
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Panel not found"));
+
+        Block newBlock = new Block();
+        newBlock.setBlockName(blockDto.getBlockName());
+        newBlock.setDescription(blockDto.getDescription());
+        newBlock.setHighlightColor(blockDto.getHighlightColor());
+        newBlock.setPanel(panel);
+
+        Block savedBlock = blockRepository.save(newBlock);
+        return ResponseEntity.status(HttpStatus.CREATED).body(savedBlock);
     }
 
     // Edit block

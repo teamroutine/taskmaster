@@ -1,5 +1,7 @@
 package fi.haagahelia.taskmaster.taskmaster.dto;
 
+import fi.haagahelia.taskmaster.taskmaster.domain.Block;
+
 public class BlockDto {
 
     private Long blockId;
@@ -8,7 +10,8 @@ public class BlockDto {
     private String highlightColor;
     private Long panelId;
 
-    public BlockDto(){}
+    public BlockDto() {
+    }
 
     public BlockDto(Long blockId, String blockName, String description, String highlightColor, Long panelId) {
         this.blockId = blockId;
@@ -16,6 +19,14 @@ public class BlockDto {
         this.description = description;
         this.highlightColor = highlightColor;
         this.panelId = panelId;
+    }
+
+    public BlockDto(Block block) {
+        this.blockId = block.getBlockId();
+        this.blockName = block.getBlockName();
+        this.description = block.getDescription();
+        this.highlightColor = block.getHighlightColor();
+        this.panelId = block.getPanel().getPanelId();
     }
 
     public Long getBlockId() {
@@ -58,5 +69,4 @@ public class BlockDto {
         this.panelId = panelId;
     }
 
-    
 }

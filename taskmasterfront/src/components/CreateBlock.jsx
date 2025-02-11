@@ -1,3 +1,4 @@
+
 import { useState } from 'react';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
@@ -25,13 +26,10 @@ export default function CreateBlock({ createBlock }) {
     };
 
     const handleSave = () => {
-        createBlock(block)
-            .then(() => {
-                setBlock({ blockName: "", description: "", highlightColor: "" });
-                handleClose();
-            })
-            .catch(err => console.error("Error adding block:", err));
-    };
+        createBlock(block);
+        setBlock({ blockName: "", description: "", highlightColor: "" })
+        handleClose();
+    }
 
     return (
         <>
@@ -61,7 +59,7 @@ export default function CreateBlock({ createBlock }) {
                         variant='standard'
                     />
                     <TextField
-                        margin='dense'
+                        marginargin='dense'
                         label='Highlight color'
                         value={block.highlightColor}
                         onChange={e => setBlock({ ...block, highlightColor: e.target.value })}

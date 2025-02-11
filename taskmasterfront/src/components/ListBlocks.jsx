@@ -35,6 +35,7 @@ function ListBlocks() {
         console.error("Error adding ticket:", err);
       });
   };
+  
 
   if (error) {
     return (

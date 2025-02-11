@@ -53,7 +53,7 @@ export const handleAddTicket = (newTicket) => {
         });
 }
 
-export const handelAddBlock = (newBlock) => {
+export const handleAddBlock = (newBlock) => {
     return fetch(import.meta.env.VITE_API_URL + "/blocks", {
         method: 'POST',
         headers: { 'Content-type': 'application/json' },

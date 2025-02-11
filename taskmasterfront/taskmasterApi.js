@@ -60,9 +60,9 @@ export const handleAddBlock = (newBlock) => {
         body: JSON.stringify(newBlock)
     })
         .then(response => {
-            if (!response.ok)
+            if (!response.ok) {
                 throw new Error("Error when adding block: " + response.statusText);
-
+            }
             return response.json();
         });
 }

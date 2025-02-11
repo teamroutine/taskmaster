@@ -7,18 +7,15 @@ import CreateBlock from './CreateBlock';
 import Box from "@mui/material/Box";
 import { fetchPanels, handleAddBlock } from '../../taskmasterApi';
 
-const PanelView = () => {
+function PanelView() {
     const { panelid } = useParams();
-    const [panel, setPanel] = useState(null);
+    const [panel, setPanel] = useState([]);
     const [error, setError] = useState(null);
 
     useEffect(() => {
         fetchPanels(panelid)
-            .then(data => setPanel(data))
-            .catch(error => {
-                console.error("Error fetching panel:", error);
-                setError("Error fetching panel data");
-            });
+            .then((data) => setPanel(data.panel))
+            .catch((err) => setError(err.message));
     }, [panelid]);
 
     const addNewBlock = (newBlock, panelId) => {
@@ -36,7 +33,6 @@ const PanelView = () => {
                 setError("Error adding block");
             });
     };
-
 
     return (
         <div>

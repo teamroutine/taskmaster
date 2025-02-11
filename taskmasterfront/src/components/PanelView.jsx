@@ -9,7 +9,7 @@ import { handleAddBlock } from '../../taskmasterApi';
 
 const PanelView = () => {
     const { panelid } = useParams();
-    const { panels, setPanels } = useState();
+    const { panels, setPanels } = useState([]);
 
     const addNewBlock = (newBlock, panelId) => {
         handleAddBlock({ ...newBlock, panelId })

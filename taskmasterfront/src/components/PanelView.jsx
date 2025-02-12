@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
@@ -45,4 +44,4 @@ function PanelView() {
     );
 };
 
-export default PanelView;
+export default PanelView; 

@@ -59,7 +59,7 @@ export default function CreateBlock({ createBlock }) {
                         variant='standard'
                     />
                     <TextField
-                        marginargin='dense'
+                        margin='dense'
                         label='Highlight color'
                         value={block.highlightColor}
                         onChange={e => setBlock({ ...block, highlightColor: e.target.value })}

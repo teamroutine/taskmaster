@@ -33,9 +33,9 @@ export default function CreateBlock({ createBlock }) {
 
     return (
         <>
-            <Button variant='contained' color='success' onClick={handleClickOpen}>
-                Add Block
-            </Button>
+            <Button variant='contained' color='success' onClick={handleClickOpen}
+            // väliaikanen style että helpompi testata
+            sx={{ position:"absolute", top:"110px", right:"40px"}}>Add Block</Button>
             <Dialog
                 open={open}
                 onClose={handleClose}

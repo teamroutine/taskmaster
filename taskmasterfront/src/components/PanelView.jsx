@@ -8,24 +8,22 @@ import { fetchPanels, handleAddBlock } from '../../taskmasterApi';
 
 function PanelView() {
     const { panelid } = useParams();
-    const [panel, setPanel] = useState([]);
+    const [blocks, setBlocks] = useState([]);
     const [error, setError] = useState(null);
+
 
     useEffect(() => {
         fetchPanels(panelid)
-            .then((data) => setPanel(data.panel))
+            .then((data) => {
+                setBlocks(data.panel.blocks);
+            })
             .catch((err) => setError(err.message));
     }, [panelid]);
 
     const addNewBlock = (newBlock, panelId) => {
         handleAddBlock({ ...newBlock, panelId })
-            .then(() => {
-                fetchPanels(panelId)
-                    .then(data => setPanel(data))
-                    .catch((err) => {
-                        console.error("Error fetching updated panel:", err);
-                        setError("Error fetching updated panel");
-                    });
+            .then((addedBlock) => {
+                setBlocks((prevBlocks) => [...prevBlocks, addedBlock]);
             })
             .catch((err) => {
                 console.error("Error adding block:", err);
@@ -36,12 +34,11 @@ function PanelView() {
     return (
         <div>
             <h1>Panel View</h1>
-            <ListBlocks blocks={panel?.blocks ?? []} />
+            <ListBlocks blocks={blocks} key={blocks.length} />
             <Box>
                 <CreateBlock createBlock={(newBlock) => addNewBlock(newBlock, panelid)} />
             </Box>
         </div>
     );
-};
-
-export default PanelView; 
+}
+export default PanelView;

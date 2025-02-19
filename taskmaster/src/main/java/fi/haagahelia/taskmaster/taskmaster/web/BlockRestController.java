@@ -45,6 +45,14 @@ public class BlockRestController {
         return ResponseEntity.ok(blocks);
     }
 
+    // Get block by id
+    @GetMapping("/{id}")
+    public ResponseEntity<Block> getBlockById(@PathVariable Long id) {
+        return blockRepository.findById(id)
+                .map(ResponseEntity::ok)
+                .orElseGet(() -> ResponseEntity.notFound().build());
+    }
+
     // Create a new block
     @PostMapping
     public ResponseEntity<Block> newBlock(@RequestBody @NonNull BlockDto blockDto) {

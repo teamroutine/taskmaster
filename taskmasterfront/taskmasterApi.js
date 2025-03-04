@@ -66,3 +66,29 @@ export const handleAddBlock = (newBlock) => {
             return response.json();
         });
 }
+export function deleteTicket(ticketId) {
+    return fetch(import.meta.env.VITE_API_URL + `/tickets/${ticketId}`, {
+        method: "DELETE",
+    })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error("Error when deleting ticket: " + response.statusText);
+            }
+            return response; 
+        });
+}
+export function updateTicket(ticketId, ticket) {
+    return fetch(import.meta.env.VITE_API_URL + `/tickets/${ticketId}`, {
+        method: "PUT",
+        headers: {
+            'Content-type': 'application/json'
+        },
+        body: JSON.stringify(ticket)
+    })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error("Error when updating ticket: " + response.statusText)
+            }
+            return response;
+        });
+}

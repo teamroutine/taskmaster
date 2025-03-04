@@ -84,7 +84,7 @@ function ListBlocks() {
                   sx={{
                     p: 1,
                   }}>
-                  <ListTickets tickets={block.tickets} />
+                  <ListTickets tickets={block.tickets} setTickets={setBlocks} />
                 </Box>
                 <Box>
                   <Divider></Divider>

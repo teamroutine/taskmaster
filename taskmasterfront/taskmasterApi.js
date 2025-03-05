@@ -92,7 +92,6 @@ export function updateTicket(ticketId, ticket) {
             return response;
         });
 }
-<<<<<<< HEAD
 
 export const createPanel = (newPanel) => {
     return fetch(import.meta.env.VITE_API_URL + "/panels", {
@@ -107,7 +106,6 @@ export const createPanel = (newPanel) => {
         return response.json();
     });
 };
-=======
 export function updateBlock(blockId, block){
     return fetch(import.meta.env.VITE_API_URL + `/blocks/${blockId}`,{
         method: "PUT",
@@ -123,4 +121,3 @@ export function updateBlock(blockId, block){
         return response;
     });
 }
->>>>>>> 608df69adabcb7236321d140131064ceeaead7cd

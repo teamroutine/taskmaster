@@ -5,6 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.lang.NonNull;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -71,4 +72,15 @@ public class PanelRestController {
         return ResponseEntity.ok(editPanel);
     }
 
+     // Delete a block
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deletePanel(@PathVariable Long id) {
+        Panel panel = panelRepository.findById(id)
+                .orElseThrow(() -> new ResponseStatusException(
+                        HttpStatus.NOT_FOUND,
+                        "Panel " + id + " can't be deleted, since it doesn't exist."));
+
+        panelRepository.delete(panel);
+        return ResponseEntity.noContent().build();
+    }
 }

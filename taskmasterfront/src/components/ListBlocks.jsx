@@ -84,7 +84,7 @@ function ListBlocks() {
                   sx={{
                     p: 1,
                   }}>
-                  <ListTickets tickets={block.tickets} setTickets={setBlocks} />
+                  <ListTickets tickets={block.tickets} setBlocks={setBlocks} />
                 </Box>
                 <Box>
                   <Divider></Divider>
@@ -100,4 +100,3 @@ function ListBlocks() {
 }
 
 export default ListBlocks;
-

@@ -4,26 +4,42 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Divider from '@mui/material/Divider';
 import ViewTicket from './ViewTicket';
+import EditTicket from './EditTicket';
 import { deleteTicket } from '../../taskmasterApi';
 
-export default function ListTickets({ tickets, setTickets }) {
+export default function ListTickets({ tickets, setBlocks }) {
 
     const [selectedTicket, setSelectedTicket] = useState(null);
-    const [open, setOpen] = useState(false);
+    const [openView, setOpenView] = useState(false);
+    const [openEdit, setOpenEdit] = useState(false);
 
+    const handleTicketClick = (ticket) => {
+        setSelectedTicket(ticket);
+        setOpenView(true);
+    };
+
+    const handleEditClick = () => {
+        setOpenEdit(true);
+        setOpenView(false);
+    };
+
+    const handleClose = () => {
+        setOpenView(false);
+        setOpenEdit(false);
+    };
 
     const handleDelete = (ticketId) => {
         const confirmed = window.confirm("Are you sure you want to delete this ticket?");
         if (confirmed) {
             deleteTicket(ticketId)
                 .then(() => {
-                    setTickets(prevBlocks =>
+                    setBlocks(prevBlocks =>
                         prevBlocks.map(block => ({
                             ...block,
                             tickets: block.tickets.filter(t => t.ticketId !== ticketId)
                         }))
                     );
-                    setOpen(false);
+                    setOpenView(false);
                 })
                 .catch((err) => {
                     console.error("Failed to delete ticket:", err);
@@ -31,13 +47,17 @@ export default function ListTickets({ tickets, setTickets }) {
         }
     };
 
-    const handleTicketClick = (ticket) => {
-        setSelectedTicket(ticket);
-        setOpen(true);
-    };
-
-    const handleClose = () => {
-        setOpen(false);
+    const handleSaveEdit = (updatedTicket) => {
+        setBlocks(prevBlocks =>
+            prevBlocks.map(block => ({
+                ...block,
+                tickets: block.tickets.map(ticket =>
+                    ticket.ticketId === selectedTicket.ticketId
+                        ? { ...ticket, ...updatedTicket }
+                        : ticket
+                )
+            }))
+        );
     };
 
     return (
@@ -58,9 +78,18 @@ export default function ListTickets({ tickets, setTickets }) {
             {selectedTicket && (
                 <ViewTicket
                     ticket={selectedTicket}
-                    open={open}
+                    open={openView}
                     onClose={handleClose}
                     handleDelete={handleDelete}
+                    onEditClick={handleEditClick}
+                />
+            )}
+            {selectedTicket && (
+                <EditTicket
+                    open={openEdit}
+                    ticket={selectedTicket}
+                    onClose={handleClose}
+                    onSave={handleSaveEdit}
                 />
             )}
         </>

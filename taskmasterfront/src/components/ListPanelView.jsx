@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { fetchPanels, handleAddPanel } from '../../taskmasterApi';  // Assuming you have this API call
+import { fetchPanels, createPanel } from '../../taskmasterApi';
 import CreatePanel from './CreatePanel';
 
 

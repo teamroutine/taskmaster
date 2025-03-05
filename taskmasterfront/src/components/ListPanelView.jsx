@@ -1,11 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-<<<<<<< HEAD
-import { fetchPanels, createPanel } from '../../taskmasterApi';  // Assuming you have this API call
-import CreatePanel from './CreatePanel';
-=======
 import { fetchPanels } from '../../taskmasterApi';  
->>>>>>> c07776ab890cb71dfdc9dc51f75b90e5d0f91033
 
 function ListPanelView() {
     const [panels, setPanels] = useState([]);

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { fetchPanels } from '../../taskmasterApi';  // Assuming you have this API call
+import { fetchPanels, createPanel } from '../../taskmasterApi';  // Assuming you have this API call
+import CreatePanel from './CreatePanel';
 
 function ListPanelView() {
     const [panels, setPanels] = useState([]);
@@ -17,6 +18,17 @@ function ListPanelView() {
             });
     }, []);
 
+    const addNewPanel = async (newPanel) => {
+        try {
+            const createdPanel = await createPanel(newPanel);
+            if (createdPanel) {
+                setPanels((prevPanels) => [...prevPanels, createdPanel]);
+            }
+        } catch (err) {
+            console.error(err);
+            setError("Error creating panel: " + err.message);
+        }
+    };
     return (
         <div>
             <h1>All Panels</h1>
@@ -32,6 +44,8 @@ function ListPanelView() {
                     ))}
                 </ul>
             )}
+
+            <CreatePanel createPanel={addNewPanel} />
         </div>
     );
 }

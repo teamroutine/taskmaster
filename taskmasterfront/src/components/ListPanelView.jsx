@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { fetchPanels, createPanel } from '../../taskmasterApi';  // Assuming you have this API call
+import { fetchPanels, handleAddPanel } from '../../taskmasterApi';  // Assuming you have this API call
 import CreatePanel from './CreatePanel';
 
 
@@ -21,15 +21,13 @@ function ListPanelView() {
 
     const addNewPanel = async (newPanel) => {
         try {
-            const createdPanel = await createPanel(newPanel);
-            if (createdPanel) {
-                setPanels((prevPanels) => [...prevPanels, createdPanel]);
-            }
+            const createdPanel = await handleAddPanel(newPanel);
+            setPanels(prevPanels => [...prevPanels, createdPanel]);
         } catch (err) {
-            console.error(err);
-            setError("Error creating panel: " + err.message);
+            setError("Failed to create panel: " + err.message);
         }
     };
+
     return (
         <div>
             <h1>All Panels</h1>
@@ -40,7 +38,7 @@ function ListPanelView() {
                 <ul>
                     {panels.map((panel) => (
                         <li key={panel.panelId}>
-                            <Link to={`/panels/${panel.panelId}`}>{panel.panelName || "Unnamed Panel"}</Link>
+                            <Link to={`/panels/${panel.panelId}`}>{panel.panelName}</Link>
                         </li>
                     ))}
                 </ul>
@@ -48,6 +46,8 @@ function ListPanelView() {
 
             <CreatePanel createPanel={addNewPanel} />
         </div>
+
+
     );
 }
 

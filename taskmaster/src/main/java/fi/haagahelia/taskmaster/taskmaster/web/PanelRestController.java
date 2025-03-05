@@ -50,9 +50,9 @@ public class PanelRestController {
 
     // Create a new panel
     @PostMapping
-    @ResponseStatus(value = HttpStatus.CREATED, reason = "New panel created")
-    public Panel newPanel(@RequestBody @NonNull Panel newPanel) {
-        return panelRepository.save(newPanel);
+    public ResponseEntity<Panel> newPanel(@RequestBody @NonNull Panel newPanel) {
+        Panel savedPanel = panelRepository.save(newPanel);
+        return ResponseEntity.status(HttpStatus.CREATED).body(savedPanel);
     }
 
     // Edit one panel
@@ -72,7 +72,7 @@ public class PanelRestController {
         return ResponseEntity.ok(editPanel);
     }
 
-     // Delete a block
+    // Delete a block
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deletePanel(@PathVariable Long id) {
         Panel panel = panelRepository.findById(id)

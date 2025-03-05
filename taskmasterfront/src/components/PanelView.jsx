@@ -64,7 +64,6 @@ function PanelView() {
             <Box sx={{ marginTop: '10px' }}>
                 <ListBlocks blocks={blocks} key={blocks.length} />
             </Box>
-            <ListBlocks blocks={blocks} key={blocks.length} />
             <Box>
                 <CreateBlock createBlock={(newBlock) => addNewBlock(newBlock, panelid)} />
             </Box>

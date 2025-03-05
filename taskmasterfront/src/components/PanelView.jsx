@@ -35,7 +35,6 @@ function PanelView() {
         <div>
             <h1>Panel View</h1>
             <ListBlocks blocks={blocks} key={blocks.length} />
-            <ListBlocks blocks={blocks} key={blocks.length} />
             <Box>
                 <CreateBlock createBlock={(newBlock) => addNewBlock(newBlock, panelid)} />
             </Box>

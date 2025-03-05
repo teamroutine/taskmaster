@@ -121,3 +121,19 @@ export function updateBlock(blockId, block){
         return response;
     });
 }
+
+export function updatePanelName(panelId, data) {
+    return fetch(`${import.meta.env.VITE_API_URL}/panels/${panelId}`, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+    })
+    .then((response) => {
+        if (!response.ok) {
+            throw new Error('Failed to update panel');
+        }
+        return response.json();
+    });
+}

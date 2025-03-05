@@ -100,4 +100,3 @@ function ListBlocks() {
 }
 
 export default ListBlocks;
-

@@ -3,13 +3,17 @@ import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import ListBlocks from './ListBlocks';
 import CreateBlock from './CreateBlock';
-import Box from "@mui/material/Box";
+import { Box, InputBase } from "@mui/material";
 import { fetchPanels, handleAddBlock } from '../../taskmasterApi';
+import { Search as SearchIcon } from '@mui/icons-material';
+import { TextField } from '@mui/material';
+
 
 function PanelView() {
     const { panelid } = useParams();
     const [blocks, setBlocks] = useState([]);
     const [error, setError] = useState(null);
+    const [searchQuery, setSearchQuery] = useState("");
 
 
     useEffect(() => {
@@ -31,14 +35,42 @@ function PanelView() {
             });
     };
 
+    const handleSearchChange = (e) => {
+        setSearchQuery(e.target.value);
+    }
+
     return (
         <div>
             <h1>Panel View</h1>
-            <ListBlocks blocks={blocks} key={blocks.length} />
+            <Box
+                sx={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    border: '1px solid #ccc', // Reunan väri
+                    borderRadius: '4px', // Kulmien pyöristys
+                    padding: '0 10px',
+                    width: 300,
+                }}
+            >
+                <SearchIcon sx={{ color: 'gray', marginRight: '8px' }} />
+                <InputBase
+                    sx={{
+                        width: '100%',
+                        color: 'black'
+                    }}
+                    placeholder="Search..."
+                    value={searchQuery}
+                    onChange={handleSearchChange}
+                    autoFocus
+                />
+            </Box>
+            <Box sx={{ marginTop: '10px' }}>
+                <ListBlocks blocks={blocks} key={blocks.length} />
+            </Box>
             <Box>
                 <CreateBlock createBlock={(newBlock) => addNewBlock(newBlock, panelid)} />
             </Box>
-        </div>
+        </div >
     );
 }
 export default PanelView;

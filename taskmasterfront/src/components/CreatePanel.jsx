@@ -1,18 +1,10 @@
-<<<<<<< HEAD
+
 // import React, { useState } from 'react';
 // import { useNavigate } from 'react-router-dom';
 // import { createPanel } from '../../taskmasterApi'; // Your API call to create a new panel
 // import Box from "@mui/material/Box";
 // import Button from "@mui/material/Button";
 // import TextField from "@mui/material/TextField";
-=======
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { createPanel } from '../../taskmasterApi';
-import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
-import TextField from "@mui/material/TextField";
->>>>>>> c07776ab890cb71dfdc9dc51f75b90e5d0f91033
 
 // function CreatePanel() {
 //     const [panelName, setPanelName] = useState('');

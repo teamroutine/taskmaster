@@ -1,16 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { fetchPanels } from '../../taskmasterApi';  
+import { fetchPanels, createPanel } from '../../taskmasterApi';  // Assuming you have this API call
+import CreatePanel from './CreatePanel';
+
 
 function ListPanelView() {
     const [panels, setPanels] = useState([]);
     const [error, setError] = useState(null);
 
     useEffect(() => {
-        fetchPanels()  
+        fetchPanels()
             .then((data) => {
-                console.log(data);  
-                setPanels(data || []);  
+                console.log(data);
+                setPanels(data || []);
             })
             .catch((err) => {
                 setError("Error fetching panels: " + err.message);
@@ -33,7 +35,7 @@ function ListPanelView() {
             <h1>All Panels</h1>
             {error && <p>{error}</p>}
             {panels.length === 0 ? (
-                <p>No panels available.</p>  
+                <p>No panels available.</p>
             ) : (
                 <ul>
                     {panels.map((panel) => (

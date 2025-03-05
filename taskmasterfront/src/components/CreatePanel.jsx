@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { createPanel } from '../../taskmasterApi'; // Your API call to create a new panel
+import { createPanel } from '../../taskmasterApi';
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";

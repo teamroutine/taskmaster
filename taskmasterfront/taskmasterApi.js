@@ -92,3 +92,17 @@ export function updateTicket(ticketId, ticket) {
             return response;
         });
 }
+
+export const createPanel = (newPanel) => {
+    return fetch(import.meta.env.VITE_API_URL + "/panels", {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(newPanel)
+    })
+    .then(response => {
+        if (!response.ok)
+            throw new Error("Error when creating panel: " + response.statusText);
+        
+        return response.json();
+    });
+};

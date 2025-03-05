@@ -92,3 +92,48 @@ export function updateTicket(ticketId, ticket) {
             return response;
         });
 }
+
+export const createPanel = (newPanel) => {
+    return fetch(import.meta.env.VITE_API_URL + "/panels", {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(newPanel)
+    })
+    .then(response => {
+        if (!response.ok)
+            throw new Error("Error when creating panel: " + response.statusText);
+        
+        return response.json();
+    });
+};
+export function updateBlock(blockId, block){
+    return fetch(import.meta.env.VITE_API_URL + `/blocks/${blockId}`,{
+        method: "PUT",
+        headers: {
+            'Content-type': 'application/json'
+        },
+        body: JSON.stringify(block)
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error("Error when updating block: " + response.statusText)
+        }
+        return response;
+    });
+}
+
+export function updatePanelName(panelId, data) {
+    return fetch(`${import.meta.env.VITE_API_URL}/panels/${panelId}`, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+    })
+    .then((response) => {
+        if (!response.ok) {
+            throw new Error('Failed to update panel');
+        }
+        return response.json();
+    });
+}

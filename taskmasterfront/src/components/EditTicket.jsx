@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Dialog,Typography, DialogActions, DialogContent, DialogTitle, Button, TextField,Paper, Box } from '@mui/material';
+import { Dialog, Typography, DialogActions, DialogContent, DialogTitle, Button, TextField, Paper, Box } from '@mui/material';
 import { updateTicket } from '../../taskmasterApi';
 
 export default function EditTicket({ open, ticket, onClose, onSave }) {
@@ -8,12 +8,12 @@ export default function EditTicket({ open, ticket, onClose, onSave }) {
         description: '',
     });
 
-    useEffect(() => { 
-            setTicketData({
-                ticketName: ticket.ticketName,
-                description: ticket.description,
-            });
-        
+    useEffect(() => {
+        setTicketData({
+            ticketName: ticket.ticketName,
+            description: ticket.description,
+        });
+
     }, [ticket]);
 
     const handleSave = () => {
@@ -49,17 +49,17 @@ export default function EditTicket({ open, ticket, onClose, onSave }) {
                     >
                         <Box mb={3}>
 
-                            <TextField  sx={{ marginTop: 1, borderRadius: 2, fontSize:"20px"}}
+                            <TextField sx={{ marginTop: 1, borderRadius: 2, fontSize: "20px" }}
                                 margin="dense"
-                                label ="Ticket Name"
+                                label="Ticket Name"
                                 value={ticketData.ticketName}
                                 onChange={e => setTicketData({ ...ticketData, ticketName: e.target.value })}
                                 fullWidth
                                 variant="standard"
                                 InputProps={{
-                                    style: { fontSize: '20px' }  
+                                    style: { fontSize: '20px' }
                                 }}
-                              
+
                             />
                         </Box>
 
@@ -74,7 +74,7 @@ export default function EditTicket({ open, ticket, onClose, onSave }) {
                                 rows={6}
                                 variant="outlined"
                                 InputProps={{
-                                    style: { fontSize: '20px' }  
+                                    style: { fontSize: '20px' }
                                 }}
                                 sx={{ marginTop: 1, borderRadius: 2, }}
                             />
@@ -83,13 +83,14 @@ export default function EditTicket({ open, ticket, onClose, onSave }) {
                 </DialogContent>
 
                 <DialogActions sx={{ display: 'flex', justifyContent: 'space-between', padding: 2 }}>
-                    <Button onClick={onClose} variant="outlined">
+                    <Button sx={{ backgroundColor: "#9E9E9E" }} onClick={onClose} variant="contained">
                         Cancel
                     </Button>
-                    <Button onClick={handleSave} color="primary" variant="contained">
+                    <Button onClick={handleSave} variant="contained" sx={{ backgroundColor: "#4CAF50" }}>
                         Save
                     </Button>
                 </DialogActions>
+
 
             </Dialog>
 

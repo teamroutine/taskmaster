@@ -1,25 +1,26 @@
-import React from 'react';
-import { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
+import { Box, Button, TextField } from "@mui/material";
 import ListBlocks from './ListBlocks';
 import CreateBlock from './CreateBlock';
-import { Box, InputBase } from "@mui/material";
+import Box from "@mui/material/Box";
 import { fetchPanels, handleAddBlock } from '../../taskmasterApi';
-import { Search as SearchIcon } from '@mui/icons-material';
-import { TextField } from '@mui/material';
-
 
 function PanelView() {
     const { panelid } = useParams();
+    const navigate = useNavigate();
+    const [panel, setPanel] = useState(null);
     const [blocks, setBlocks] = useState([]);
+    const [newPanelName, setNewPanelName] = useState('');
     const [error, setError] = useState(null);
-    const [searchQuery, setSearchQuery] = useState("");
 
 
     useEffect(() => {
         fetchPanels(panelid)
             .then((data) => {
+                setPanel(data.panel);
                 setBlocks(data.panel.blocks);
+                setNewPanelName(data.panel.name);
             })
             .catch((err) => setError(err.message));
     }, [panelid]);
@@ -35,42 +36,15 @@ function PanelView() {
             });
     };
 
-    const handleSearchChange = (e) => {
-        setSearchQuery(e.target.value);
-    }
-
     return (
         <div>
             <h1>Panel View</h1>
-            <Box
-                sx={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    border: '1px solid #ccc', // Reunan väri
-                    borderRadius: '4px', // Kulmien pyöristys
-                    padding: '0 10px',
-                    width: 300,
-                }}
-            >
-                <SearchIcon sx={{ color: 'gray', marginRight: '8px' }} />
-                <InputBase
-                    sx={{
-                        width: '100%',
-                        color: 'black'
-                    }}
-                    placeholder="Search..."
-                    value={searchQuery}
-                    onChange={handleSearchChange}
-                    autoFocus
-                />
-            </Box>
-            <Box sx={{ marginTop: '10px' }}>
-                <ListBlocks blocks={blocks} key={blocks.length} />
-            </Box>
+            <ListBlocks blocks={blocks} key={blocks.length} />
             <Box>
                 <CreateBlock createBlock={(newBlock) => addNewBlock(newBlock, panelid)} />
             </Box>
         </div >
     );
 }
+
 export default PanelView;

@@ -16,10 +16,10 @@ function CreatePanel() {
             setError("Panel name is required");
             return;
         }
-        
+
         try {
             const newPanel = await createPanel({ name: panelName });
-            navigate(`/panel/${newPanel.id}`); // Redirect to the new panel
+            navigate('/panels'); // Redirect to the panels listing page after creation
         } catch (err) {
             console.error("Error creating panel:", err);
             setError("Failed to create panel");

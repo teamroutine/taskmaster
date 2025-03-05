@@ -92,6 +92,7 @@ export function updateTicket(ticketId, ticket) {
             return response;
         });
 }
+<<<<<<< HEAD
 
 export const createPanel = (newPanel) => {
     return fetch(import.meta.env.VITE_API_URL + "/panels", {
@@ -106,3 +107,20 @@ export const createPanel = (newPanel) => {
         return response.json();
     });
 };
+=======
+export function updateBlock(blockId, block){
+    return fetch(import.meta.env.VITE_API_URL + `/blocks/${blockId}`,{
+        method: "PUT",
+        headers: {
+            'Content-type': 'application/json'
+        },
+        body: JSON.stringify(block)
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error("Error when updating block: " + response.statusText)
+        }
+        return response;
+    });
+}
+>>>>>>> 608df69adabcb7236321d140131064ceeaead7cd

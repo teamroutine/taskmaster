@@ -1,7 +1,7 @@
 import React from 'react';
 import { Dialog, DialogActions, DialogContent, DialogTitle, Button, Paper, Typography, Box, TextField } from '@mui/material';
 
-export default function ViewTicket({ ticket, open, onClose, handleDelete }) {
+export default function ViewTicket({ ticket, open, onClose, handleDelete,onEditClick }) {
 
     return (
         <Dialog open={open} onClose={onClose}>
@@ -12,7 +12,8 @@ export default function ViewTicket({ ticket, open, onClose, handleDelete }) {
                     sx={{
                         padding: 2,
                         width: 500,
-                        height: 300,
+                        height: "auto",
+
                         display: 'flex',
                         flexDirection: 'column',
                         justifyContent: 'flex-start',
@@ -61,6 +62,9 @@ export default function ViewTicket({ ticket, open, onClose, handleDelete }) {
                     variant="outlined"
                     onClick={() => handleDelete(ticket.ticketId)}
                 >Delete</Button>
+                <Button onClick={onEditClick} variant="contained" color="primary">
+                    Edit
+                </Button>
                 <Button variant="outlined" onClick={onClose}>Close</Button>
             </DialogActions>
         </Dialog>

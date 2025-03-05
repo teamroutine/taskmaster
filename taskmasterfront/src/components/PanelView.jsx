@@ -3,7 +3,6 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { Box, Button, TextField } from "@mui/material";
 import ListBlocks from './ListBlocks';
 import CreateBlock from './CreateBlock';
-import Box from "@mui/material/Box";
 import { fetchPanels, handleAddBlock } from '../../taskmasterApi';
 
 function PanelView() {

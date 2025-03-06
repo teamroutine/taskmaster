@@ -38,14 +38,18 @@ function ListPanelView() {
                 <ul>
                     {panels.map((panel) => (
                         <li key={panel.panelId}>
-                            <Link to={`/panels/${panel.panelId}`}>{panel.panelName}</Link>
+                            <Link to={`/panels/${panel.panelId}`}>
+                                {panel.panelName || "Unnamed Panel"}
+                            </Link>
+
                         </li>
                     ))}
                 </ul>
-            )}
+            )
+            }
 
             <CreatePanel createPanel={addNewPanel} />
-        </div>
+        </div >
 
 
     );

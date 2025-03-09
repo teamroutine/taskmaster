@@ -80,7 +80,6 @@ public class BlockRestController {
         editBlock.setBlockName(blockData.getBlockName());
         editBlock.setDescription(blockData.getDescription());
         editBlock.setHighlightColor(blockData.getHighlightColor());
-        editBlock.setPanel(blockData.getPanel());
         editBlock.setTickets(blockData.getTickets());
 
         blockRepository.save(editBlock);

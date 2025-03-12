@@ -1,7 +1,7 @@
 
 import { useState } from "react";
 import { useParams } from "react-router-dom";
-import { deleteBlock, fetchBlocksById, handleAddTicket } from "../../taskmasterApi.js";
+import { deleteBlock, handleAddTicket } from "../../taskmasterApi.js";
 import Paper from "@mui/material/Paper";
 import Box from "@mui/material/Box";
 import { Button, MenuItem } from "@mui/material";
@@ -12,24 +12,24 @@ import CreateTicket from "./CreateTicket.jsx";
 import EditBlock from "./EditBlock.jsx";
 import DropDown from "./DropDown.jsx";
 
-function ListBlocks({ blocks, setBlocks }) { //Blocks comes as prop from PanelView
+function ListBlocks({ blocks, setBlocks }) { // Blocks comes as a prop from PanelView
 
   const { panelid } = useParams();
   const [selectedBlock, setSelectedBlock] = useState(null);
   const [error, setError] = useState(null);
   const [open, setOpen] = useState(false);
 
-  //Handles the Edit button opening
+  // Handles the Edit button opening
   const handleOpen = (block) => {
     setSelectedBlock(block);
     setOpen(true);
   };
-
+  // Closes the modal after closing or saving
   const handleClose = () => {
     setOpen(false);
   };
 
-  //Handle delete
+  // Handle delete
   const handleBlockDelete = (blockId) => {
     const confirmed = window.confirm("Are you sure you want to delete block and all the tickets it contains?");
     if (confirmed) {
@@ -45,7 +45,7 @@ function ListBlocks({ blocks, setBlocks }) { //Blocks comes as prop from PanelVi
     }
   }
 
-  //Updates blocks in fronend after editing
+  // Updates blocks in fronend after editing
   const handleEditBlockSave = (updatedBlock) => {
     setBlocks((prevBlocks) =>
       prevBlocks.map((block) =>

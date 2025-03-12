@@ -139,3 +139,15 @@ export function updatePanelName(panelId, data) {
             return response.json();
         });
 }
+export function deleteBlock(blockId){
+    return fetch(import.meta.env.VITE_API_URL + `/blocks/${blockId}`,{
+        method: 'DELETE',
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error("Error when deleting Block: " + response.statusText);
+        }
+        return response;
+    });
+
+}

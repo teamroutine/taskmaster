@@ -23,7 +23,7 @@ export default function DropDown({ children }) {
   return (
     <div>
       {/* This is the icon og the dropdown */}
-      <IconButton onClick={handleClick}>
+      <IconButton onClick={handleClick}  style={{outline: 'none'}}>
         <MoreVertIcon fontSize="large"/>
       </IconButton>
 

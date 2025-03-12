@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { fetchBlocksById, handleAddTicket } from "../../taskmasterApi.js";
+import { deleteBlock, fetchBlocksById, handleAddTicket } from "../../taskmasterApi.js";
 import Paper from "@mui/material/Paper";
 import Box from "@mui/material/Box";
 import { Button } from "@mui/material";
@@ -33,6 +33,22 @@ function ListBlocks() {
   const handleClose = () => {
     setOpen(false);
   };
+
+  //Handle delete
+  const handleBlockDelete = (blockId)=> {
+    const confirmed = window.confirm("Are you sure you want to delete block and all the tickets it contains?");
+    if(confirmed){
+      deleteBlock(blockId)
+      .then(() => {
+        setBlocks((prevBlocks) =>
+            prevBlocks.filter((block) => block.blockId !== blockId)
+        );
+    })
+    .catch((err) => {
+        console.error("Error deleting block:", err);
+    });
+    }
+  }
 
   //Updates blocks in fronend after editing
   const handleEditBlockSave = (updatedBlock) => {
@@ -105,6 +121,9 @@ function ListBlocks() {
                 <Box>
                   <Typography variant="h6">{block.blockName}</Typography>
                   <Divider></Divider>
+                  <Button variant="contained" color="error" onClick={() => handleBlockDelete(block.blockId)}>
+                      Delete Block
+                    </Button>  
                 </Box>
                 <Box
                   sx={{
@@ -118,8 +137,7 @@ function ListBlocks() {
 
                   <Button variant="contained" color="primary" onClick={() => handleOpen(block)}>
                     Edit Block
-                  </Button>
-                  
+                  </Button>         
                 </Box>
               </Paper>
             </Box>

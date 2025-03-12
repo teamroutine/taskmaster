@@ -63,7 +63,7 @@ function ListBlocks({ blocks, setBlocks }) { // Blocks comes as a prop from Pane
         setBlocks((prevBlocks) => {
           const updatedBlocks = prevBlocks.map((block) =>
             block.blockId === blockId
-              ? { ...block, tickets: [...block.tickets, addedTicket] }
+              ? { ...block, tickets: [...(block.tickets || []), addedTicket] }
               : block
           );
           return updatedBlocks;

@@ -16,11 +16,10 @@ function PanelView() {
     useEffect(() => {
         fetchPanels(panelid)
             .then((data) => {
-                console.log("Fetched panel data:", data);
+
                 const panel = data.find(p => p.panelId === Number(panelid));
 
                 if (panel) {
-                    console.log("Found panel:", panel);
                     setBlocks(panel.blocks);
                 } else {
                     console.error("Panel not found!");

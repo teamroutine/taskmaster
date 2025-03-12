@@ -7,8 +7,8 @@ export default function EditPanel({ panel, onSave, open, onClose }) {
 
     useEffect(() => {
         setPanelData({
-            panelName: panel.panelData,
-            description: panel.description
+            panelName: panel.panelData || '', // Set empty string, if panelName is undefined
+            description: panel.description || '' // Set empty string, if description is undefined
         });
     }, [panel]);
 

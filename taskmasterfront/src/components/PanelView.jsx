@@ -92,7 +92,7 @@ function PanelView() {
             </Box>
 
             <Box sx={{ marginTop: '10px' }}>
-                <ListBlocks blocks={filteredBlocks} />
+                <ListBlocks blocks={filteredBlocks} setBlocks={setBlocks} />
             </Box>
 
             <Box>

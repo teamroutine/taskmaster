@@ -12,10 +12,8 @@ import CreateTicket from "./CreateTicket.jsx";
 import EditBlock from "./EditBlock.jsx";
 import DropDown from "./DropDown.jsx";
 
-function ListBlocks({ blocks }) { // blocks tulee nyt propsina PanelViewistä
-  if (!blocks || blocks.length === 0) {
-    return <Box>No blocks found.</Box>;
-  }
+function ListBlocks({ blocks, setBlocks }) { //Blocks comes as prop from PanelView
+
   const { panelid } = useParams();
   const [selectedBlock, setSelectedBlock] = useState(null);
   const [error, setError] = useState(null);
@@ -62,13 +60,14 @@ function ListBlocks({ blocks }) { // blocks tulee nyt propsina PanelViewistä
   const addNewTicket = (newTicket, blockId) => {
     handleAddTicket({ ...newTicket, blockId })
       .then((addedTicket) => {
-        setBlocks((prevBlocks) =>
-          prevBlocks.map((block) =>
+        setBlocks((prevBlocks) => {
+          const updatedBlocks = prevBlocks.map((block) =>
             block.blockId === blockId
               ? { ...block, tickets: [...block.tickets, addedTicket] }
               : block
-          )
-        );
+          );
+          return updatedBlocks;
+        });
       })
       .catch((err) => {
         console.error("Error adding ticket:", err);

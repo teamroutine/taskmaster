@@ -67,6 +67,10 @@ function ListPanelView() {
                                     {panel.panelName || "Unnamed Panel"}
                                 </Link>
                             </Typography>
+                            
+                            <Typography variant="body2" color="textSecondary" sx={{marginTop: 1}}>
+                                {panel.description || "No description available"}
+                            </Typography>
 
                             <Divider sx={{ marginY: 1 }} />
 

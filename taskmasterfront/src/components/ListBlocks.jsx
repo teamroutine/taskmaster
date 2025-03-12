@@ -3,21 +3,47 @@ import { useParams } from "react-router-dom";
 import { fetchBlocksById, handleAddTicket } from "../../taskmasterApi.js";
 import Paper from "@mui/material/Paper";
 import Box from "@mui/material/Box";
+import { Button } from "@mui/material";
 import Typography from "@mui/material/Typography";
 import ListTickets from "./ListTickets.jsx";
 import Divider from "@mui/material/Divider";
 import CreateTicket from "./CreateTicket.jsx";
+import EditBlock from "./EditBlock.jsx";
 
 function ListBlocks() {
   const { panelid } = useParams();
   const [blocks, setBlocks] = useState([]);
+  const [selectedBlock, setSelectedBlock] = useState(null);
   const [error, setError] = useState(null);
+  const [open, setOpen] = useState(false)
+
 
   useEffect(() => {
     fetchBlocksById(panelid)
       .then((data) => setBlocks(data.blocks))
       .catch((err) => setError(err.message));
   }, [panelid]);
+
+  //Handles the Edit button opening
+  const handleOpen = (block) => {
+    setSelectedBlock(block);
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  //Updates blocks in fronend after editing
+  const handleEditBlockSave = (updatedBlock) => {
+    setBlocks((prevBlocks) =>
+      prevBlocks.map((block) =>
+        block.blockId === selectedBlock.blockId
+          ? { ...block, ...updatedBlock }
+          : block
+      )
+    );
+  };
 
   // Add new ticket function with the Blocks id
   const addNewTicket = (newTicket, blockId) => {
@@ -84,20 +110,32 @@ function ListBlocks() {
                   sx={{
                     p: 1,
                   }}>
-                  <ListTickets tickets={block.tickets} setTickets={setBlocks} />
+                  <ListTickets tickets={block.tickets} setBlocks={setBlocks} />
                 </Box>
                 <Box>
                   <Divider></Divider>
                   <CreateTicket createTicket={(newTicket) => addNewTicket(newTicket, block.blockId)} />
+
+                  <Button variant="contained" color="primary" onClick={() => handleOpen(block)}>
+                    Edit Block
+                  </Button>
+                  
                 </Box>
               </Paper>
             </Box>
           ))}
         </Box>
       </Box>
+      {selectedBlock && (
+        <EditBlock
+          block={selectedBlock}
+          onSave={handleEditBlockSave}
+          open={open}
+          onClose={handleClose} 
+        />
+      )}
     </Box>
   );
 }
 
 export default ListBlocks;
-

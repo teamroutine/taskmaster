@@ -136,6 +136,6 @@ export function updatePanel(panelId, panel) {
             if (!response.ok) {
                 throw new Error("Error when updating panel: " + response.statusText);
             }
-            return response.json();
+            return response;
         });
 }

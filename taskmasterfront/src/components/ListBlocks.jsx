@@ -133,7 +133,7 @@ function ListBlocks({ blocks, setBlocks }) { // Blocks comes as a prop from Pane
                   </DropDown>
                 </Box>
                 <Box sx={{ p: 1 }}>
-                  <ListTickets tickets={block.tickets} />
+                  <ListTickets tickets={block.tickets} setBlocks={setBlocks} />
                 </Box>
                 <Box>
                   <Divider />

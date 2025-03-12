@@ -157,7 +157,7 @@ export function deletePanel(panelId) {
         method: 'DELETE',
     })
         .then(response => {
-            if (response.ok) {
+            if (!response.ok) {
                 throw new Error("Error deleting Panel: " + response.statusText);
             }
             return response;

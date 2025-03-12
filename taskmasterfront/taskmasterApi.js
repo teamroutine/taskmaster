@@ -139,15 +139,27 @@ export function updatePanel(panelId, panel) {
             return response;
         });
 }
-export function deleteBlock(blockId){
-    return fetch(import.meta.env.VITE_API_URL + `/blocks/${blockId}`,{
+export function deleteBlock(blockId) {
+    return fetch(import.meta.env.VITE_API_URL + `/blocks/${blockId}`, {
         method: 'DELETE',
     })
-    .then(response => {
-        if (!response.ok) {
-            throw new Error("Error when deleting Block: " + response.statusText);
-        }
-        return response;
-    });
+        .then(response => {
+            if (!response.ok) {
+                throw new Error("Error when deleting Block: " + response.statusText);
+            }
+            return response;
+        });
 
+}
+
+export function deletePanel(panelId) {
+    return fetch(import.meta.env.VITE_API_URL + `/panels/${panelId}`, {
+        method: 'DELETE',
+    })
+        .then(response => {
+            if (response.ok) {
+                throw new Error("Error deleting Panel: " + response.statusText);
+            }
+            return response;
+        });
 }

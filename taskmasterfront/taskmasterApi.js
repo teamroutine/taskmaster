@@ -124,18 +124,42 @@ export function updateBlock(blockId, block) {
         });
 }
 
-export function updatePanelName(panelId, data) {
-    return fetch(`${import.meta.env.VITE_API_URL}/panels/${panelId}`, {
+export function updatePanel(panelId, panel) {
+    return fetch(import.meta.env.VITE_API_URL + `/panels/${panelId}`, {
         method: 'PUT',
         headers: {
             'Content-Type': 'application/json',
         },
-        body: JSON.stringify(data),
+        body: JSON.stringify(panel),
     })
         .then((response) => {
             if (!response.ok) {
-                throw new Error('Failed to update panel');
+                throw new Error("Error when updating panel: " + response.statusText);
             }
-            return response.json();
+            return response;
+        });
+}
+export function deleteBlock(blockId) {
+    return fetch(import.meta.env.VITE_API_URL + `/blocks/${blockId}`, {
+        method: 'DELETE',
+    })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error("Error when deleting Block: " + response.statusText);
+            }
+            return response;
+        });
+
+}
+
+export function deletePanel(panelId) {
+    return fetch(import.meta.env.VITE_API_URL + `/panels/${panelId}`, {
+        method: 'DELETE',
+    })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error("Error deleting Panel: " + response.statusText);
+            }
+            return response;
         });
 }

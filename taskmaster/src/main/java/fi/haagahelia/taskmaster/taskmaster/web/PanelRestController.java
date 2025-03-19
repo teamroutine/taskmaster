@@ -72,7 +72,7 @@ public class PanelRestController {
         return ResponseEntity.ok(editPanel);
     }
 
-    // Delete a block
+    // Delete a panel
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deletePanel(@PathVariable Long id) {
         Panel panel = panelRepository.findById(id)

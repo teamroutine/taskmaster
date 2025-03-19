@@ -2,15 +2,18 @@ import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import ListBlocks from './ListBlocks';
 import CreateBlock from './CreateBlock';
-import { Box, InputBase, Alert } from "@mui/material";
-import { Search as SearchIcon } from '@mui/icons-material';
+import { Box, Alert, Snackbar } from "@mui/material";
 import { fetchPanels, handleAddBlock } from '../../taskmasterApi';
+import SearchBar from './SearchBar';
 
 function PanelView() {
     const { panelid } = useParams();
     const [blocks, setBlocks] = useState([]);
     const [error, setError] = useState(null);
     const [searchQuery, setSearchQuery] = useState("");
+
+    const [openSnackbar, setOpenSnackbar] = useState(false);
+    const [snackbarMessage, setSnackbarMessage] = useState('');
 
     // Fetch panel data
     useEffect(() => {
@@ -34,17 +37,19 @@ function PanelView() {
         handleAddBlock({ ...newBlock, panelId })
             .then((addedBlock) => {
                 setBlocks((prevBlocks) => [...prevBlocks, addedBlock]);
+                setSnackbarMessage('Block added successfully!');
+                setOpenSnackbar(true);
             })
             .catch((err) => {
                 console.error("Error adding block:", err);
                 setError("Error adding block");
+                setSnackbarMessage('Error adding block.');
+                setOpenSnackbar(true);
             });
     };
 
     // Update query when user writes in the InputBase
-    const handleSearchChange = (e) => {
-        setSearchQuery(e.target.value.toLowerCase());
-    };
+
 
     // Filter blocks based on search query
     const filteredBlocks = blocks
@@ -62,41 +67,29 @@ function PanelView() {
             return null; // If blocks don't have similar tickets as the query, return null
         })
         .filter(block => block !== null); // Delete null values, so only the blocks with query hits remain
+
     return (
         <div>
             <h1>Panel View</h1>
             {error && <Alert severity="error">{error}</Alert>}
             {/* Search bar component for the frontend */}
-            <Box
-                sx={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    border: '1px solid #ccc',
-                    borderRadius: '4px',
-                    padding: '0 10px',
-                    width: '300px',
-                }}
-            >
-                <SearchIcon sx={{ color: 'gray', marginRight: '8px' }} />
-
-                <InputBase
-                    sx={{
-                        width: '100%',
-                        color: 'black'
-                    }}
-                    placeholder="Search..."
-                    value={searchQuery} // Set current value
-                    onChange={handleSearchChange} // Update the state while searching
-                />
+            <Box>
+                <SearchBar searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
             </Box>
             {/*ListBlock component uses data filtered by filteredBLocks() */}
             <Box sx={{ marginTop: '10px' }}>
                 <ListBlocks blocks={filteredBlocks} setBlocks={setBlocks} />
             </Box>
-
+            {/*CreateBlock for creating a new Block */}
             <Box>
                 <CreateBlock createBlock={(newBlock) => addNewBlock(newBlock, panelid)} />
             </Box>
+            <Snackbar
+                open={openSnackbar}
+                message={snackbarMessage}
+                autoHideDuration={2000}
+                onClose={() => setOpenSnackbar(false)}
+            />
         </div >
     );
 }

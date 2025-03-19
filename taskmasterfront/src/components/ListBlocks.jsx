@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import { deleteBlock, handleAddTicket, updateTicket } from "../../taskmasterApi.js";
 import Paper from "@mui/material/Paper";
 import Box from "@mui/material/Box";
-import { Button, MenuItem } from "@mui/material";
+import { Button, MenuItem, Snackbar } from "@mui/material";
 import Typography from "@mui/material/Typography";
 import ListTickets from "./ListTickets.jsx";
 import Divider from "@mui/material/Divider";
@@ -17,6 +17,9 @@ function ListBlocks({ blocks, setBlocks }) {
   const [selectedBlock, setSelectedBlock] = useState(null);
   const [open, setOpen] = useState(false);
   const blockRefs = useRef(new Map());
+
+  const [openSnackbar, setOpenSnackbar] = useState(false)
+  const [snackbarMessage, setSnackbarMessage] = useState('');
 
   // Handles the Edit button opening
   const handleOpen = (block) => {
@@ -39,9 +42,13 @@ function ListBlocks({ blocks, setBlocks }) {
           setBlocks((prevBlocks) =>
             prevBlocks.filter((block) => block.blockId !== blockId)
           );
+          setSnackbarMessage('Block deleted successfully');
+          setOpenSnackbar(true);  //Opens snackbar to show success message
         })
         .catch((err) => {
           console.error("Error deleting block:", err);
+          setSnackbarMessage('Error deleting block');
+          setOpenSnackbar(true);
         });
     }
   };
@@ -67,11 +74,15 @@ function ListBlocks({ blocks, setBlocks }) {
               ? { ...block, tickets: [...(block.tickets || []), addedTicket] }
               : block
           );
+          setSnackbarMessage('Ticket added successfully');
+          setOpenSnackbar(true);
           return updatedBlocks;
         });
       })
       .catch((err) => {
         console.error("Error adding ticket:", err);
+        setSnackbarMessage('Error adding ticket');
+        setOpenSnackbar(true);
       });
   };
 
@@ -229,16 +240,16 @@ function ListBlocks({ blocks, setBlocks }) {
           </Box>
         ))}
       </Box>
-      {selectedBlock && (
-        <EditBlock
-          block={selectedBlock}
-          onSave={handleEditBlockSave}
-          open={open}
-          onClose={handleClose}
-        />
-      )}
-    </Box>
+      <Snackbar
+        open={openSnackbar}
+        message={snackbarMessage}
+        autoHideDuration={2000}
+        onClose={() => setOpenSnackbar(false)}
+      />
+
+    </>
   );
+
 }
 
 export default ListBlocks;

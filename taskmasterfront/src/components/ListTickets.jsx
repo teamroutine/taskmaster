@@ -7,11 +7,15 @@ import Divider from "@mui/material/Divider";
 import ViewTicket from "./ViewTicket";
 import EditTicket from "./EditTicket";
 import { deleteTicket } from "../../taskmasterApi";
+import { Snackbar } from '@mui/material';
+
 
 export default function ListTickets({ tickets, setBlocks }) {
     const [selectedTicket, setSelectedTicket] = useState(null);
     const [openView, setOpenView] = useState(false);
     const [openEdit, setOpenEdit] = useState(false);
+    const [openSnackbar, setOpenSnackbar] = useState(false)
+    const [snackbarMessage, setSnackbarMessage] = useState('');
 
     const registeredElements = useRef(new WeakSet());
 
@@ -42,9 +46,13 @@ export default function ListTickets({ tickets, setBlocks }) {
                         }))
                     );
                     setOpenView(false);
+                    setSnackbarMessage('Ticket deleted successfully');
+                    setOpenSnackbar(true);      //Opens snackbar to show success message
                 })
                 .catch((err) => {
                     console.error("Failed to delete ticket:", err);
+                    setSnackbarMessage('Error deleting ticket');
+                    setOpenSnackbar(true);
                 });
         }
     };
@@ -118,6 +126,13 @@ export default function ListTickets({ tickets, setBlocks }) {
                     onSave={handleSaveEdit}
                 />
             )}
+            <Snackbar
+                open={openSnackbar}
+                message={snackbarMessage}
+                autoHideDuration={2000}
+                onClose={() => setOpenSnackbar(false)}
+            />
+
         </>
     );
 }

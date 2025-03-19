@@ -6,8 +6,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
 
 import fi.haagahelia.taskmaster.taskmaster.domain.Team;
 import fi.haagahelia.taskmaster.taskmaster.domain.TeamRepository;
@@ -53,5 +55,14 @@ public class TeamRestController {
     public Team newTeam(@RequestBody @NonNull Team newTeam) {
         return teamRepository.save(newTeam);
     }
-
+    //Delete team
+    @DeleteMapping("{id}")
+    public ResponseEntity<Void> deleteTeam(@PathVariable Long id){
+        Team team = teamRepository.findById(id)
+                .orElseThrow(() -> new ResponseStatusException(
+                    HttpStatus.NOT_FOUND,
+                    "Block" + id + "can't be deleted, since it doesn't exist." ));
+        teamRepository.delete(team);
+        return ResponseEntity.noContent().build();
+    }
 }

@@ -37,7 +37,15 @@ export function fetchTickets() {
             return response.json();
         });
 }
+export function fetchAppUsers(){
+    return fetch(import.meta.env.VITE_API_URL + "/users")
+    .then(response => {
+        if(!response.ok)
+            throw new Error("Error in fetch:" + response.statusText);
 
+        return response.json();
+    })
+}
 export const handleAddTicket = (newTicket) => {
     return fetch(import.meta.env.VITE_API_URL + "/tickets", {
         method: 'POST',

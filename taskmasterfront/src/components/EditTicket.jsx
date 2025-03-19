@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Dialog, Typography, DialogActions, DialogContent, DialogTitle, Button, TextField, Paper, Box } from '@mui/material';
+import { Snackbar, Dialog, Typography, DialogActions, DialogContent, DialogTitle, Button, TextField, Paper, Box } from '@mui/material';
 import { updateTicket } from '../../taskmasterApi';
 
 export default function EditTicket({ open, ticket, onClose, onSave }) {
@@ -7,6 +7,9 @@ export default function EditTicket({ open, ticket, onClose, onSave }) {
         ticketName: '',
         description: '',
     });
+
+    const [openSnackbar, setOpenSnackbar] = useState(false);
+    const [snackbarMessage, setSnackbarMessage] = useState('');
 
     useEffect(() => {
         setTicketData({
@@ -21,9 +24,13 @@ export default function EditTicket({ open, ticket, onClose, onSave }) {
             .then(() => {
                 onSave(ticketData);
                 onClose();
+                setSnackbarMessage('Ticket updated successfully!');
+                setOpenSnackbar(true); // Shows success message
             })
             .catch((err) => {
                 console.error("Error updating ticket:", err);
+                setSnackbarMessage('Error updating ticket.');
+                setOpenSnackbar(true); // Shows error message
             });
     };
 
@@ -93,6 +100,12 @@ export default function EditTicket({ open, ticket, onClose, onSave }) {
 
 
             </Dialog>
+            <Snackbar
+                open={openSnackbar}
+                message={snackbarMessage}
+                autoHideDuration={2000}
+                onClose={() => setOpenSnackbar(false)}
+            />
 
         </>
     );

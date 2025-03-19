@@ -3,13 +3,15 @@ import { Link } from 'react-router-dom';
 import { deletePanel, fetchPanels, handleAddPanel } from '../../taskmasterApi';
 import CreatePanel from './CreatePanel';
 import EditPanel from './EditPanel';
-import { Button, Paper, Box, Typography, Divider } from '@mui/material';
+import { Button, Paper, Box, Typography, Divider, Snackbar } from '@mui/material';
 
 function ListPanelView() {
     const [panels, setPanels] = useState([]);
     const [error, setError] = useState(null);
     const [selectedPanel, setSelectedPanel] = useState(null);
     const [open, setOpen] = useState(false);
+    const [openSnackbar, setOpenSnackbar] = useState(false);
+    const [snackbarMessage, setSnackbarMessage] = useState('');
 
     useEffect(() => {
         fetchPanels()
@@ -26,8 +28,12 @@ function ListPanelView() {
         try {
             const createdPanel = await handleAddPanel(newPanel);
             setPanels(prevPanels => [...prevPanels, createdPanel]);
+            setSnackbarMessage('Panel created successfully!');
+            setOpenSnackbar(true);
         } catch (err) {
             setError("Failed to create panel: " + err.message);
+            setSnackbarMessage('Error creating panel.');
+            setOpenSnackbar(true);
         }
     };
 
@@ -58,9 +64,13 @@ function ListPanelView() {
                     setPanels((prevPanels) =>
                         prevPanels.filter((panel) => panel.panelId !== panelId)
                     );
+                    setSnackbarMessage('Panel deleted successfully!');
+                    setOpenSnackbar(true);
                 })
                 .catch((err) => {
                     console.error("Error deleting panel:", err);
+                    setSnackbarMessage('Error deleting panel.');
+                    setOpenSnackbar(true);
                 });
         }
     };
@@ -114,6 +124,12 @@ function ListPanelView() {
                     onClose={handleCloseEdit}
                 />
             )}
+            <Snackbar
+                open={openSnackbar}
+                message={snackbarMessage}
+                autoHideDuration={2000}
+                onClose={() => setOpenSnackbar(false)}
+            />
         </Box>
     );
 }

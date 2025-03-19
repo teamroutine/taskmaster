@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import Paper from '@mui/material/Paper';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
+import { Snackbar } from '@mui/material';
 import Divider from '@mui/material/Divider';
 import ViewTicket from './ViewTicket';
 import EditTicket from './EditTicket';
@@ -12,6 +13,8 @@ export default function ListTickets({ tickets, setBlocks }) {
     const [selectedTicket, setSelectedTicket] = useState(null);
     const [openView, setOpenView] = useState(false);
     const [openEdit, setOpenEdit] = useState(false);
+    const [openSnackbar, setOpenSnackbar] = useState(false)
+    const [snackbarMessage, setSnackbarMessage] = useState('');
 
     const handleTicketClick = (ticket) => {
         setSelectedTicket(ticket);
@@ -40,9 +43,13 @@ export default function ListTickets({ tickets, setBlocks }) {
                         }))
                     );
                     setOpenView(false);
+                    setSnackbarMessage('Ticket deleted successfully');
+                    setOpenSnackbar(true);      //Opens snackbar to show success message
                 })
                 .catch((err) => {
                     console.error("Failed to delete ticket:", err);
+                    setSnackbarMessage('Error deleting ticket');
+                    setOpenSnackbar(true);
                 });
         }
     };
@@ -92,6 +99,13 @@ export default function ListTickets({ tickets, setBlocks }) {
                     onSave={handleSaveEdit}
                 />
             )}
+            <Snackbar
+                open={openSnackbar}
+                message={snackbarMessage}
+                autoHideDuration={2000}
+                onClose={() => setOpenSnackbar(false)}
+            />
+
         </>
     );
 }

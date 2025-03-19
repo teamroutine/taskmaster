@@ -246,9 +246,8 @@ function ListBlocks({ blocks, setBlocks }) {
         autoHideDuration={2000}
         onClose={() => setOpenSnackbar(false)}
       />
-
-    </>
-  );
+    </Box>
+  )
 
 }
 

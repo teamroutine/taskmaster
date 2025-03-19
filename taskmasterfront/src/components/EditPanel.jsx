@@ -24,9 +24,9 @@ export default function EditPanel({ panel, onSave, open, onClose }) {
                 setOpenSnackbar(true);
             })
             .catch((err) => console.error("Error in editing panel:", err))
-        setSnackbarMessage('Error in updating panel.');
-        setOpenSnackbar(true);
-    };
+            setSnackbarMessage('Error in updating panel.');
+            setOpenSnackbar(true);
+        };
 
     return (
         <>

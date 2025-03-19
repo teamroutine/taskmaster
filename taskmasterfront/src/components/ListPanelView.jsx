@@ -3,7 +3,8 @@ import { Link } from 'react-router-dom';
 import { deletePanel, fetchPanels, handleAddPanel } from '../../taskmasterApi';
 import CreatePanel from './CreatePanel';
 import EditPanel from './EditPanel';
-import { Button, Paper, Box, Typography, Divider, Snackbar } from '@mui/material';
+import { Button, Paper, Box, Typography, Divider, Snackbar, MenuItem} from '@mui/material';
+import DropDown from './DropDown';
 
 function ListPanelView() {
     const [panels, setPanels] = useState([]);
@@ -87,26 +88,33 @@ function ListPanelView() {
                 ) : (
                     panels.map((panel) => (
                         <Paper key={panel.panelId} elevation={5} sx={{ width: 300, padding: 2 }}>
-                            <Typography variant="h6">
-                                <Link to={`/panels/${panel.panelId}`} style={{ textDecoration: "none", color: "inherit" }}>
-                                    {panel.panelName || "Unnamed Panel"}
-                                </Link>
-                            </Typography>
+                             <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                                <Typography variant="h6">
+                                    <Link to={`/panels/${panel.panelId}`} style={{ textDecoration: "none", color: "inherit" }}>
+                                        {panel.panelName || "Unnamed Panel"}
+                                    </Link>
+                                </Typography>
+
+                                {/* Dropdown on the right */}
+                                <DropDown>
+                                    <MenuItem>
+                                        <Button variant="contained" color="primary" onClick={() => handleOpenEdit(panel)}>
+                                            Edit Panel
+                                        </Button>
+                                    </MenuItem>
+                                    <MenuItem>
+                                        <Button variant="contained" color="error" onClick={() => handleDeletePanel(panel.panelId)}>
+                                            Delete Panel
+                                        </Button>
+                                    </MenuItem>
+                                </DropDown>
+                            </Box>
 
                             <Typography variant="body2" color="textSecondary" sx={{ marginTop: 1 }}>
                                 {panel.description || "No description available"}
                             </Typography>
 
                             <Divider sx={{ marginY: 1 }} />
-
-                            <Box sx={{ display: "flex", justifyContent: "space-between", marginTop: 2 }}>
-                                <Button variant="outlined" color="primary" onClick={() => handleOpenEdit(panel)}>
-                                    Edit
-                                </Button>
-                                <Button variant="outlined" color="error" onClick={() => handleDeletePanel(panel.panelId)}>
-                                    Delete
-                                </Button>
-                            </Box>
                         </Paper>
                     ))
                 )}

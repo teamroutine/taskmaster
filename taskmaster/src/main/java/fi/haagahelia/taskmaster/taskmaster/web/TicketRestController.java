@@ -85,6 +85,12 @@ public class TicketRestController {
         if (ticketData.getStatus() != null) {
             editTicket.setStatus(ticketData.getStatus());
         }
+        if (ticketData.getBlock() != null && ticketData.getBlock().getBlockId() != null) {
+            Block newBlock = blockRepository.findById(ticketData.getBlock().getBlockId())
+                    .orElseThrow(() -> new ResponseStatusException(
+                            HttpStatus.NOT_FOUND, "Block not found"));
+            editTicket.setBlock(newBlock);
+        }
 
         ticketRepository.save(editTicket);
 

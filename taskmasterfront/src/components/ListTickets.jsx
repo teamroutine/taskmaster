@@ -1,20 +1,23 @@
-import React, { useState } from 'react';
-import Paper from '@mui/material/Paper';
-import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
+import React, { useState, useRef } from "react";
+import { draggable } from "@atlaskit/pragmatic-drag-and-drop/element/adapter";
+import Paper from "@mui/material/Paper";
+import Box from "@mui/material/Box";
+import Typography from "@mui/material/Typography";
+import Divider from "@mui/material/Divider";
+import ViewTicket from "./ViewTicket";
+import EditTicket from "./EditTicket";
+import { deleteTicket } from "../../taskmasterApi";
 import { Snackbar } from '@mui/material';
-import Divider from '@mui/material/Divider';
-import ViewTicket from './ViewTicket';
-import EditTicket from './EditTicket';
-import { deleteTicket } from '../../taskmasterApi';
+
 
 export default function ListTickets({ tickets, setBlocks }) {
-
     const [selectedTicket, setSelectedTicket] = useState(null);
     const [openView, setOpenView] = useState(false);
     const [openEdit, setOpenEdit] = useState(false);
     const [openSnackbar, setOpenSnackbar] = useState(false)
     const [snackbarMessage, setSnackbarMessage] = useState('');
+
+    const registeredElements = useRef(new WeakSet());
 
     const handleTicketClick = (ticket) => {
         setSelectedTicket(ticket);
@@ -39,7 +42,7 @@ export default function ListTickets({ tickets, setBlocks }) {
                     setBlocks(prevBlocks =>
                         prevBlocks.map(block => ({
                             ...block,
-                            tickets: block.tickets.filter(t => t.ticketId !== ticketId)
+                            tickets: block.tickets.filter(t => t.ticketId !== ticketId),
                         }))
                     );
                     setOpenView(false);
@@ -62,18 +65,42 @@ export default function ListTickets({ tickets, setBlocks }) {
                     ticket.ticketId === selectedTicket.ticketId
                         ? { ...ticket, ...updatedTicket }
                         : ticket
-                )
+                ),
             }))
         );
     };
 
     return (
         <>
-            <Box component="ul" sx={{ padding: 0, margin: 0, listStyleType: 'none' }}>
+            <Box component="ul" sx={{ padding: 0, margin: 0, listStyleType: "none" }}>
                 {tickets.map(ticket => (
-                    <Box component="li" key={ticket.ticketId} sx={{ marginBottom: 1 }}>
-                        {/*WordWrap and Overflow makes the text not go over the borders */}
-                        <Paper elevation={2} sx={{ padding: 3, cursor: 'pointer', wordWrap: 'break-word', overflow: 'hidden' }} onClick={() => handleTicketClick(ticket)}>
+                    <Box
+                        component="li"
+                        key={ticket.ticketId}
+                        sx={{ marginBottom: 1 }}
+                        ref={(el) => {
+                            if (el && !registeredElements.current.has(el)) {
+                                registeredElements.current.add(el); // ✅ Prevent duplicate registration
+                                draggable({
+                                    element: el,
+                                    getInitialData: () => ({
+                                        type: "ticket",
+                                        ticketId: ticket.ticketId,
+                                    }),
+                                });
+                            }
+                        }}
+                    >
+                        <Paper
+                            elevation={2}
+                            sx={{
+                                padding: 3,
+                                cursor: "grab",
+                                wordWrap: "break-word",
+                                overflow: "hidden",
+                            }}
+                            onClick={() => handleTicketClick(ticket)}
+                        >
                             <Typography variant="body1">{ticket.ticketName}</Typography>
                             <Divider />
                             <Typography variant="body2">{ticket.description}</Typography>

@@ -16,15 +16,14 @@ function PanelView() {
     useEffect(() => {
         fetchPanels(panelid)
             .then((data) => {
-                console.log("Fetched panel data:", data);
+
                 const panel = data.find(p => p.panelId === Number(panelid));
 
                 if (panel) {
-                    console.log("Found panel:", panel);
                     setBlocks(panel.blocks);
                 } else {
                     console.error("Panel not found!");
-                    setBlocks([]); // Tyhjennetään, jos panelia ei löydy
+                    setBlocks([]); // Clear blocks if the corresponding panel is not found
                 }
             })
             .catch((err) => setError(err.message));
@@ -42,7 +41,7 @@ function PanelView() {
             });
     };
 
-    // Handle search change
+    // Update query when user writes in the InputBase
     const handleSearchChange = (e) => {
         setSearchQuery(e.target.value.toLowerCase());
     };
@@ -50,25 +49,24 @@ function PanelView() {
     // Filter blocks based on search query
     const filteredBlocks = blocks
         .map(block => {
-            // Check if tickets exist and filter them safely
+            // Check if tickets exist and filter them
             const filteredTickets = block.tickets?.filter(ticket =>
                 ticket.ticketName.toLowerCase().includes(searchQuery) ||
                 ticket.description.toLowerCase().includes(searchQuery)
             ) || []; // Fallback to empty array if tickets is undefined or null
 
             if (block.blockName.toLowerCase().includes(searchQuery) || filteredTickets.length > 0) {
-                return { ...block, tickets: filteredTickets };
+                return { ...block, tickets: filteredTickets }; // If query is similar to blocks tickets, return a copy of the block/blocks
             }
 
-            return null;
+            return null; // If blocks don't have similar tickets as the query, return null
         })
-        .filter(block => block !== null);
-
+        .filter(block => block !== null); // Delete null values, so only the blocks with query hits remain
     return (
         <div>
             <h1>Panel View</h1>
             {error && <Alert severity="error">{error}</Alert>}
-
+            {/* Search bar component for the frontend */}
             <Box
                 sx={{
                     display: 'flex',
@@ -80,6 +78,7 @@ function PanelView() {
                 }}
             >
                 <SearchIcon sx={{ color: 'gray', marginRight: '8px' }} />
+
                 <InputBase
                     sx={{
                         width: '100%',
@@ -90,9 +89,9 @@ function PanelView() {
                     onChange={handleSearchChange} // Update the state while searching
                 />
             </Box>
-
+            {/*ListBlock component uses data filtered by filteredBLocks() */}
             <Box sx={{ marginTop: '10px' }}>
-                <ListBlocks blocks={filteredBlocks} />
+                <ListBlocks blocks={filteredBlocks} setBlocks={setBlocks} />
             </Box>
 
             <Box>

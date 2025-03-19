@@ -7,7 +7,7 @@ export default function EditPanel({ panel, onSave, open, onClose }) {
 
     useEffect(() => {
         setPanelData({
-            panelName: panel.panelData,
+            panelName: panel.panelName,
             description: panel.description
         });
     }, [panel]);

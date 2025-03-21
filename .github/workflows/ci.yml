@@ -23,7 +23,7 @@ jobs:
         java-version: '17'
 
     - name: Build with Maven
-      run: mvn clean install
+      run: mvn -f taskmaster/pom.xml clean install
 
     - name: Run tests
       run: ./mvnw test

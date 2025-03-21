@@ -26,7 +26,7 @@ jobs:
       run: mvn -f taskmaster/pom.xml clean install
 
     - name: Run tests
-      run: mvn test
+      run: mvn -f taskmaster/pom.xml test
 
     - name: Package project
       run: ./mvnw package

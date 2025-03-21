@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import ListBlocks from './ListBlocks';
 import CreateBlock from './CreateBlock';
-import { Box, Alert } from "@mui/material";
+import { Box, Alert, Snackbar } from "@mui/material";
 import { fetchPanels, handleAddBlock } from '../../taskmasterApi';
 import SearchBar from './SearchBar';
 
@@ -11,6 +11,9 @@ function PanelView() {
     const [blocks, setBlocks] = useState([]);
     const [error, setError] = useState(null);
     const [searchQuery, setSearchQuery] = useState("");
+
+    const [openSnackbar, setOpenSnackbar] = useState(false);
+    const [snackbarMessage, setSnackbarMessage] = useState('');
 
     // Fetch panel data
     useEffect(() => {
@@ -34,10 +37,14 @@ function PanelView() {
         handleAddBlock({ ...newBlock, panelId })
             .then((addedBlock) => {
                 setBlocks((prevBlocks) => [...prevBlocks, addedBlock]);
+                setSnackbarMessage('Block added successfully!');
+                setOpenSnackbar(true);
             })
             .catch((err) => {
                 console.error("Error adding block:", err);
                 setError("Error adding block");
+                setSnackbarMessage('Error adding block.');
+                setOpenSnackbar(true);
             });
     };
 
@@ -77,6 +84,12 @@ function PanelView() {
             <Box>
                 <CreateBlock createBlock={(newBlock) => addNewBlock(newBlock, panelid)} />
             </Box>
+            <Snackbar
+                open={openSnackbar}
+                message={snackbarMessage}
+                autoHideDuration={2000}
+                onClose={() => setOpenSnackbar(false)}
+            />
         </div >
     );
 }

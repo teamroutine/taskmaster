@@ -1,9 +1,12 @@
 import { useEffect, useState } from "react";
 import { updateBlock } from "../../taskmasterApi";
-import { Dialog, DialogContent, Box, DialogTitle, TextField, Button, DialogActions } from "@mui/material";
+import { Snackbar,Dialog, DialogContent, Box, DialogTitle, TextField, Button, DialogActions } from "@mui/material";
 
 export default function EditBlock({ block, onSave, open, onClose }) {
     const [blockData, setBlockData] = useState({ blockName: '', description: '', highlightColor: '' });
+
+    const [openSnackbar, setOpenSnackbar] = useState(false);
+    const [snackbarMessage, setSnackbarMessage] = useState('');
 
     useEffect(() => {
         setBlockData({
@@ -19,11 +22,16 @@ export default function EditBlock({ block, onSave, open, onClose }) {
             .then(() => {
                 onSave(blockData);
                 onClose();
+                setSnackbarMessage('Block updated successfully!');
+                setOpenSnackbar(true); 
             })
             .catch((err) => console.error("Error updating block:", err));
+            setSnackbarMessage('Error updating block.');
+            setOpenSnackbar(true);
     };
 
     return (
+        <>
         <Dialog open={open} onClose={onClose}>
             <DialogTitle>Edit Block</DialogTitle>
             <DialogContent>
@@ -57,5 +65,12 @@ export default function EditBlock({ block, onSave, open, onClose }) {
                 <Button onClick={handleSave}>Save</Button>
             </DialogActions>
         </Dialog>
+        <Snackbar
+            open={openSnackbar}
+            message={snackbarMessage}
+            autoHideDuration={2000}
+            onClose={() => setOpenSnackbar(false)}
+                />
+        </>
     );
 }

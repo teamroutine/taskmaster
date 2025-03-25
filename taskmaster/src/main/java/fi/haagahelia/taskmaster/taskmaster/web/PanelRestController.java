@@ -67,7 +67,7 @@ public class PanelRestController {
         editPanel.setPanelName(panelData.getPanelName());
         editPanel.setDescription(panelData.getDescription());
 
-        panelRepository.save(panelData);
+        panelRepository.save(editPanel);
 
         return ResponseEntity.ok(editPanel);
     }

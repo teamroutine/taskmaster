@@ -37,7 +37,15 @@ export function fetchTickets() {
             return response.json();
         });
 }
+export function fetchAppUsers(){
+    return fetch(import.meta.env.VITE_API_URL + "/users")
+    .then(response => {
+        if(!response.ok)
+            throw new Error("Error in fetch:" + response.statusText);
 
+        return response.json();
+    })
+}
 export const handleAddTicket = (newTicket) => {
     return fetch(import.meta.env.VITE_API_URL + "/tickets", {
         method: 'POST',
@@ -92,20 +100,30 @@ export function deleteTicket(ticketId) {
             return response;
         });
 }
+
 export function updateTicket(ticketId, ticket) {
     return fetch(import.meta.env.VITE_API_URL + `/tickets/${ticketId}`, {
         method: "PUT",
         headers: {
-            'Content-type': 'application/json'
+            "Content-Type": "application/json",
         },
-        body: JSON.stringify(ticket)
+        body: JSON.stringify(ticket),
     })
-        .then(response => {
+        .then(async (response) => {
+            const text = await response.text(); // Read response as text
             if (!response.ok) {
-                throw new Error("Error when updating ticket: " + response.statusText)
+                console.error("Server Error:", text);
+                throw new Error("Error when updating ticket: " + text);
             }
-            return response;
-        });
+
+            try {
+                return JSON.parse(text); // Parse response only if it's valid JSON
+            } catch (error) {
+                console.error("Invalid JSON response:", text);
+                throw new Error("Invalid JSON from server");
+            }
+        })
+        .catch(error => console.error("Update failed:", error));
 }
 
 export function updateBlock(blockId, block) {

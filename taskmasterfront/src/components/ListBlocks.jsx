@@ -240,6 +240,14 @@ function ListBlocks({ blocks, setBlocks }) {
           </Box>
         ))}
       </Box>
+      {selectedBlock && (
+         <EditBlock
+           block={selectedBlock}
+           onSave={handleEditBlockSave}
+           open={open}
+           onClose={handleClose}
+         />
+       )}
       <Snackbar
         open={openSnackbar}
         message={snackbarMessage}

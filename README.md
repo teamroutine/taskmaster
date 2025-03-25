@@ -96,6 +96,8 @@ The project frontend will be constructed using following Material UI components 
       string description
    }
 ```
+
+## Testing
    
 ## Work in progress
  - Firebase / Spring security authentication

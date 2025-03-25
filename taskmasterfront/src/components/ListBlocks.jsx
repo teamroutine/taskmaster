@@ -190,6 +190,7 @@ function ListBlocks({ blocks, setBlocks }) {
                   display: "flex",
                   justifyContent: "space-between",
                   alignItems: "center",
+                  
                 }}
               >
                 <Typography
@@ -225,7 +226,7 @@ function ListBlocks({ blocks, setBlocks }) {
                   </MenuItem>
                 </DropDown>
               </Box>
-              <Box sx={{ p: 1 }}>
+              <Box sx={{ p: 1, flexGrow: 1, overflowY: "auto"}}>
                 <ListTickets tickets={block.tickets} setBlocks={setBlocks} />
               </Box>
               <Box>

@@ -12,7 +12,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import fi.haagahelia.taskmaster.taskmaster.dto.AccessTokenPayloadDto;
-import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtParser;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
@@ -29,31 +28,29 @@ public class JwtService {
     public AccessTokenPayloadDto getAccessToken(String username) { // Create JWT using username
         Instant expiresAt = Instant.now().plusMillis(EXPIRATION_TIME); // Define time of validity
         String accessToken = Jwts.builder()
-                .subject(username) // User details attached to token
-                .expiration(Date.from(expiresAt)) // Set time of expiration
+                .setSubject(username) // User details attached to token
+                .setExpiration(Date.from(expiresAt)) // Set time of expiration
                 .signWith(getSigningKey()) // Sign token with secret key
                 .compact(); // Compile everything
 
         return new AccessTokenPayloadDto(accessToken, expiresAt); // Returns token with expiration time
     }
 
-    public String getAuthUser(HttpServletRequest request) { // Get username from HTTP request
+    public String getAuthUser(HttpServletRequest request) {
         String authorizationHeaderValue = request.getHeader(HttpHeaders.AUTHORIZATION);
 
-        if (authorizationHeaderValue == null) { // if header is empty, return null
+        if (authorizationHeaderValue == null) {
             return null;
         }
 
-        JwtParser parser = getJwtParser(); // Parser validates and decompresses the token
+        JwtParser parser = getJwtParser();
 
         try {
-            Claims claims = parser // Delete prefix and decompress the token
-                    .parseSignedClaims(authorizationHeaderValue.replace(PREFIX, ""))
-                    .getPayload();
+            return parser
+                    .parseClaimsJws(authorizationHeaderValue.replace(PREFIX, ""))
+                    .getBody().getSubject();
 
-            return claims.getSubject(); // Get subject (username) from claims
-
-        } catch (Exception e) { // If decompress fails return null
+        } catch (Exception e) {
             return null;
         }
     }
@@ -63,10 +60,10 @@ public class JwtService {
         return Keys.hmacShaKeyFor(keyBytes);
     }
 
-    private JwtParser getJwtParser() { // Create parser for validation of token
+    private JwtParser getJwtParser() {
         SecretKey secretKey = getSigningKey(); // Get secret key for signing
 
-        return Jwts.parserBuilder() // Create JWT-parser and validate the key
+        return Jwts.parserBuilder() // Use the new JwtParserBuilder
                 .setSigningKey(secretKey)
                 .build();
 

@@ -2,10 +2,11 @@ package fi.haagahelia.taskmaster.taskmaster.service;
 
 import org.springframework.http.HttpHeaders;
 import java.nio.charset.StandardCharsets;
-import java.security.Key;
-import java.sql.Date;
+import java.util.Date;
 import java.time.Duration;
 import java.time.Instant;
+
+import javax.crypto.SecretKey;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -18,10 +19,11 @@ import jakarta.servlet.http.HttpServletRequest;
 
 @Service
 public class JwtService {
-    private final long EXPIRATION_TIME = Duration.ofHours(8).toMillis();
-    private final String PREFIX = "Bearer ";
+    private static final long EXPIRATION_TIME = Duration.ofHours(2).toMillis(); // Set 2 hour validity period for
+                                                                                // identifier
+    private static final String PREFIX = "Bearer ";
 
-    @Value("${auth.jwt-secret}")
+    @Value("${auth.jwt-secret}") // Create secret key
     private String jwtSecret;
 
     public AccessTokenPayloadDto getAccessToken(String username) {
@@ -45,11 +47,9 @@ public class JwtService {
         JwtParser parser = getJwtParser();
 
         try {
-            String user = parser
-                    .parseClaimsJws(authorizationHeaderValue.replace(PREFIX, ""))
-                    .getBody().getSubject();
-
-            return user;
+            return parser
+                    .parseSignedClaims(authorizationHeaderValue.replace(PREFIX, ""))
+                    .getPayload().getSubject();
 
         } catch (Exception e) {
             return null;
@@ -57,13 +57,18 @@ public class JwtService {
 
     }
 
-    private Key getSigningKey() {
+    private SecretKey getSigningKey() {
         byte[] keyBytes = jwtSecret.getBytes(StandardCharsets.UTF_8);
         return Keys.hmacShaKeyFor(keyBytes);
     }
 
     private JwtParser getJwtParser() {
-        return Jwts.parserBuilder().setSigningKey(getSigningKey()).build();
+        SecretKey secretKey = getSigningKey();
+
+        return Jwts.parser()
+                .verifyWith(secretKey)
+                .build();
+
     }
 
 }

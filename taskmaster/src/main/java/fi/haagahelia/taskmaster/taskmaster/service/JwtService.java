@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import fi.haagahelia.taskmaster.taskmaster.dto.AccessTokenPayloadDto;
+import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtParser;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
@@ -19,8 +20,7 @@ import jakarta.servlet.http.HttpServletRequest;
 
 @Service
 public class JwtService {
-    private static final long EXPIRATION_TIME = Duration.ofHours(2).toMillis(); // Set 2 hour validity period for
-                                                                                // token
+    private static final long EXPIRATION_TIME = Duration.ofHours(2).toMillis(); // Set 2 hour validity period for token
     private static final String PREFIX = "Bearer "; // Prefix for JWT itoken. Used in Authorization header
 
     @Value("${auth.jwt-secret}") // Upload value from configuration file
@@ -47,14 +47,15 @@ public class JwtService {
         JwtParser parser = getJwtParser(); // Parser validates and decompresses the token
 
         try {
-            return parser // Delete prefix and decompress the token
+            Claims claims = parser // Delete prefix and decompress the token
                     .parseSignedClaims(authorizationHeaderValue.replace(PREFIX, ""))
-                    .getPayload().getSubject();
+                    .getPayload();
+
+            return claims.getSubject(); // Get subject (username) from claims
 
         } catch (Exception e) { // If decompress fails return null
             return null;
         }
-
     }
 
     private SecretKey getSigningKey() { // Create secret key with jwtSecret
@@ -65,8 +66,8 @@ public class JwtService {
     private JwtParser getJwtParser() { // Create parser for validation of token
         SecretKey secretKey = getSigningKey(); // Get secret key for signing
 
-        return Jwts.parser() // Create JWT-parser and validate the key
-                .verifyWith(secretKey)
+        return Jwts.parserBuilder() // Create JWT-parser and validate the key
+                .setSigningKey(secretKey)
                 .build();
 
     }

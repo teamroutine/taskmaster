@@ -34,7 +34,7 @@ function ListBlocks({ blocks, setBlocks }) {
   // Handle delete
   const handleBlockDelete = (blockId) => {
     const confirmed = window.confirm(
-      "Are you sure you want to delete block and all the tickets it contains?"
+      "Are you sure you want to delete this block and all the tickets it contains?"
     );
     if (confirmed) {
       deleteBlock(blockId)
@@ -154,7 +154,7 @@ function ListBlocks({ blocks, setBlocks }) {
   };
 
   return (
-    <Box sx={{ overflowX: "auto", whiteSpace: "nowrap" }}>
+    <Box sx={{  whiteSpace: "nowrap" }}>
       <Box
         component="ul"
         sx={{

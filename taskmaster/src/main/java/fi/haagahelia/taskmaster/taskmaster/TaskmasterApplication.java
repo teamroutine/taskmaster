@@ -19,8 +19,6 @@ import fi.haagahelia.taskmaster.taskmaster.domain.AppUser;
 import fi.haagahelia.taskmaster.taskmaster.domain.AppUserRepository;
 
 @SpringBootApplication
-@ComponentScan(basePackages = { "fi.haagahelia.taskmaster.taskmaster.service",
-		"fi.haagahelia.taskmaster.taskmaster.controller" })
 public class TaskmasterApplication {
 
 	private static final Logger log = LoggerFactory.getLogger(TaskmasterApplication.class);

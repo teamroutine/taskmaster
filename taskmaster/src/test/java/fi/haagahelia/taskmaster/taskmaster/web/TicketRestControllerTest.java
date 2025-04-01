@@ -58,7 +58,6 @@ class TicketRestControllerTest {
         private AppUserRepository appUserRepository;
 
         @Test
-        @WithMockUser(username = "user", roles = { "USER" })
         void testGetAllTickets() throws Exception {
 
                 // Mock the data to be returned
@@ -79,7 +78,6 @@ class TicketRestControllerTest {
         }
 
         @Test
-        @WithMockUser(username = "user", roles = { "USER" })
         void testGetTicketById() throws Exception {
 
                 Block block = new Block();
@@ -100,7 +98,6 @@ class TicketRestControllerTest {
         }
 
         @Test
-        @WithMockUser(username = "admin", roles = { "ADMIN" })
         void testCreateTicket() throws Exception {
 
                 Long blockId = 1L;
@@ -131,7 +128,6 @@ class TicketRestControllerTest {
         }
 
         @Test
-        @WithMockUser(username = "admin", roles = { "ADMIN" })
         void testUpdateTicket() throws Exception {
 
                 Long ticketId = 1L;
@@ -166,7 +162,6 @@ class TicketRestControllerTest {
         }
 
         @Test
-        @WithMockUser(username = "admin", roles = { "ADMIN" })
         void testDeleteTicket() throws Exception {
 
                 Long ticketId = 1L;

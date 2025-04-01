@@ -203,8 +203,8 @@ function ListBlocks({ blocks, setBlocks }) {
                   variant="h6"
                 >
                   {block.blockName}
+                  
                 </Typography>
-                <Divider />
                 <DropDown>
                   <MenuItem>
                     <Button
@@ -226,6 +226,7 @@ function ListBlocks({ blocks, setBlocks }) {
                   </MenuItem>
                 </DropDown>
               </Box>
+              <Divider />
               <Box sx={{ p: 1, flexGrow: 1, overflowY: "auto"}}>
                 <ListTickets tickets={block.tickets} setBlocks={setBlocks} />
               </Box>

@@ -20,52 +20,52 @@ import jakarta.servlet.http.HttpServletRequest;
 @Service
 public class JwtService {
     private static final long EXPIRATION_TIME = Duration.ofHours(2).toMillis(); // Set 2 hour validity period for
-                                                                                // identifier
-    private static final String PREFIX = "Bearer ";
+                                                                                // token
+    private static final String PREFIX = "Bearer "; // Prefix for JWT itoken. Used in Authorization header
 
-    @Value("${auth.jwt-secret}") // Create secret key
+    @Value("${auth.jwt-secret}") // Upload value from configuration file
     private String jwtSecret;
 
-    public AccessTokenPayloadDto getAccessToken(String username) {
-        Instant expiresAt = Instant.now().plusMillis(EXPIRATION_TIME);
+    public AccessTokenPayloadDto getAccessToken(String username) { // Create JWT using username
+        Instant expiresAt = Instant.now().plusMillis(EXPIRATION_TIME); // Define time of validity
         String accessToken = Jwts.builder()
-                .subject(username)
-                .expiration(Date.from(expiresAt))
-                .signWith(getSigningKey())
-                .compact();
+                .subject(username) // User details attached to token
+                .expiration(Date.from(expiresAt)) // Set time of expiration
+                .signWith(getSigningKey()) // Sign token with secret key
+                .compact(); // Compile everything
 
-        return new AccessTokenPayloadDto(accessToken, expiresAt);
+        return new AccessTokenPayloadDto(accessToken, expiresAt); // Returns token with expiration time
     }
 
-    public String getAuthUser(HttpServletRequest request) {
+    public String getAuthUser(HttpServletRequest request) { // Get username from HTTP request
         String authorizationHeaderValue = request.getHeader(HttpHeaders.AUTHORIZATION);
 
-        if (authorizationHeaderValue == null) {
+        if (authorizationHeaderValue == null) { // if header is empty, return null
             return null;
         }
 
-        JwtParser parser = getJwtParser();
+        JwtParser parser = getJwtParser(); // Parser validates and decompresses the token
 
         try {
-            return parser
+            return parser // Delete prefix and decompress the token
                     .parseSignedClaims(authorizationHeaderValue.replace(PREFIX, ""))
                     .getPayload().getSubject();
 
-        } catch (Exception e) {
+        } catch (Exception e) { // If decompress fails return null
             return null;
         }
 
     }
 
-    private SecretKey getSigningKey() {
+    private SecretKey getSigningKey() { // Create secret key with jwtSecret
         byte[] keyBytes = jwtSecret.getBytes(StandardCharsets.UTF_8);
         return Keys.hmacShaKeyFor(keyBytes);
     }
 
-    private JwtParser getJwtParser() {
-        SecretKey secretKey = getSigningKey();
+    private JwtParser getJwtParser() { // Create parser for validation of token
+        SecretKey secretKey = getSigningKey(); // Get secret key for signing
 
-        return Jwts.parser()
+        return Jwts.parser() // Create JWT-parser and validate the key
                 .verifyWith(secretKey)
                 .build();
 

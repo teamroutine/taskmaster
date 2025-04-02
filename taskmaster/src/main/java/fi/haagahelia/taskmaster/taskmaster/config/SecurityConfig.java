@@ -37,6 +37,9 @@ public class SecurityConfig {
                                                 .requestMatchers(
                                                                 antMatcher(HttpMethod.POST, "/api/auth/login"),
                                                                 antMatcher(HttpMethod.GET, "/api/auth/login"),
+                                                                antMatcher(HttpMethod.POST, "/api/users/register"),
+                                                                antMatcher(HttpMethod.GET, "/api/users/register"),
+                                                                antMatcher(HttpMethod.GET, "/api/panels"),
                                                                 antMatcher("/error"))
                                                 .permitAll()
                                                 .anyRequest()

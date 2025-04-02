@@ -1,6 +1,5 @@
 package fi.haagahelia.taskmaster.taskmaster.config;
 
-import fi.haagahelia.taskmaster.taskmaster.domain.AppUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -21,34 +20,34 @@ import static org.springframework.security.config.Customizer.withDefaults;
 @EnableWebSecurity
 public class SecurityConfig {
 
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
+        @Bean
+        public PasswordEncoder passwordEncoder() {
+                return new BCryptPasswordEncoder();
 
-    }
+        }
 
-    @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http, AuthenticationFilter authenticationFilter)
-            throws Exception {
-        http.csrf(csrf -> csrf.disable()).cors(withDefaults())
-                .sessionManagement(
-                        sessionManagement -> sessionManagement
-                                .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .authorizeHttpRequests(authorizeHttpRequests -> authorizeHttpRequests
-                        .requestMatchers(
-                                antMatcher(HttpMethod.POST, "api/auth/login"),
-                                antMatcher(HttpMethod.GET, "api/auth/login"),
-                                antMatcher("/error"))
-                        .permitAll()
-                        .anyRequest()
-                        .authenticated())
-                .addFilterBefore(authenticationFilter, UsernamePasswordAuthenticationFilter.class);
+        @Bean
+        public SecurityFilterChain filterChain(HttpSecurity http, AuthenticationFilter authenticationFilter)
+                        throws Exception {
+                http.csrf(csrf -> csrf.disable()).cors(withDefaults())
+                                .sessionManagement(
+                                                sessionManagement -> sessionManagement
+                                                                .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                                .authorizeHttpRequests(authorizeHttpRequests -> authorizeHttpRequests
+                                                .requestMatchers(
+                                                                antMatcher(HttpMethod.POST, "/api/auth/login"),
+                                                                antMatcher(HttpMethod.GET, "/api/auth/login"),
+                                                                antMatcher("/error"))
+                                                .permitAll()
+                                                .anyRequest()
+                                                .authenticated())
+                                .addFilterBefore(authenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
-        return http.build();
-    }
+                return http.build();
+        }
 
-    @Bean
-    public AuthenticationManager authenticationManager(AuthenticationConfiguration authConfig) throws Exception {
-        return authConfig.getAuthenticationManager();
-    }
+        @Bean
+        public AuthenticationManager authenticationManager(AuthenticationConfiguration authConfig) throws Exception {
+                return authConfig.getAuthenticationManager();
+        }
 }

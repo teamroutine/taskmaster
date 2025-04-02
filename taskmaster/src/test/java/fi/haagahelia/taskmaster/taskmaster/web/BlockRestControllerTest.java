@@ -49,8 +49,8 @@ class BlockRestControllerTest {
         when(blockRepository.findAll()).thenReturn(Arrays.asList(block1, block2));
 
         mockMvc.perform(get("/api/blocks"))
-            .andExpect(status().isOk())
-            .andExpect(jsonPath("$[0]").exists())
-            .andExpect(jsonPath("$[1]").exists());
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$[0]").exists())
+                .andExpect(jsonPath("$[1]").exists());
     }
 }

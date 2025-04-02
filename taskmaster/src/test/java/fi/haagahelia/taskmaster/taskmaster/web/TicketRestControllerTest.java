@@ -22,12 +22,15 @@ import java.util.Optional;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 
+import fi.haagahelia.taskmaster.taskmaster.config.SecurityConfig;
 import fi.haagahelia.taskmaster.taskmaster.domain.AppUserRepository;
 import fi.haagahelia.taskmaster.taskmaster.domain.Block;
 import fi.haagahelia.taskmaster.taskmaster.domain.BlockRepository;
@@ -36,8 +39,11 @@ import fi.haagahelia.taskmaster.taskmaster.domain.TeamRepository;
 import fi.haagahelia.taskmaster.taskmaster.domain.Ticket;
 import fi.haagahelia.taskmaster.taskmaster.domain.TicketRepository;
 import fi.haagahelia.taskmaster.taskmaster.dto.TicketDTO;
+import fi.haagahelia.taskmaster.taskmaster.service.JwtService;
 
 @WebMvcTest(TicketRestController.class)
+@Import(SecurityConfig.class)
+@AutoConfigureMockMvc
 class TicketRestControllerTest {
 
         @Autowired
@@ -58,6 +64,13 @@ class TicketRestControllerTest {
         @MockitoBean
         private AppUserRepository appUserRepository;
 
+        @MockitoBean
+        private JwtService jwtService;
+
+        private String generateMockJwtToken() {
+                return "Bearer mock-jwt-token-more-text-so-its-long-enough"; // Mockattu token
+        }
+
         @Test
         void testGetAllTickets() throws Exception {
 
@@ -71,7 +84,8 @@ class TicketRestControllerTest {
                 when(ticketRepository.findAll()).thenReturn(tickets);
 
                 // Perform a GET request and check the response
-                mockMvc.perform(get("/api/tickets"))
+                mockMvc.perform(get("/api/tickets")
+                                .header("Authorization", generateMockJwtToken()))
                                 .andExpect(status().isOk())
                                 .andExpect(jsonPath("$", hasSize(2)))
                                 .andExpect(jsonPath("$[0].ticketName").value("Ticket 1"))
@@ -87,13 +101,15 @@ class TicketRestControllerTest {
 
                 when(ticketRepository.findById(1L)).thenReturn(Optional.of(ticket1));
 
-                mockMvc.perform(get("/api/tickets/1"))
+                mockMvc.perform(get("/api/tickets/1")
+                                .header("Authorization", generateMockJwtToken()))
                                 .andExpect(status().isOk())
                                 .andExpect(jsonPath("$.ticketName").value("Ticket 1"));
 
                 when(ticketRepository.findById(2L)).thenReturn(Optional.of(ticket2));
 
-                mockMvc.perform(get("/api/tickets/2"))
+                mockMvc.perform(get("/api/tickets/2")
+                                .header("Authorization", generateMockJwtToken()))
                                 .andExpect(status().isOk())
                                 .andExpect(jsonPath("$.ticketName").value("Ticket 2"));
         }
@@ -119,6 +135,7 @@ class TicketRestControllerTest {
                 when(ticketRepository.save(any(Ticket.class))).thenReturn(ticket);
 
                 mockMvc.perform(post("/api/tickets")
+                                .header("Authorization", generateMockJwtToken())
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content(
                                                 "{\"ticketName\": \"New Ticket\", \"description\": \"New Ticket Description\", \"blockId\": 1}"))
@@ -147,6 +164,7 @@ class TicketRestControllerTest {
                 when(ticketRepository.save(any(Ticket.class))).thenReturn(ticket);
 
                 mockMvc.perform(put("/api/tickets/{id}", ticketId)
+                                .header("Authorization", generateMockJwtToken())
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content(
                                                 "{\"ticketName\": \"Updated Ticket\", \"description\": \"Updated Description\", \"status\": true}"))
@@ -178,13 +196,15 @@ class TicketRestControllerTest {
                 when(ticketRepository.findById(ticketId)).thenReturn(Optional.of(ticket));
 
                 // Perform the DELETE request and check the response
-                mockMvc.perform(delete("/api/tickets/{id}", ticketId))
+                mockMvc.perform(delete("/api/tickets/{id}", ticketId)
+                                .header("Authorization", generateMockJwtToken()))
                                 .andExpect(status().isNoContent()); // Expect HTTP 204 No Content
 
                 // Verify that after deletion, the findAll returns an empty list
                 when(ticketRepository.findAll()).thenReturn(new ArrayList<>()); // Mock an empty list after deletion
 
-                mockMvc.perform(get("/api/tickets"))
+                mockMvc.perform(get("/api/tickets")
+                                .header("Authorization", generateMockJwtToken()))
                                 .andExpect(status().isOk())
                                 .andExpect(jsonPath("$", hasSize(0))); // Expect empty list as there are no tickets left
         }

@@ -20,19 +20,22 @@ public class AppUser {
     private String lastName;
     private String email;
     private String phone;
+    private String userName;
 
     @ManyToMany(mappedBy = "appusers")
     @JsonIgnoreProperties("appusers")
-    private List <Team> teams;
+    private List<Team> teams;
+
     public AppUser() {
     }
 
-    public AppUser(Long id, String firstName, String lastName, String email, String phone) {
+    public AppUser(Long id, String firstName, String lastName, String email, String phone, String userName) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.phone = phone;
+        this.userName = userName;
     }
 
     public Long getId() {
@@ -75,10 +78,18 @@ public class AppUser {
         this.phone = phone;
     }
 
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
     @Override
     public String toString() {
-        return "User [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", email=" + email
-                + ", phone=" + phone + "]";
+        return "AppUser [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", email=" + email
+                + ", phone=" + phone + ", username=" + userName + "]";
     }
 
 }

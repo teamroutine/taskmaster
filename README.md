@@ -111,3 +111,5 @@ The project frontend will be constructed using following Material UI components 
  - Mobile styling
  - Assign and view random task
  - Archive a panel, block and ticket
+
+[![CI Pipeline](https://github.com/teamroutine/taskmaster/actions/workflows/ci.yml/badge.svg)](https://github.com/teamroutine/taskmaster/actions/workflows/ci.yml)

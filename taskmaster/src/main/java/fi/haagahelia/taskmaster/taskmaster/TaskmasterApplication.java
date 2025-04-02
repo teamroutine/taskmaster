@@ -30,7 +30,7 @@ public class TaskmasterApplication {
 	@Bean
 	public CommandLineRunner demo(PanelRepository prepository, TeamRepository terepository, BlockRepository brepository,
 			TicketRepository tirepository, AppUserRepository arepository) {
-		return (args) -> {
+		return args -> {
 			log.info("Saving panels and team");
 			Team team1 = new Team(null, "Team1", "description for team 1", null, null);
 			terepository.save(team1);

@@ -34,7 +34,7 @@ function ListBlocks({ blocks, setBlocks }) {
   // Handle delete
   const handleBlockDelete = (blockId) => {
     const confirmed = window.confirm(
-      "Are you sure you want to delete block and all the tickets it contains?"
+      "Are you sure you want to delete this block and all the tickets it contains?"
     );
     if (confirmed) {
       deleteBlock(blockId)
@@ -154,7 +154,7 @@ function ListBlocks({ blocks, setBlocks }) {
   };
 
   return (
-    <Box sx={{ overflowX: "auto", whiteSpace: "nowrap" }}>
+    <Box sx={{  whiteSpace: "nowrap" }}>
       <Box
         component="ul"
         sx={{
@@ -190,6 +190,7 @@ function ListBlocks({ blocks, setBlocks }) {
                   display: "flex",
                   justifyContent: "space-between",
                   alignItems: "center",
+                  
                 }}
               >
                 <Typography
@@ -202,8 +203,8 @@ function ListBlocks({ blocks, setBlocks }) {
                   variant="h6"
                 >
                   {block.blockName}
+                  
                 </Typography>
-                <Divider />
                 <DropDown>
                   <MenuItem>
                     <Button
@@ -225,7 +226,8 @@ function ListBlocks({ blocks, setBlocks }) {
                   </MenuItem>
                 </DropDown>
               </Box>
-              <Box sx={{ p: 1 }}>
+              <Divider />
+              <Box sx={{ p: 1, flexGrow: 1, overflowY: "auto"}}>
                 <ListTickets tickets={block.tickets} setBlocks={setBlocks} />
               </Box>
               <Box>
@@ -240,6 +242,14 @@ function ListBlocks({ blocks, setBlocks }) {
           </Box>
         ))}
       </Box>
+      {selectedBlock && (
+         <EditBlock
+           block={selectedBlock}
+           onSave={handleEditBlockSave}
+           open={open}
+           onClose={handleClose}
+         />
+       )}
       <Snackbar
         open={openSnackbar}
         message={snackbarMessage}

@@ -29,6 +29,8 @@ Taskmaster will provide simple and fluent task and project management for groups
    - Ikechukwu Aniebonam https://github.com/ikeani
 ## Links
  - __Backlog:__ https://github.com/orgs/teamroutine/projects/2
+ - __Backend:__ https://taskmaster-git-ohjelmistoprojekti-2-taskmaster.2.rahtiapp.fi/api/panels
+ - __Frontend:__ https://taskmaster-8ien.onrender.com/
 ## Developer guide
    #### Minimum requirments for components
    - Node.js version 22.13.0

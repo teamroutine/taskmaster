@@ -9,6 +9,8 @@ import SearchBar from './SearchBar';
 function PanelView() {
     const { panelid } = useParams();
     const [blocks, setBlocks] = useState([]);
+    const [panelNameData, setPanelNameData] = useState(null);
+    const [descriptionData, setDescriptionData] = useState(null);
     const [error, setError] = useState(null);
     const [searchQuery, setSearchQuery] = useState("");
 
@@ -23,6 +25,8 @@ function PanelView() {
                 const panel = data.find(p => p.panelId === Number(panelid));
 
                 if (panel) {
+                    setPanelNameData(panel.panelName); 
+                    setDescriptionData(panel.description)
                     setBlocks(panel.blocks);
                 } else {
                     console.error("Panel not found!");
@@ -70,7 +74,8 @@ function PanelView() {
 
     return (
         <div>
-            <h1>Panel View</h1>
+            <h1>{panelNameData}</h1>
+            <h3>{descriptionData}</h3>
             {error && <Alert severity="error">{error}</Alert>}
             {/* Search bar component for the frontend */}
             <Box>

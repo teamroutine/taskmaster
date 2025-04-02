@@ -1,11 +1,34 @@
 import React from 'react';
-import { Dialog, DialogActions, DialogContent, DialogTitle, Button, Paper, Typography, Box, TextField } from '@mui/material';
-
+import { Dialog, DialogActions, DialogContent, DialogTitle, Button, Paper, Typography, Box, MenuItem, TextField } from '@mui/material';
+import DropDown from './DropDown';
 export default function ViewTicket({ ticket, open, onClose, handleDelete, onEditClick }) {
 
     return (
         <Dialog open={open} onClose={onClose}>
-            <DialogTitle sx={{ padding: 2 }}>Ticket Details</DialogTitle>
+            <DialogTitle
+                sx={{
+                    padding: 2,
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "center"
+                }}
+            >
+                <Typography variant="h5" >
+                    Ticket Details
+                </Typography>
+                <DropDown>
+                    <MenuItem>
+                        <Button sx={{ backgroundColor: '#64B5F6' }} onClick={onEditClick} variant="contained" color="primary">
+                            Edit
+                        </Button>
+                    </MenuItem>
+                    <MenuItem>
+                        <Button sx={{ backgroundColor: '#D32F2F' }} variant="contained" onClick={() => handleDelete(ticket.ticketId)}>
+                            Delete
+                        </Button>
+                    </MenuItem>
+                </DropDown>
+            </DialogTitle>
             <DialogContent>
                 <Paper
                     elevation={3}
@@ -57,14 +80,8 @@ export default function ViewTicket({ ticket, open, onClose, handleDelete, onEdit
                     </Box>
                 </Paper>
             </DialogContent>
-            <DialogActions>
-                <Button sx={{ position: 'absolute', bottom: 10, left: 10, backgroundColor: '#D32F2F' }}
-                    variant="contained"
-                    onClick={() => handleDelete(ticket.ticketId)}
-                >Delete</Button>
-                <Button sx={{ position: 'absolute', top: 15, right: 10, backgroundColor: '#64B5F6' }} onClick={onEditClick} variant="contained" color="primary">
-                    Edit
-                </Button>
+            <DialogActions sx={{ display: "flex", justifyContent: "flex-start" }} >
+
                 <Button sx={{ backgroundColor: "#9E9E9E" }} variant="contained" onClick={onClose}>Close</Button>
             </DialogActions>
         </Dialog>

@@ -7,7 +7,6 @@ import PanelView from "./components/PanelView";
 import CreatePanel from "./components/CreatePanel";
 import ListPanelView from "./components/ListPanelView";
 import theme from "./theme";
-import Products from "./pages/Products";
 
 function App() {
     return (
@@ -21,12 +20,9 @@ function App() {
                         <Typography variant="h6" style={{ flexGrow: 1 }}>
                             <img src={taskmasterLogo} style={{ height: "75px" }} alt="Taskmaster Logo" />
                         </Typography>
-                        <Button color="inherit" component={Link} to="/">Home</Button>
-                        <Button color="inherit" component={Link} to="/panels">All Panels</Button>
-                        <Button color="inherit" component={Link} to="/products">Products</Button>
-                        <Button color="inherit">Solutions</Button>
-                        <Button color="inherit">Contact</Button>
-                        <Button variant="outlined" color="inherit">Sign In</Button>
+                        <Button color="inherit" component={Link} to="/" sx={{ marginRight: 2,fontSize: '1.05rem'  }}>Home</Button>
+                        <Button color="inherit" component={Link} to="/panels" sx={{ marginRight: 2, fontSize: '1.05rem' }}>All Panels</Button>
+                        <Button variant="outlined" color="inherit" sx={{ marginRight: 1 }}>Sign In</Button>
                         <Button variant="outlined" color="inherit">Register</Button>
                     </Toolbar>
                 </AppBar>
@@ -37,7 +33,6 @@ function App() {
                         <Route path="/panels" element={<ListPanelView />} />
                         <Route path="/panels/:panelid" element={<PanelView />} />
                         <Route path="/panel/create" element={<CreatePanel />} />
-                        <Route path="/products" element={<Products />} />
                     </Routes>
                 </Container>
             </Router>

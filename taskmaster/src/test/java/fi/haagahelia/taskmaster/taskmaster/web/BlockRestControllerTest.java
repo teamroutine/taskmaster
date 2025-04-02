@@ -50,7 +50,7 @@ class BlockRestControllerTest {
 
         mockMvc.perform(get("/api/blocks"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$[0]").exists())
-                .andExpect(jsonPath("$[1]").exists());
+                .andExpect(jsonPath("$[1]").exists())
+                .andExpect(jsonPath("$[2]").exists());
     }
 }

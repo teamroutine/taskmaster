@@ -35,7 +35,8 @@ public class TaskmasterApplication {
 			Team team1 = new Team(null, "Team1", "description for team 1", null, null);
 			terepository.save(team1);
 
-			AppUser appuser1 = new AppUser(null, "Hilja", "Katajamäki", "hilja.example@gmail", null);
+			AppUser appuser1 = new AppUser(null, "Hilja", "Katajamäki", "hilja.example@gmail", null, "hilja123",
+					"salasana");
 
 			arepository.save(appuser1);
 

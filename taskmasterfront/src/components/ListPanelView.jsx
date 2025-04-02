@@ -89,7 +89,7 @@ function ListPanelView() {
                     panels.map((panel) => (
                         <Paper key={panel.panelId} elevation={5} sx={{ width: 300, padding: 2 }}>
                              <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                                <Typography  sx={{ whiteSpace: "nowrap", overflow: "hidden",textOverflow: "ellipsis"}} variant="h6" >
+                                <Typography variant="h6">
                                     <Link to={`/panels/${panel.panelId}`} style={{ textDecoration: "none", color: "inherit" }}>
                                         {panel.panelName || "Unnamed Panel"}
                                     </Link>
@@ -110,7 +110,7 @@ function ListPanelView() {
                                 </DropDown>
                             </Box>
 
-                            <Typography variant="body2" color="textSecondary" sx={{ marginTop: 1, overflow: "hidden",textOverflow: "ellipsis"}}>
+                            <Typography variant="body2" color="textSecondary" sx={{ marginTop: 1 }}>
                                 {panel.description || "No description available"}
                             </Typography>
 

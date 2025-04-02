@@ -5,7 +5,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
+
 import org.slf4j.Logger;
 import fi.haagahelia.taskmaster.taskmaster.domain.Panel;
 import fi.haagahelia.taskmaster.taskmaster.domain.PanelRepository;
@@ -19,8 +19,6 @@ import fi.haagahelia.taskmaster.taskmaster.domain.AppUser;
 import fi.haagahelia.taskmaster.taskmaster.domain.AppUserRepository;
 
 @SpringBootApplication
-@ComponentScan(basePackages = { "fi.haagahelia.taskmaster.taskmaster.service",
-		"fi.haagahelia.taskmaster.taskmaster.controller" })
 public class TaskmasterApplication {
 
 	private static final Logger log = LoggerFactory.getLogger(TaskmasterApplication.class);

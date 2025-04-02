@@ -1,6 +1,8 @@
 package fi.haagahelia.taskmaster.taskmaster.web;
 
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -18,14 +20,13 @@ import java.util.List;
 import java.util.Optional;
 
 import org.junit.jupiter.api.Test;
-
+import org.mockito.ArgumentCaptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.security.test.context.support.WithMockUser;
 
 import fi.haagahelia.taskmaster.taskmaster.domain.AppUserRepository;
 import fi.haagahelia.taskmaster.taskmaster.domain.Block;
@@ -58,7 +59,6 @@ class TicketRestControllerTest {
         private AppUserRepository appUserRepository;
 
         @Test
-        @WithMockUser(username = "user", roles = { "USER" })
         void testGetAllTickets() throws Exception {
 
                 // Mock the data to be returned
@@ -79,7 +79,6 @@ class TicketRestControllerTest {
         }
 
         @Test
-        @WithMockUser(username = "user", roles = { "USER" })
         void testGetTicketById() throws Exception {
 
                 Block block = new Block();
@@ -100,7 +99,6 @@ class TicketRestControllerTest {
         }
 
         @Test
-        @WithMockUser(username = "admin", roles = { "ADMIN" })
         void testCreateTicket() throws Exception {
 
                 Long blockId = 1L;
@@ -131,7 +129,6 @@ class TicketRestControllerTest {
         }
 
         @Test
-        @WithMockUser(username = "admin", roles = { "ADMIN" })
         void testUpdateTicket() throws Exception {
 
                 Long ticketId = 1L;
@@ -166,7 +163,6 @@ class TicketRestControllerTest {
         }
 
         @Test
-        @WithMockUser(username = "admin", roles = { "ADMIN" })
         void testDeleteTicket() throws Exception {
 
                 Long ticketId = 1L;

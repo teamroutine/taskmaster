@@ -1,27 +1,44 @@
 package fi.haagahelia.taskmaster.taskmaster.web;
 
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.hamcrest.Matchers.hasSize;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 import org.junit.jupiter.api.Test;
+import org.mockito.ArgumentCaptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.MediaType;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 
+import fi.haagahelia.taskmaster.taskmaster.domain.AppUserRepository;
 import fi.haagahelia.taskmaster.taskmaster.domain.Block;
 import fi.haagahelia.taskmaster.taskmaster.domain.BlockRepository;
-import fi.haagahelia.taskmaster.taskmaster.web.BlockRestController;
+import fi.haagahelia.taskmaster.taskmaster.domain.Panel;
+import fi.haagahelia.taskmaster.taskmaster.domain.PanelRepository;
+import fi.haagahelia.taskmaster.taskmaster.domain.TeamRepository;
+import fi.haagahelia.taskmaster.taskmaster.domain.Ticket;
+import fi.haagahelia.taskmaster.taskmaster.domain.TicketRepository;
+import fi.haagahelia.taskmaster.taskmaster.dto.TicketDTO;
 
-@SpringBootTest 
-@WebMvcTest(BlockRestController.class)
+@WebMvcTest(BlockRestControllerTest.class)
 class BlockRestControllerTest {
 
     @Autowired
@@ -30,17 +47,24 @@ class BlockRestControllerTest {
     @MockitoBean
     private BlockRepository blockRepository;
 
+    @MockitoBean
+    private TicketRepository ticketRepository;
+
+    @MockitoBean
+    private PanelRepository panelRepository;
+
+    @MockitoBean
+    private TeamRepository teamRepository;
+
+    @MockitoBean
+    private AppUserRepository appUserRepository;
+
     @Test
     void testGetAllBlocks() throws Exception {
 
-        Block block1 = new Block();
-        block1.setBlockId(1L);
-        block1.setBlockName("Block 1");
-
-        Block block2 = new Block();
-        block2.setBlockId(2L);
-        block2.setBlockName("Block 2");
-
+        Panel panel = new Panel();
+        Block block1 = new Block(1L, "Block 1", "Block 1 description", null, panel, null);
+        Block block2 = new Block(2L, "Block 2", "Block 2 description", null, panel, null);
         List<Block> blocks = Arrays.asList(block1, block2);
 
         when(blockRepository.findAll()).thenReturn(blocks);

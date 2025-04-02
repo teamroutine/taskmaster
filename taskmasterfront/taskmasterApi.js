@@ -89,6 +89,20 @@ export const handleAddPanel = (newPanel) => {
         });
 };
 
+export const handleAddTeam = (newTeam) => {
+    return fetch(import.meta.env.VITE_API_URL + "/teams", {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(newTeam)
+    })
+        .then(response => {
+            if (!response.ok)
+                throw new Error("Error when creating team: " + response.statusText);
+
+            return response.json();
+        });
+};
+
 export function deleteTicket(ticketId) {
     return fetch(import.meta.env.VITE_API_URL + `/tickets/${ticketId}`, {
         method: "DELETE",

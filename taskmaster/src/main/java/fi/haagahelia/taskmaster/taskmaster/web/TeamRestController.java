@@ -13,6 +13,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import fi.haagahelia.taskmaster.taskmaster.domain.Team;
 import fi.haagahelia.taskmaster.taskmaster.domain.TeamRepository;
+import fi.haagahelia.taskmaster.taskmaster.dto.TeamDTO;
 import io.micrometer.common.lang.NonNull;
 
 import org.springframework.web.bind.annotation.GetMapping;
@@ -52,16 +53,20 @@ public class TeamRestController {
 
     @PostMapping
     @ResponseStatus(value = HttpStatus.CREATED, reason = "New team created")
-    public Team newTeam(@RequestBody @NonNull Team newTeam) {
+    public Team newTeam(@RequestBody @NonNull TeamDTO newTeamDTO) {
+        Team newTeam = new Team();
+        newTeam.setTeamName(newTeamDTO.getTeamName());
+        newTeam.setDescription(newTeamDTO.getDescription());
         return teamRepository.save(newTeam);
     }
-    //Delete team
+
+    // Delete team
     @DeleteMapping("{id}")
-    public ResponseEntity<Void> deleteTeam(@PathVariable Long id){
+    public ResponseEntity<Void> deleteTeam(@PathVariable Long id) {
         Team team = teamRepository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(
-                    HttpStatus.NOT_FOUND,
-                    "Block" + id + "can't be deleted, since it doesn't exist." ));
+                        HttpStatus.NOT_FOUND,
+                        "Block" + id + "can't be deleted, since it doesn't exist."));
         teamRepository.delete(team);
         return ResponseEntity.noContent().build();
     }

@@ -38,7 +38,7 @@ import fi.haagahelia.taskmaster.taskmaster.domain.Ticket;
 import fi.haagahelia.taskmaster.taskmaster.domain.TicketRepository;
 import fi.haagahelia.taskmaster.taskmaster.dto.TicketDTO;
 
-@WebMvcTest(BlockRestControllerTest.class)
+@WebMvcTest(BlockRestController.class)
 class BlockRestControllerTest {
 
     @Autowired
@@ -60,8 +60,19 @@ class BlockRestControllerTest {
     private AppUserRepository appUserRepository;
 
     @Test
-    void contextLoads() throws Exception {
+    void testGetAllBlocks() throws Exception {
+
+        Panel panel = new Panel();
+        Block block1 = new Block(1L, "Block 1", "Block 1 description", null, panel, new ArrayList<>());
+        Block block2 = new Block(2L, "Block 2", "Block 2 description", null, panel, new ArrayList<>());
+        List<Block> blocks = Arrays.asList(block1, block2);
+
+        when(blockRepository.findAll()).thenReturn(blocks);
+
         mockMvc.perform(get("/api/blocks"))
-                .andExpect(status().isOk());
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$", hasSize(2)))
+                .andExpect(jsonPath("$[0].blockName").value("Block 1"))
+                .andExpect(jsonPath("$[1].blockName").value("Block 2"));
     }
 }

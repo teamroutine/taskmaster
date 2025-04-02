@@ -3,7 +3,7 @@
   <img src="./taskmaster-logo.png" alt="Taskmaster logo">
 </div>
 
-# Taskmaster
+# Taskmaster [![CI Pipeline](https://github.com/teamroutine/taskmaster/actions/workflows/ci.yml/badge.svg)](https://github.com/teamroutine/taskmaster/actions/workflows/ci.yml)
 Task management for individuals and teams. This project has been done as part of the course Software project 2 @Haaga-helia University of applied sciences.
 Taskmaster will provide simple and fluent task and project management for groups and individuals.
 ## Key features
@@ -111,5 +111,3 @@ The project frontend will be constructed using following Material UI components 
  - Mobile styling
  - Assign and view random task
  - Archive a panel, block and ticket
-
-[![CI Pipeline](https://github.com/teamroutine/taskmaster/actions/workflows/ci.yml/badge.svg)](https://github.com/teamroutine/taskmaster/actions/workflows/ci.yml)

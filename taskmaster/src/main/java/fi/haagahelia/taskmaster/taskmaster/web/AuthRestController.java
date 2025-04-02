@@ -1,28 +1,26 @@
 package fi.haagahelia.taskmaster.taskmaster.web;
 
-import org.springframework.http.HttpStatus;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.validation.BindingResult;
+
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.CrossOrigin;
+
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.server.ResponseStatusException;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import fi.haagahelia.taskmaster.taskmaster.dto.AccessTokenPayloadDto;
 import fi.haagahelia.taskmaster.taskmaster.dto.LoginUserDto;
 import fi.haagahelia.taskmaster.taskmaster.service.JwtService;
+
 import jakarta.validation.Valid;
 
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+
 
 @RestController
 @RequestMapping("/api/auth")

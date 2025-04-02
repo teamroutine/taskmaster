@@ -59,7 +59,7 @@ export default function ListPanels({ panels, setTeams }) {
         <>
             <Box sx={{ display: "flex", flexWrap: "wrap", gap: 2 }}>
                 {panels.map((panel) => (
-                    <Paper key={panel.panelId} elevation={5} sx={{ width: 300, padding: 2 }}>
+                    <Paper key={panel.panelId} elevation={5} sx={{ width: 300, padding: 2,  display: "flex", flexDirection: "column", justifyContent: "space-between",overflow: "hidden"}}>
                         <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
                             <Typography sx={{ whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }} variant="h6">
                                 <Link to={`/panels/${panel.panelId}`} style={{ textDecoration: "none", color: "inherit" }}>

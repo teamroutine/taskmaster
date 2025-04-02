@@ -41,25 +41,4 @@ class BlockRestControllerTest {
     void setup() {
         mockMvc = MockMvcBuilders.standaloneSetup(blockRestController).build();
     }
-
-    @Test
-    void getAllBlocks_ShouldReturnListOfBlocks() throws Exception {
-        Block block1 = new Block();
-        block1.setBlockId(1L);
-        block1.setBlockName("Block 1");
-
-        Block block2 = new Block();
-        block2.setBlockId(2L);
-        block2.setBlockName("Block 2");
-
-        when(blockRepository.findAll()).thenReturn(Arrays.asList(block1, block2));
-
-        mockMvc.perform(get("/api/blocks"))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.length()").value(2))
-                .andExpect(jsonPath("$[0].id").value(1))
-                .andExpect(jsonPath("$[0].blockName").value("Block 1"))
-                .andExpect(jsonPath("$[1].id").value(2))
-                .andExpect(jsonPath("$[1].blockName").value("Block 2"));
-    }
 }

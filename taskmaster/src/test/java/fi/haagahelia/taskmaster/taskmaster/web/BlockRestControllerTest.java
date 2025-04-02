@@ -75,4 +75,24 @@ class BlockRestControllerTest {
                 .andExpect(jsonPath("$[0].blockName").value("Block 1"))
                 .andExpect(jsonPath("$[1].blockName").value("Block 2"));
     }
+
+    @Test
+    void testGetBlockById() throws Exception {
+
+        Panel panel = new Panel();
+        Block block1 = new Block(1L, "Block 1", "Block 1 description", null, panel, new ArrayList<>());
+        Block block2 = new Block(2L, "Block 2", "Block 2 description", null, panel, new ArrayList<>());
+
+        when(blockRepository.findById(1L)).thenReturn(Optional.of(block1));
+
+        mockMvc.perform(get("/api/blocks/1"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.blockName").value("Block 1"));
+
+        when(blockRepository.findById(2L)).thenReturn(Optional.of(block2));
+
+        mockMvc.perform(get("/api/blocks/2"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.blockName").value("Block 2"));
+    }
 }

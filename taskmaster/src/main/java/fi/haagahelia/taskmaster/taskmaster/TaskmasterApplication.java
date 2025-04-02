@@ -5,7 +5,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
+
 import org.slf4j.Logger;
 import fi.haagahelia.taskmaster.taskmaster.domain.Panel;
 import fi.haagahelia.taskmaster.taskmaster.domain.PanelRepository;
@@ -30,12 +30,13 @@ public class TaskmasterApplication {
 	@Bean
 	public CommandLineRunner demo(PanelRepository prepository, TeamRepository terepository, BlockRepository brepository,
 			TicketRepository tirepository, AppUserRepository arepository) {
-		return (args) -> {
+		return args -> {
 			log.info("Saving panels and team");
 			Team team1 = new Team(null, "Team1", "description for team 1", null, null);
 			terepository.save(team1);
 
-			AppUser appuser1 = new AppUser(null, "Hilja", "Katajamäki", "hilja.example@gmail", null);
+			AppUser appuser1 = new AppUser(null, "Hilja", "Katajamäki", "hilja.example@gmail", null, "hilja123",
+					"salasana");
 
 			arepository.save(appuser1);
 

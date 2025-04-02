@@ -1,53 +1,36 @@
 package fi.haagahelia.taskmaster.taskmaster.web;
 
-import static org.mockito.Mockito.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-import static org.hamcrest.Matchers.hasSize;
+import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.hamcrest.Matchers.hasSize;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import fi.haagahelia.taskmaster.taskmaster.domain.*;
-import fi.haagahelia.taskmaster.taskmaster.dto.BlockDto;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
-import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
 
-@ExtendWith(MockitoExtension.class)
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
+import org.springframework.test.web.servlet.MockMvc;
+
+import fi.haagahelia.taskmaster.taskmaster.domain.Block;
+import fi.haagahelia.taskmaster.taskmaster.domain.BlockRepository;
+import fi.haagahelia.taskmaster.taskmaster.web.BlockRestController;
+
+@WebMvcTest(BlockRestController.class)
 class BlockRestControllerTest {
-
-    @Mock
-    private BlockRepository blockRepository;
-
-    @Mock
-    private PanelRepository panelRepository;
-
-    @Mock
-    private BlockRestController blockRestController;
 
     @Autowired
     private MockMvc mockMvc;
 
-    private final ObjectMapper objectMapper = new ObjectMapper();
-
-    @BeforeEach
-    void setup() {
-        mockMvc = MockMvcBuilders.standaloneSetup(blockRestController).build();
-    }
+    @MockitoBean
+    private BlockRepository blockRepository;
 
     @Test
-    void getAllBlocks_ShouldReturnListOfBlocks() throws Exception {
-        // Mock the data
+    void testGetAllBlocks() throws Exception {
+
         Block block1 = new Block();
         block1.setBlockId(1L);
         block1.setBlockName("Block 1");
@@ -61,9 +44,9 @@ class BlockRestControllerTest {
         when(blockRepository.findAll()).thenReturn(blocks);
 
         mockMvc.perform(get("/api/blocks"))
-                .andExpect(status().isOk()) 
-                .andExpect(jsonPath("$", hasSize(2))) 
-                .andExpect(jsonPath("$[0].blockName").value("Block 1")) 
-                .andExpect(jsonPath("$[1].blockName").value("Block 2")); 
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$", hasSize(2)))
+                .andExpect(jsonPath("$[0].blockName").value("Block 1"))
+                .andExpect(jsonPath("$[1].blockName").value("Block 2"));
     }
 }

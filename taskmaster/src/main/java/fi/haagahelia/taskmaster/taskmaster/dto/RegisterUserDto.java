@@ -1,7 +1,5 @@
 package fi.haagahelia.taskmaster.taskmaster.dto;
 
-import fi.haagahelia.taskmaster.taskmaster.domain.AppUser;
-import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 

@@ -57,17 +57,15 @@ public class PanelRestController {
     // Create a new panel
     @PostMapping
     public ResponseEntity<Panel> newPanel(@RequestBody @NonNull PanelDto panelDto) {
-    
+
         Team team = teamRepository.findById(panelDto.getTeamId())
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Team not found"));
 
-       
         Panel newPanel = new Panel();
         newPanel.setPanelName(panelDto.getPanelName());
         newPanel.setDescription(panelDto.getDescription());
-        newPanel.setTeam(team);  
+        newPanel.setTeam(team);
 
-     
         Panel savedPanel = panelRepository.save(newPanel);
         return ResponseEntity.status(HttpStatus.CREATED).body(savedPanel);
     }
@@ -79,7 +77,7 @@ public class PanelRestController {
         Panel editPanel = panelRepository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(
                         HttpStatus.NOT_FOUND,
-                        "Panel " + id + "can't be edited, since it doesn't exist."));
+                        "Panel " + id + " can't be edited, since it doesn't exist."));
 
         editPanel.setPanelName(panelData.getPanelName());
         editPanel.setDescription(panelData.getDescription());

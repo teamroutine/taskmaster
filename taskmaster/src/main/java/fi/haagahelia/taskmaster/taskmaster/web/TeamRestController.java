@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 @CrossOrigin
@@ -65,7 +66,7 @@ public class TeamRestController {
     }
 
     // Delete team
-    @DeleteMapping("{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteTeam(@PathVariable Long id) {
         Team team = teamRepository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(
@@ -73,5 +74,21 @@ public class TeamRestController {
                         "Block" + id + "can't be deleted, since it doesn't exist."));
         teamRepository.delete(team);
         return ResponseEntity.noContent().build();
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Team> editTeam(@PathVariable Long id, @RequestBody Team teamData) {
+
+        Team editTeam = teamRepository.findById(id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,
+                        "Team " + id + " can't be edited, since it doesn't exist."));
+
+        editTeam.setTeamName(teamData.getTeamName());
+        editTeam.setDescription(teamData.getDescription());
+
+        teamRepository.save(editTeam);
+
+        return ResponseEntity.ok(editTeam);
+
     }
 }

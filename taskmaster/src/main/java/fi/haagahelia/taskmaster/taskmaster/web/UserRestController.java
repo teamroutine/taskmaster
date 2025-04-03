@@ -27,6 +27,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import fi.haagahelia.taskmaster.taskmaster.domain.AppUser;
 import fi.haagahelia.taskmaster.taskmaster.domain.AppUserRepository;
+import org.springframework.web.bind.annotation.PutMapping;
 
 @CrossOrigin
 
@@ -62,7 +63,7 @@ public class UserRestController {
     }
 
     // Delete user
-    @DeleteMapping("{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteAppUser(@PathVariable Long id) {
         AppUser appuser = appUserRepository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(
@@ -87,6 +88,37 @@ public class UserRestController {
         }
 
         return appUserService.registerUser(registration);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<AppUser> editAppUser(@PathVariable Long id, @RequestBody AppUser appUserData) {
+        AppUser editAppUser = appUserRepository.findById(id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,
+                        "User " + id + " can't be edited, since it doesn't exist."));
+
+        if (appUserData.getFirstName() != null) {
+            editAppUser.setFirstName(appUserData.getFirstName());
+        }
+        if (appUserData.getLastName() != null) {
+            editAppUser.setLastName(appUserData.getLastName());
+        }
+        if (appUserData.getEmail() != null) {
+            editAppUser.setEmail(appUserData.getEmail());
+        }
+        if (appUserData.getPhone() != null) {
+            editAppUser.setPhone(appUserData.getPhone());
+        }
+        if (appUserData.getUsername() != null) {
+            editAppUser.setUsername(appUserData.getUsername());
+        }
+        if (appUserData.getPassword() != null) {
+            editAppUser.setPassword(appUserData.getPassword());
+        }
+
+        appUserRepository.save(editAppUser);
+
+        return ResponseEntity.ok(editAppUser);
+
     }
 
 }

@@ -4,12 +4,6 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
 public class RegisterUserDto {
-    @NotBlank(message = "Username is required")
-    @Size(min = 3, max = 50, message = "Username must be between 3 and 50 characters")
-    String username;
-
-    @NotBlank(message = "Password is required")
-    String password;
 
     @NotBlank(message = "First name is mandatory")
     private String firstName;
@@ -22,6 +16,13 @@ public class RegisterUserDto {
 
     @NotBlank(message = "Phone number is mandatory")
     private String phone;
+
+    @NotBlank(message = "Username is required")
+    @Size(min = 3, max = 50, message = "Username must be between 3 and 50 characters")
+    String username;
+
+    @NotBlank(message = "Password is required")
+    String password;
 
     public String getUsername() {
         return username;

@@ -48,6 +48,7 @@ export default function Register() {
         <Dialog
             open={open}
             onClose={handleClickClose}
+            autoFocus
         >
             <DialogTitle>Register new user</DialogTitle>
             <DialogContent>
@@ -58,6 +59,7 @@ export default function Register() {
                     onChange={e => setUser({ ...user, firstName: e.target.value })}
                     fullWidth
                     variant='standard'
+                    autoFocus
                 />
                 <TextField
                     margin='dense'
@@ -85,7 +87,7 @@ export default function Register() {
                 />
                 <TextField
                     margin='dense'
-                    label='username'
+                    label='Username'
                     value={user.username}
                     onChange={e => setUser({ ...user, username: e.target.value })}
                     fullWidth

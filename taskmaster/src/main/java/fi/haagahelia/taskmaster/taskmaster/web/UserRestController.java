@@ -73,7 +73,7 @@ public class UserRestController {
         return ResponseEntity.noContent().build();
     }
 
-    @PostMapping("/register")
+    @PostMapping
     public AppUser createAppUser(@Valid @RequestBody RegisterUserDto registration, BindingResult bindingResult) {
         Optional<AppUser> existingUser = appUserRepository.findByUsername(registration.getUsername());
 

@@ -29,9 +29,9 @@ public class AppUserService {
         AppUser newUser = new AppUser();
         newUser.setFirstName(registerUserDto.getFirstName());
         newUser.setLastName(registerUserDto.getLastName());
-        newUser.setUsername(registerUserDto.getUsername());
         newUser.setEmail(registerUserDto.getEmail());
         newUser.setPhone(registerUserDto.getPhone());
+        newUser.setUsername(registerUserDto.getUsername());
         newUser.setPassword(encodedPassword);
 
         return appUserRepository.save(newUser);

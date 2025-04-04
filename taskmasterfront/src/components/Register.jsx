@@ -7,6 +7,9 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 import { useNavigate } from 'react-router-dom';
 import { userRegister } from '../../taskmasterApi';
+import { InputAdornment, OutlinedInput } from '@mui/material';
+import IconButton from '@mui/material/IconButton';
+import { Visibility, VisibilityOff } from '@mui/icons-material';
 
 
 
@@ -28,6 +31,10 @@ export default function Register() {
     })
 
     const [confirmPassword, setConfirmPassword] = useState('');
+
+    const [showPassword, setShowPassword] = useState(false);
+
+    const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
     useEffect(() => {
         setOpen(true);
@@ -55,6 +62,18 @@ export default function Register() {
         } catch (error) {
             setError("Registration failed: " + error.message);
         }
+    };
+
+    const handleClickShowPassword = () => setShowPassword((show) => !show);
+
+    const handleClickShowConfirmPassword = () => setShowConfirmPassword((show) => !show);
+
+    const handleMouseDownPassword = (event) => {
+        event.preventDefault();
+    };
+
+    const handleMouseUpPassword = (event) => {
+        event.preventDefault();
     };
 
     return (
@@ -113,6 +132,26 @@ export default function Register() {
                     onChange={e => setUser({ ...user, password: e.target.value })}
                     fullWidth
                     variant='standard'
+                    type={showPassword ? 'text' : 'password'}
+                    slotProps={{
+                        input: {
+                            endAdornment: (
+                                <InputAdornment position='end'>
+                                    <IconButton
+                                        aria-label={showPassword ? "Hide the password" : "Show the password"}
+                                        onClick={handleClickShowPassword}
+                                        onMouseDown={handleMouseDownPassword}
+                                        onMouseUp={handleMouseUpPassword}
+                                        edge='end'
+                                    >
+                                        {showPassword ? <VisibilityOff /> : <Visibility />}
+                                    </IconButton>
+                                </InputAdornment>
+                            )
+                        }
+                    }}
+
+
                 />
                 <TextField
                     margin='dense'
@@ -120,8 +159,26 @@ export default function Register() {
                     value={confirmPassword}
                     onChange={e => setConfirmPassword(e.target.value)}
                     fullWidth
-                    variant='standard' error={!!error} // Näytetään punainen viiva, jos virhe
-                    helperText={error} // Virheteksti
+                    variant='standard' error={!!error}
+                    helperText={error}
+                    type={showConfirmPassword ? 'text' : 'password'}
+                    slotProps={{
+                        input: {
+                            endAdornment: (
+                                <InputAdornment position='end'>
+                                    <IconButton
+                                        aria-label={showConfirmPassword ? "Hide the password" : "Show the password"}
+                                        onClick={handleClickShowConfirmPassword}
+                                        onMouseDown={handleMouseDownPassword}
+                                        onMouseUp={handleMouseUpPassword}
+                                        edge='end'
+                                    >
+                                        {showConfirmPassword ? <VisibilityOff /> : <Visibility />}
+                                    </IconButton>
+                                </InputAdornment>
+                            )
+                        }
+                    }}
                 />
             </DialogContent>
             <DialogActions>

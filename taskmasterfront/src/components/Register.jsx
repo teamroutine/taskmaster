@@ -12,7 +12,10 @@ import { userRegister } from '../../taskmasterApi';
 
 export default function Register() {
     const [open, setOpen] = useState(false);
+
     const navigate = useNavigate();
+
+    const [error, setError] = useState("");
 
     const [user, setUser] = useState({
         firstName: '',
@@ -24,6 +27,8 @@ export default function Register() {
 
     })
 
+    const [confirmPassword, setConfirmPassword] = useState('');
+
     useEffect(() => {
         setOpen(true);
     }, []);
@@ -34,15 +39,23 @@ export default function Register() {
     }
 
     const handleRegister = async () => {
+        setError("");
+
+        if (user.password != confirmPassword) {
+            setError("Passwords do not match!");
+            console.log("Error: Passwords do not match!");
+            return;
+        }
+
         try {
             await userRegister(user);
             handleClickClose();
-            console.log("registration succesfull");
+            console.log("Registration successfull");
+
         } catch (error) {
-            alert("Registration failed: " + error.message);
+            setError("Registration failed: " + error.message);
         }
     };
-
 
     return (
         <Dialog
@@ -100,6 +113,15 @@ export default function Register() {
                     onChange={e => setUser({ ...user, password: e.target.value })}
                     fullWidth
                     variant='standard'
+                />
+                <TextField
+                    margin='dense'
+                    label='Confirm password'
+                    value={confirmPassword}
+                    onChange={e => setConfirmPassword(e.target.value)}
+                    fullWidth
+                    variant='standard' error={!!error} // Näytetään punainen viiva, jos virhe
+                    helperText={error} // Virheteksti
                 />
             </DialogContent>
             <DialogActions>

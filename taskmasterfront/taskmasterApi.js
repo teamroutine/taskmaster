@@ -198,7 +198,7 @@ export function deletePanel(panelId) {
 }
 
 export const userRegister = async (newUser) => {
-    const response = await fetch(import.meta.env.VITE_API_URL + "/users/register", {
+    const response = await fetch(import.meta.env.VITE_API_URL + "/users", {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(newUser)

@@ -35,7 +35,7 @@ public class SecurityConfig {
                                 .authorizeHttpRequests(authorizeHttpRequests -> authorizeHttpRequests
                                                 .requestMatchers(
                                                                 antMatcher(HttpMethod.POST, "/api/auth/login"),
-                                                                antMatcher(HttpMethod.POST, "/api/users/register"),
+                                                                antMatcher(HttpMethod.POST, "/api/users"),
                                                                 antMatcher(HttpMethod.GET, "/api/panels"),
                                                                 antMatcher(HttpMethod.GET, "/api/teams"),
                                                                 antMatcher(HttpMethod.GET, "/api/tickets"),

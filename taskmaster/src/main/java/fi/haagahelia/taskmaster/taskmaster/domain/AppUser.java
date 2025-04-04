@@ -104,9 +104,10 @@ public class AppUser implements UserDetails {
         this.password = password;
     }
 
+    // Rest of the lines are added by implemented UserDetails class
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(); // Voit lisätä roolit ja oikeudet tähän, jos tarvitaan
+        return List.of();
     }
 
     @Override

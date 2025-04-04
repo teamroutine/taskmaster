@@ -20,19 +20,33 @@ import static org.springframework.security.config.Customizer.withDefaults;
 public class SecurityConfig {
 
         @Bean
-        public PasswordEncoder passwordEncoder() {
+        public PasswordEncoder passwordEncoder() { // Bean for encrypting the passwords
                 return new BCryptPasswordEncoder();
 
         }
 
         @Bean
-        public SecurityFilterChain filterChain(HttpSecurity http, AuthenticationFilter authenticationFilter)
+        public SecurityFilterChain filterChain(HttpSecurity http, AuthenticationFilter authenticationFilter) // Configuration
+                                                                                                             // for HTTP
+                                                                                                             // requests
                         throws Exception {
-                http.csrf(csrf -> csrf.disable()).cors(withDefaults())
+                http.csrf(csrf -> csrf.disable()).cors(withDefaults()) // Csrf disabled because of token based
+                                                                       // authentication
                                 .sessionManagement(
                                                 sessionManagement -> sessionManagement
-                                                                .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                                .authorizeHttpRequests(authorizeHttpRequests -> authorizeHttpRequests
+                                                                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)) // Application
+                                                                                                                         // uses
+                                                                                                                         // JWT
+                                                                                                                         // token
+                                                                                                                         // so
+                                                                                                                         // sessions
+                                                                                                                         // have
+                                                                                                                         // to
+                                                                                                                         // stateless
+                                .authorizeHttpRequests(authorizeHttpRequests -> authorizeHttpRequests // Endpoints which
+                                                                                                      // are allowed for
+                                                                                                      // unauthenticated
+                                                                                                      // users
                                                 .requestMatchers(
                                                                 antMatcher(HttpMethod.POST, "/api/auth/login"),
                                                                 antMatcher(HttpMethod.POST, "/api/users"),
@@ -46,15 +60,28 @@ public class SecurityConfig {
                                                                 antMatcher(HttpMethod.POST, "/api/teams"),
                                                                 antMatcher("/error"))
                                                 .permitAll()
-                                                .anyRequest()
+                                                .anyRequest() // Rest of the endpoints are restricted
                                                 .authenticated())
-                                .addFilterBefore(authenticationFilter, UsernamePasswordAuthenticationFilter.class);
+                                .addFilterBefore(authenticationFilter, UsernamePasswordAuthenticationFilter.class); // Filter
+                                                                                                                    // the
+                                                                                                                    // requests
+                                                                                                                    // with
+                                                                                                                    // custom
+                                                                                                                    // filter
 
                 return http.build();
         }
 
         @Bean
-        public AuthenticationManager authenticationManager(AuthenticationConfiguration authConfig) throws Exception {
+        public AuthenticationManager authenticationManager(AuthenticationConfiguration authConfig) throws Exception { // Spring
+                                                                                                                      // securitys
+                                                                                                                      // own
+                                                                                                                      // authentication
+                                                                                                                      // which
+                                                                                                                      // handles
+                                                                                                                      // usernames
+                                                                                                                      // and
+                                                                                                                      // passwords
                 return authConfig.getAuthenticationManager();
         }
 }

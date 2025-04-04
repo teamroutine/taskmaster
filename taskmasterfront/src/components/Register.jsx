@@ -16,9 +16,16 @@ import { Visibility, VisibilityOff } from '@mui/icons-material';
 export default function Register() {
     const [open, setOpen] = useState(false);
 
-    const navigate = useNavigate();
 
     const [error, setError] = useState("");
+
+    const [confirmPassword, setConfirmPassword] = useState('');
+
+    const [showPassword, setShowPassword] = useState(false);
+
+    const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+
+    const navigate = useNavigate();
 
     const [user, setUser] = useState({
         firstName: '',
@@ -30,21 +37,18 @@ export default function Register() {
 
     })
 
-    const [confirmPassword, setConfirmPassword] = useState('');
-
-    const [showPassword, setShowPassword] = useState(false);
-
-    const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-
+    // Open modal right after register button has been clicked
     useEffect(() => {
         setOpen(true);
     }, []);
 
+    // Close the modal
     const handleClickClose = () => {
         setOpen(false);
         navigate(-1);
     }
 
+    // Save the user data and send it to back end
     const handleRegister = async () => {
         setError("");
 
@@ -64,8 +68,10 @@ export default function Register() {
         }
     };
 
+    // Show/Hide the text in password field
     const handleClickShowPassword = () => setShowPassword((show) => !show);
 
+    // Show/Hide the text in confirmPassword field
     const handleClickShowConfirmPassword = () => setShowConfirmPassword((show) => !show);
 
     const handleMouseDownPassword = (event) => {

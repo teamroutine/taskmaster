@@ -20,8 +20,6 @@ import fi.haagahelia.taskmaster.taskmaster.service.JwtService;
 
 import jakarta.validation.Valid;
 
-
-
 @RestController
 @RequestMapping("/api/auth")
 @Validated
@@ -33,19 +31,22 @@ public class AuthRestController {
 
     public AuthRestController(AuthenticationManager authenticationManager, JwtService jwtService,
             UserDetailsService userDetailsService) {
-        this.authenticationManager = authenticationManager;
-        this.jwtService = jwtService;
-        this.userDetailsService = userDetailsService;
+        this.authenticationManager = authenticationManager; // Authenticate of the user
+        this.jwtService = jwtService; // Create and Validate JWT-tokens
+        this.userDetailsService = userDetailsService; // Get the user data
 
     }
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@Valid @RequestBody LoginUserDto loginUserDto) {
         try {
+            // Authenticates the user
             authenticationManager.authenticate(
+                    // Checks users input and tries to combine username and password
                     new UsernamePasswordAuthenticationToken(loginUserDto.getUsername(), loginUserDto.getPassword()));
-
+            // Get the user data from database
             UserDetails userDetails = userDetailsService.loadUserByUsername(loginUserDto.getUsername());
+            // Create JWT-token and returns it as AccessTokenPayload object
             AccessTokenPayloadDto accessTokenPayloadDto = jwtService.getAccessToken(userDetails.getUsername());
 
             return ResponseEntity.ok(accessTokenPayloadDto);

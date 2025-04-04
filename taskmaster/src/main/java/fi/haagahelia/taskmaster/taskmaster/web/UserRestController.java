@@ -77,16 +77,19 @@ public class UserRestController {
     public AppUser createAppUser(@Valid @RequestBody RegisterUserDto registration, BindingResult bindingResult) {
         Optional<AppUser> existingUser = appUserRepository.findByUsername(registration.getUsername());
 
+        // Checks if username is vacant
         if (existingUser.isPresent()) {
             bindingResult.rejectValue("username", "Username taken",
                     "This username is already taken. Choose another one");
         }
 
+        // Handle errors
         if (bindingResult.hasErrors()) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
                     bindingResult.getAllErrors().get(0).getDefaultMessage());
         }
 
+        // Save the data of new user in database
         return appUserService.registerUser(registration);
     }
 

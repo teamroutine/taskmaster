@@ -39,14 +39,17 @@ public class JwtService {
     public String getAuthUser(HttpServletRequest request) {
         String authorizationHeaderValue = request.getHeader(HttpHeaders.AUTHORIZATION);
 
+        // Check if authorizatrion header exists
         if (authorizationHeaderValue == null) {
             return null;
         }
 
+        // Create parser for handling JWT-token
         JwtParser parser = getJwtParser();
 
         try {
-            return parser
+            return parser // Separate prefix "Bearer" from the of token and return users username and
+                          // token
                     .parseClaimsJws(authorizationHeaderValue.replace(PREFIX, ""))
                     .getBody().getSubject();
 
@@ -61,9 +64,9 @@ public class JwtService {
     }
 
     private JwtParser getJwtParser() {
-        SecretKey secretKey = getSigningKey(); // Get secret key for signing
+        SecretKey secretKey = getSigningKey(); // Get secret key for log in
 
-        return Jwts.parserBuilder() // Use the new JwtParserBuilder
+        return Jwts.parserBuilder() // Use the ParserBuilder for checking the secret key is valid
                 .setSigningKey(secretKey)
                 .build();
 

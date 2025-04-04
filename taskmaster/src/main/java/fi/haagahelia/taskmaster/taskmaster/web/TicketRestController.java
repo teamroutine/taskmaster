@@ -13,7 +13,6 @@ import org.springframework.web.server.ResponseStatusException;
 import fi.haagahelia.taskmaster.taskmaster.domain.TicketRepository;
 import fi.haagahelia.taskmaster.taskmaster.domain.BlockRepository;
 import fi.haagahelia.taskmaster.taskmaster.domain.Block;
-import fi.haagahelia.taskmaster.taskmaster.domain.Panel;
 import fi.haagahelia.taskmaster.taskmaster.domain.Ticket;
 import fi.haagahelia.taskmaster.taskmaster.dto.TicketDTO;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,8 +22,6 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseStatus;
 
 @CrossOrigin
 @RestController

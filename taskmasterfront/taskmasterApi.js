@@ -37,14 +37,14 @@ export function fetchTickets() {
             return response.json();
         });
 }
-export function fetchAppUsers(){
+export function fetchAppUsers() {
     return fetch(import.meta.env.VITE_API_URL + "/users")
-    .then(response => {
-        if(!response.ok)
-            throw new Error("Error in fetch:" + response.statusText);
+        .then(response => {
+            if (!response.ok)
+                throw new Error("Error in fetch:" + response.statusText);
 
-        return response.json();
-    })
+            return response.json();
+        })
 }
 export const handleAddTicket = (newTicket) => {
     return fetch(import.meta.env.VITE_API_URL + "/tickets", {
@@ -194,4 +194,18 @@ export function deletePanel(panelId) {
             }
             return response;
         });
+
+}
+
+export const userRegister = async (newUser) => {
+    const response = await fetch(import.meta.env.VITE_API_URL + "/users/register", {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(newUser)
+    });
+    if (!response.ok) {
+        throw new Error("Error creating a new user " + response.statusText);
+    }
+
+    return await response.json();
 }

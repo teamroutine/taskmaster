@@ -16,7 +16,6 @@ import { Visibility, VisibilityOff } from '@mui/icons-material';
 export default function Register() {
     const [open, setOpen] = useState(false);
 
-
     const [error, setError] = useState("");
 
     const [confirmPassword, setConfirmPassword] = useState('');
@@ -37,10 +36,12 @@ export default function Register() {
 
     })
 
+
+
     // Open modal right after register button has been clicked
-    useEffect(() => {
+    const handleOpen = () => {
         setOpen(true);
-    }, []);
+    };
 
     // Close the modal
     const handleClickClose = () => {
@@ -69,10 +70,12 @@ export default function Register() {
     };
 
     // Show/Hide the text in password field
-    const handleClickShowPassword = () => setShowPassword((show) => !show);
+    const handleClickShowPassword = () =>
+        setShowPassword((show) => !show);
 
     // Show/Hide the text in confirmPassword field
-    const handleClickShowConfirmPassword = () => setShowConfirmPassword((show) => !show);
+    const handleClickShowConfirmPassword = () =>
+        setShowConfirmPassword((show) => !show);
 
     const handleMouseDownPassword = (event) => {
         event.preventDefault();
@@ -83,116 +86,131 @@ export default function Register() {
     };
 
     return (
-        <Dialog
-            open={open}
-            onClose={handleClickClose}
-            autoFocus
-        >
-            <DialogTitle>Register new user</DialogTitle>
-            <DialogContent>
-                <TextField
-                    margin='dense'
-                    label='First name'
-                    value={user.firstName}
-                    onChange={e => setUser({ ...user, firstName: e.target.value })}
-                    fullWidth
-                    variant='standard'
-                    autoFocus
-                />
-                <TextField
-                    margin='dense'
-                    label='Last name'
-                    value={user.lastName}
-                    onChange={e => setUser({ ...user, lastName: e.target.value })}
-                    fullWidth
-                    variant='standard'
-                />
-                <TextField
-                    margin='dense'
-                    label='Email'
-                    value={user.email}
-                    onChange={e => setUser({ ...user, email: e.target.value })}
-                    fullWidth
-                    variant='standard'
-                />
-                <TextField
-                    margin='dense'
-                    label='Phone number'
-                    value={user.phone}
-                    onChange={e => setUser({ ...user, phone: e.target.value })}
-                    fullWidth
-                    variant='standard'
-                />
-                <TextField
-                    margin='dense'
-                    label='Username'
-                    value={user.username}
-                    onChange={e => setUser({ ...user, username: e.target.value })}
-                    fullWidth
-                    variant='standard'
-                />
-                <TextField
-                    margin='dense'
-                    label='Password'
-                    value={user.password}
-                    onChange={e => setUser({ ...user, password: e.target.value })}
-                    fullWidth
-                    variant='standard'
-                    type={showPassword ? 'text' : 'password'}
-                    slotProps={{
-                        input: {
-                            endAdornment: (
-                                <InputAdornment position='end'>
-                                    <IconButton
-                                        aria-label={showPassword ? "Hide the password" : "Show the password"}
-                                        onClick={handleClickShowPassword}
-                                        onMouseDown={handleMouseDownPassword}
-                                        onMouseUp={handleMouseUpPassword}
-                                        edge='end'
-                                    >
-                                        {showPassword ? <VisibilityOff /> : <Visibility />}
-                                    </IconButton>
-                                </InputAdornment>
-                            )
-                        }
-                    }}
+        <>
+            <Button
+                onClick={handleOpen}
+                color="inherit"
+                sx={{
+                    marginRight: 2,
+                    fontSize: '1.05rem',
+                    '&:hover': {
+                        color: '#1976d2',
+                        backgroundColor: 'rgba(25, 118, 210, 0.1)',
+                    },
+                }}
+            >
+                Register
+            </Button>
+            <Dialog
+                open={open}
+                onClose={handleClickClose}
+                autoFocus
+            >
+                <DialogTitle>Register new user</DialogTitle>
+                <DialogContent>
+                    <TextField
+                        margin='dense'
+                        label='First name'
+                        value={user.firstName}
+                        onChange={e => setUser({ ...user, firstName: e.target.value })}
+                        fullWidth
+                        variant='standard'
+                        autoFocus
+                    />
+                    <TextField
+                        margin='dense'
+                        label='Last name'
+                        value={user.lastName}
+                        onChange={e => setUser({ ...user, lastName: e.target.value })}
+                        fullWidth
+                        variant='standard'
+                    />
+                    <TextField
+                        margin='dense'
+                        label='Email'
+                        value={user.email}
+                        onChange={e => setUser({ ...user, email: e.target.value })}
+                        fullWidth
+                        variant='standard'
+                    />
+                    <TextField
+                        margin='dense'
+                        label='Phone number'
+                        value={user.phone}
+                        onChange={e => setUser({ ...user, phone: e.target.value })}
+                        fullWidth
+                        variant='standard'
+                    />
+                    <TextField
+                        margin='dense'
+                        label='Username'
+                        value={user.username}
+                        onChange={e => setUser({ ...user, username: e.target.value })}
+                        fullWidth
+                        variant='standard'
+                    />
+                    <TextField
+                        margin='dense'
+                        label='Password'
+                        value={user.password}
+                        onChange={e => setUser({ ...user, password: e.target.value })}
+                        fullWidth
+                        variant='standard'
+                        type={showPassword ? 'text' : 'password'}
+                        slotProps={{
+                            input: {
+                                endAdornment: (
+                                    <InputAdornment position='end'>
+                                        <IconButton
+                                            aria-label={showPassword ? "Hide the password" : "Show the password"}
+                                            onClick={handleClickShowPassword}
+                                            onMouseDown={handleMouseDownPassword}
+                                            onMouseUp={handleMouseUpPassword}
+                                            edge='end'
+                                        >
+                                            {showPassword ? <VisibilityOff /> : <Visibility />}
+                                        </IconButton>
+                                    </InputAdornment>
+                                )
+                            }
+                        }}
 
 
-                />
-                <TextField
-                    margin='dense'
-                    label='Confirm password'
-                    value={confirmPassword}
-                    onChange={e => setConfirmPassword(e.target.value)}
-                    fullWidth
-                    variant='standard' error={!!error}
-                    helperText={error}
-                    type={showConfirmPassword ? 'text' : 'password'}
-                    slotProps={{
-                        input: {
-                            endAdornment: (
-                                <InputAdornment position='end'>
-                                    <IconButton
-                                        aria-label={showConfirmPassword ? "Hide the password" : "Show the password"}
-                                        onClick={handleClickShowConfirmPassword}
-                                        onMouseDown={handleMouseDownPassword}
-                                        onMouseUp={handleMouseUpPassword}
-                                        edge='end'
-                                    >
-                                        {showConfirmPassword ? <VisibilityOff /> : <Visibility />}
-                                    </IconButton>
-                                </InputAdornment>
-                            )
-                        }
-                    }}
-                />
-            </DialogContent>
-            <DialogActions>
-                <Button onClick={handleClickClose}>Close</Button>
-                <Button onClick={handleRegister}>Save</Button>
-            </DialogActions>
-        </Dialog>
-
+                    />
+                    <TextField
+                        margin='dense'
+                        label='Confirm password'
+                        value={confirmPassword}
+                        onChange={e => setConfirmPassword(e.target.value)}
+                        fullWidth
+                        variant='standard' error={!!error}
+                        helperText={error}
+                        type={showConfirmPassword ? 'text' : 'password'}
+                        slotProps={{
+                            input: {
+                                endAdornment: (
+                                    <InputAdornment position='end'>
+                                        <IconButton
+                                            aria-label={showConfirmPassword ? "Hide the password" : "Show the password"}
+                                            onClick={handleClickShowConfirmPassword}
+                                            onMouseDown={handleMouseDownPassword}
+                                            onMouseUp={handleMouseUpPassword}
+                                            edge='end'
+                                        >
+                                            {showConfirmPassword ? <VisibilityOff /> : <Visibility />}
+                                        </IconButton>
+                                    </InputAdornment>
+                                )
+                            }
+                        }}
+                    />
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={handleClickClose}>Close</Button>
+                    <Button onClick={handleRegister}>Save</Button>
+                </DialogActions>
+            </Dialog>
+        </>
     )
 
 }

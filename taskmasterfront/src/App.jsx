@@ -9,6 +9,9 @@ import ListPanelView from "./components/ListPanelView";
 import ListTeams from "./components/ListTeams";
 import theme from "./theme";
 import Register from "./components/Register";
+import Login from "./components/Login";
+import AuthButton from "./components/AuthButton";
+
 
 function App() {
     return (
@@ -25,8 +28,10 @@ function App() {
                         <Button color="inherit" component={Link} to="/" sx={{ marginRight: 2, fontSize: '1.05rem' }}>Home</Button>
                         <Button color="inherit" component={Link} to="/panels" sx={{ marginRight: 2, fontSize: '1.05rem' }}>All Panels</Button>
                         <Button color="inherit" component={Link} to="/teams" sx={{ marginRight: 2, fontSize: '1.05rem' }}>All Teams</Button>
-                        <Button variant="outlined" color="inherit" sx={{ marginRight: 1 }}>Sign In</Button>
-                        <Button variant="outlined" color="inherit" component={Link} to="/register" sx={{ marginRight: 1 }}>Register</Button>
+                        {/* <Button variant="outlined" color="inherit" component={Link} to="/login" sx={{ marginRight: 1 }}>Login</Button> */}
+                        <AuthButton variant='outlined' color='inherit' component={Link} to="/login" sx={{ marginRight: 1 }} />
+                        {/* <Button variant="outlined" color="inherit" component={Link} to="/register" sx={{ marginRight: 1, marginLeft: 1 }}>Register</Button> */}
+                        <Register variant='outlined' color='inherit' component={Link} to="/register" sx={{ marginRight: 1 }} />
                     </Toolbar>
                 </AppBar>
                 <Container>
@@ -38,6 +43,7 @@ function App() {
                         <Route path="/panel/create" element={<CreatePanel />} />
                         <Route path="/teams" element={<ListTeams />} />
                         <Route path="/register" element={<Register />} />
+                        <Route path="/login" element={<Login />} />
                     </Routes>
                 </Container>
             </Router>

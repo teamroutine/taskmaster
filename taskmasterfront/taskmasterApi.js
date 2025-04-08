@@ -1,183 +1,139 @@
 export function fetchBlocksById(panelid) {
-    return fetch(import.meta.env.VITE_API_URL + "/panels/" + panelid)
-        .then(response => {
-            if (!response.ok)
-                throw new Error("Error in fetch: " + response.statusText);
+    return apiFetch(import.meta.env.VITE_API_URL + "/panels/" + panelid)
 
-            return response.json();
-        });
-}
+};
 
 export function fetchPanels() {
-    return fetch(import.meta.env.VITE_API_URL + "/panels")
-        .then(response => {
-            if (!response.ok)
-                throw new Error("Error in fetch: " + response.statusText);
+    return apiFetch(import.meta.env.VITE_API_URL + "/panels")
 
-            return response.json();
-        });
-}
+};
 
 export function fetchTeams() {
-    return fetch(import.meta.env.VITE_API_URL + "/teams")
-        .then(response => {
-            if (!response.ok)
-                throw new Error("Error in fetch: " + response.statusText);
+    return apiFetch(import.meta.env.VITE_API_URL + "/teams")
 
-            return response.json();
-        });
-}
+};
 
 export function fetchTickets() {
-    return fetch(import.meta.env.VITE_API_URL + "/tickets")
-        .then(response => {
-            if (!response.ok)
-                throw new Error("Error in fetch: " + response.statusText);
+    return apiFetch(import.meta.env.VITE_API_URL + "/tickets")
 
-            return response.json();
-        });
-}
-export function fetchAppUsers(){
-    return fetch(import.meta.env.VITE_API_URL + "/users")
-    .then(response => {
-        if(!response.ok)
-            throw new Error("Error in fetch:" + response.statusText);
+};
 
-        return response.json();
-    })
-}
+export function fetchAppUsers() {
+    return apiFetch(import.meta.env.VITE_API_URL + "/users")
+
+};
+
 export const handleAddTicket = (newTicket) => {
-    return fetch(import.meta.env.VITE_API_URL + "/tickets", {
+    return apiFetch(import.meta.env.VITE_API_URL + "/tickets", {
         method: 'POST',
-        headers: { 'Content-type': 'application/json' },
         body: JSON.stringify(newTicket)
-    })
-        .then(response => {
-            if (!response.ok)
-                throw new Error("Error when adding ticket: " + response.statusText);
+    });
 
-            return response.json();
-
-        });
-}
+};
 
 export const handleAddBlock = (newBlock) => {
-    return fetch(import.meta.env.VITE_API_URL + "/blocks", {
+    return apiFetch(import.meta.env.VITE_API_URL + "/blocks", {
         method: 'POST',
-        headers: { 'Content-type': 'application/json' },
         body: JSON.stringify(newBlock)
-    })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error("Error when adding block: " + response.statusText);
-            }
-            return response.json();
-        });
-}
+    });
+};
 
 export const handleAddPanel = (newPanel) => {
-    return fetch(import.meta.env.VITE_API_URL + "/panels", {
+    return apiFetch(import.meta.env.VITE_API_URL + "/panels", {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(newPanel)
-    })
-        .then(response => {
-            if (!response.ok)
-                throw new Error("Error when creating panel: " + response.statusText);
+    });
+};
 
-            return response.json();
-        });
+export const handleAddTeam = (newTeam) => {
+    return apiFetch(import.meta.env.VITE_API_URL + "/teams", {
+        method: 'POST',
+        body: JSON.stringify(newTeam)
+    })
 };
 
 export function deleteTicket(ticketId) {
-    return fetch(import.meta.env.VITE_API_URL + `/tickets/${ticketId}`, {
+    return apiFetch(import.meta.env.VITE_API_URL + `/tickets/${ticketId}`, {
         method: "DELETE",
-    })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error("Error when deleting ticket: " + response.statusText);
-            }
-            return response;
-        });
-}
+    });
+};
 
 export function updateTicket(ticketId, ticket) {
-    return fetch(import.meta.env.VITE_API_URL + `/tickets/${ticketId}`, {
+    return apiFetch(import.meta.env.VITE_API_URL + `/tickets/${ticketId}`, {
         method: "PUT",
-        headers: {
-            "Content-Type": "application/json",
-        },
         body: JSON.stringify(ticket),
-    })
-        .then(async (response) => {
-            const text = await response.text(); // Read response as text
-            if (!response.ok) {
-                console.error("Server Error:", text);
-                throw new Error("Error when updating ticket: " + text);
-            }
-
-            try {
-                return JSON.parse(text); // Parse response only if it's valid JSON
-            } catch (error) {
-                console.error("Invalid JSON response:", text);
-                throw new Error("Invalid JSON from server");
-            }
-        })
-        .catch(error => console.error("Update failed:", error));
-}
+    });
+};
 
 export function updateBlock(blockId, block) {
-    return fetch(import.meta.env.VITE_API_URL + `/blocks/${blockId}`, {
+    return apiFetch(import.meta.env.VITE_API_URL + `/blocks/${blockId}`, {
         method: "PUT",
-        headers: {
-            'Content-type': 'application/json'
-        },
         body: JSON.stringify(block)
-    })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error("Error when updating block: " + response.statusText)
-            }
-            return response;
-        });
-}
+    });
+};
 
 export function updatePanel(panelId, panel) {
-    return fetch(import.meta.env.VITE_API_URL + `/panels/${panelId}`, {
+    return apiFetch(import.meta.env.VITE_API_URL + `/panels/${panelId}`, {
         method: 'PUT',
-        headers: {
-            'Content-Type': 'application/json',
-        },
         body: JSON.stringify(panel),
-    })
-        .then((response) => {
-            if (!response.ok) {
-                throw new Error("Error when updating panel: " + response.statusText);
-            }
-            return response;
-        });
-}
-export function deleteBlock(blockId) {
-    return fetch(import.meta.env.VITE_API_URL + `/blocks/${blockId}`, {
-        method: 'DELETE',
-    })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error("Error when deleting Block: " + response.statusText);
-            }
-            return response;
-        });
+    });
+};
 
-}
+export function deleteBlock(blockId) {
+    return apiFetch(import.meta.env.VITE_API_URL + `/blocks/${blockId}`, {
+        method: 'DELETE',
+    });
+
+};
 
 export function deletePanel(panelId) {
-    return fetch(import.meta.env.VITE_API_URL + `/panels/${panelId}`, {
+    return apiFetch(import.meta.env.VITE_API_URL + `/panels/${panelId}`, {
         method: 'DELETE',
-    })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error("Error deleting Panel: " + response.statusText);
-            }
-            return response;
-        });
-}
+    });
+
+};
+
+export const userRegister = async (newUser) => {
+    return apiFetch(import.meta.env.VITE_API_URL + "/users", {
+        method: 'POST',
+        body: JSON.stringify(newUser)
+    });
+
+};
+
+export const userLogin = async (user) => {
+    return apiFetch(import.meta.env.VITE_API_URL + "/auth/login", {
+        method: 'POST',
+        body: JSON.stringify(user)
+    });
+
+};
+
+export const apiFetch = async (URL, options = {}) => {
+    const token = localStorage.getItem('accessToken'); // Fetch the token from localStorage
+
+    const isAuthRequired = !URL.includes('/auth/login') && !URL.includes('/users');
+
+    if (isAuthRequired && !token) {
+        throw new Error("You are not authenticated. Please log in");
+    }
+
+    const headers = {
+        ...(isAuthRequired && { 'Authorization': 'Bearer ' + token }), // Attach token into the request
+        'Content-Type': 'application/json',
+        ...options.headers,
+    };
+
+    try {
+        const response = await fetch(URL, { ...options, headers });
+
+        if (!response.ok) {
+            throw new Error('Error: ' + response.status + ' - ' + response.statusText);
+        }
+
+        return response.json(); // return API answer
+    } catch (error) {
+        console.error('Fetch error: ', error);
+        throw error;
+    }
+};

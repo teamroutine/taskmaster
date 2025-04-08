@@ -101,17 +101,16 @@ export default function ListTickets({ tickets, setBlocks }) {
                             }}
                             onClick={() => handleTicketClick(ticket)}
                         >
-                            <Typography  sx={{
+                            <Typography sx={{
                                 wordWrap: "break-word",
                                 overflow: "hidden",
-                                textOverflow:'ellipsis'
-                            }}
-                            onClivariant="body1">{ticket.ticketName}</Typography>
+                                textOverflow: 'ellipsis'
+                            }} variant="body1">{ticket.ticketName}</Typography>
                             <Divider />
-                            <Typography  sx={{
+                            <Typography sx={{
                                 wordWrap: "break-word",
                                 overflow: "hidden",
-                                textOverflow:'ellipsis'
+                                textOverflow: 'ellipsis'
                             }} variant="body2">{ticket.description}</Typography>
                         </Paper>
                     </Box>

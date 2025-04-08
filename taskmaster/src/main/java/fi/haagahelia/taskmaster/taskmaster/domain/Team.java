@@ -1,10 +1,8 @@
 package fi.haagahelia.taskmaster.taskmaster.domain;
 
-import java.util.HashSet;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
@@ -17,7 +15,6 @@ import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
 
-
 @Entity
 public class Team {
     @Id
@@ -26,15 +23,14 @@ public class Team {
     private String teamName;
     private String description;
 
-    
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "team")
-    private List <Panel> panels;
+    private List<Panel> panels;
 
     @ManyToMany(cascade = { CascadeType.ALL }, fetch = FetchType.EAGER)
     @JoinTable(name = "team_appuser", joinColumns = { @JoinColumn(name = "teamId") }, inverseJoinColumns = {
             @JoinColumn(name = "id") })
     @JsonIgnoreProperties("teams")
-    List<AppUser> appusers; 
+    List<AppUser> appusers;
 
     public Team() {
     }
@@ -70,6 +66,7 @@ public class Team {
     public void setDescription(String description) {
         this.description = description;
     }
+
     public List<Panel> getPanels() {
         return panels;
     }
@@ -91,7 +88,5 @@ public class Team {
         return "Team [teamId=" + teamId + ", teamName=" + teamName + ", description=" + description + ", panels="
                 + panels + ", appusers=" + appusers + "]";
     }
-
-    
 
 }

@@ -6,7 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
+
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -14,7 +14,7 @@ import fi.haagahelia.taskmaster.taskmaster.domain.BlockRepository;
 import fi.haagahelia.taskmaster.taskmaster.domain.Panel;
 import fi.haagahelia.taskmaster.taskmaster.domain.Block;
 import fi.haagahelia.taskmaster.taskmaster.domain.PanelRepository;
-import fi.haagahelia.taskmaster.taskmaster.domain.Block;
+
 import fi.haagahelia.taskmaster.taskmaster.dto.BlockDto;
 import io.micrometer.common.lang.NonNull;
 

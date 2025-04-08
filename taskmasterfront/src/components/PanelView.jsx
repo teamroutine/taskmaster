@@ -25,7 +25,7 @@ function PanelView() {
                 const panel = data.find(p => p.panelId === Number(panelid));
 
                 if (panel) {
-                    setPanelNameData(panel.panelName); 
+                    setPanelNameData(panel.panelName);
                     setDescriptionData(panel.description)
                     setBlocks(panel.blocks);
                 } else {
@@ -65,7 +65,7 @@ function PanelView() {
             ) || []; // Fallback to empty array if tickets is undefined or null
 
             if (block.blockName.toLowerCase().includes(searchQuery) || filteredTickets.length > 0) {
-                return { ...block, tickets: filteredTickets }; // If query is similar to blocks tickets, return a copy of the block/blocks
+                return { ...block, tickets: filteredTickets }; // If query is similar to blocks or tickets, return a copy of the block/blocks and ticket/tickets
             }
 
             return null; // If blocks don't have similar tickets as the query, return null

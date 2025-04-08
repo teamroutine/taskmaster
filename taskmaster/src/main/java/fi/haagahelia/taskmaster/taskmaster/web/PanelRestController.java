@@ -11,11 +11,14 @@ import org.springframework.web.bind.annotation.RestController;
 
 import fi.haagahelia.taskmaster.taskmaster.domain.Panel;
 import fi.haagahelia.taskmaster.taskmaster.domain.PanelRepository;
+import fi.haagahelia.taskmaster.taskmaster.domain.Team;
+import fi.haagahelia.taskmaster.taskmaster.dto.PanelDto;
+import fi.haagahelia.taskmaster.taskmaster.domain.TeamRepository;
+
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
@@ -28,9 +31,11 @@ public class PanelRestController {
 
     @Autowired
     private final PanelRepository panelRepository;
+    private final TeamRepository teamRepository;
 
-    public PanelRestController(PanelRepository panelRepository) {
+    public PanelRestController(PanelRepository panelRepository, TeamRepository teamRepository) {
         this.panelRepository = panelRepository;
+        this.teamRepository = teamRepository;
     }
 
     // Get all the team's Panels
@@ -50,7 +55,16 @@ public class PanelRestController {
 
     // Create a new panel
     @PostMapping
-    public ResponseEntity<Panel> newPanel(@RequestBody @NonNull Panel newPanel) {
+    public ResponseEntity<Panel> newPanel(@RequestBody @NonNull PanelDto panelDto) {
+
+        Team team = teamRepository.findById(panelDto.getTeamId())
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Team not found"));
+
+        Panel newPanel = new Panel();
+        newPanel.setPanelName(panelDto.getPanelName());
+        newPanel.setDescription(panelDto.getDescription());
+        newPanel.setTeam(team);
+
         Panel savedPanel = panelRepository.save(newPanel);
         return ResponseEntity.status(HttpStatus.CREATED).body(savedPanel);
     }
@@ -62,7 +76,7 @@ public class PanelRestController {
         Panel editPanel = panelRepository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(
                         HttpStatus.NOT_FOUND,
-                        "Panel " + id + "can't be edited, since it doesn't exist."));
+                        "Panel " + id + " can't be edited, since it doesn't exist."));
 
         editPanel.setPanelName(panelData.getPanelName());
         editPanel.setDescription(panelData.getDescription());

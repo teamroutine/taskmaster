@@ -4,6 +4,7 @@ import { Paper, Box, Typography, Divider, Snackbar } from "@mui/material";
 import { fetchTeams, handleAddPanel } from "../../taskmasterApi";
 import ListPanels from "./ListPanels";
 import CreatePanel from "./CreatePanel";
+import CreateTeam from "./CreateTeam";
 import ViewTeam from "./ViewTeam";
 
 function ListTeams() {
@@ -63,8 +64,10 @@ function ListTeams() {
     };
 
     return (
-        <>
+        <>  <Box>
             <h1 sx={{ marginBottom: 2 }}>Your Teams</h1>
+            <CreateTeam></CreateTeam>
+            </Box>
             <Box sx={{ whiteSpace: "nowrap" }}>
                 <Box
                     component="ul"

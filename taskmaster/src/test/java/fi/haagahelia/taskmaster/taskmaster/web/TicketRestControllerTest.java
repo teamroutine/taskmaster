@@ -176,7 +176,7 @@ class TicketRestControllerTest {
                                 .header("Authorization", generateMockJwtToken())
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content(asJsonString(ticketData)))
-                                .andExpect(jsonPath("$.panelName").value(ticketData.getTicketName()))
+                                .andExpect(jsonPath("$.ticketName").value(ticketData.getTicketName()))
                                 .andExpect(jsonPath("$.description").value(ticketData.getDescription()))
                                 .andExpect(jsonPath("$.status").value(true));
 

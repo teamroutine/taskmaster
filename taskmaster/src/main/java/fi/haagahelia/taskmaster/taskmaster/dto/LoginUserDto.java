@@ -8,6 +8,11 @@ public class LoginUserDto {
     @NotBlank(message = "Password is required")
     private String password;
 
+    public LoginUserDto(String username, String password) {
+        this.username = username;
+        this.password = password;
+    }
+
     public LoginUserDto() {
 
     }

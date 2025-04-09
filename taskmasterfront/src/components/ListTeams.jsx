@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { Paper, Box, Typography, Divider } from "@mui/material";
+import { useLocation } from "react-router-dom";
+import { Paper, Box, Typography, Divider, Snackbar } from "@mui/material";
 import { fetchTeams, handleAddPanel } from "../../taskmasterApi";
 import ListPanels from "./ListPanels";
 import CreatePanel from "./CreatePanel";
@@ -12,6 +13,9 @@ function ListTeams() {
     const [selectedTeam, setSelectedTeam] = useState(null);
     const [openViewTeam, setOpenViewTeam] = useState(false);
 
+    // Get location state to show Snackbar after login
+    const location = useLocation();
+
     useEffect(() => {
         fetchTeams()
             .then((data) => {
@@ -20,8 +24,13 @@ function ListTeams() {
             .catch((err) => {
                 console.error("Error fetching teams: " + err.message);
             });
-    }, []);
-
+    
+        if (location.state?.snackbarMessage) {
+            setSnackbarMessage(location.state.snackbarMessage);
+            setOpenSnackbar(true);
+        }
+    }, []); 
+    
     const handleTeamClick = (team) => {
         setSelectedTeam(team);
         setOpenViewTeam(true);
@@ -76,7 +85,7 @@ function ListTeams() {
                                 elevation={5}
                                 sx={{
                                     width: 300,
-                                    height: 800, 
+                                    height: 800,
                                     padding: 2,
                                     textAlign: "center",
                                     display: "flex",
@@ -87,31 +96,31 @@ function ListTeams() {
                                 <Box
                                     sx={{
                                         display: "flex",
-                                        justifyContent:"space-between",
+                                        justifyContent: "space-between",
                                         alignItems: "center",
                                     }}
                                 >
-                                <Typography
-                                 sx={{
-                                    whiteSpace: "nowrap",
-                                    overflow: "hidden",
-                                    textOverflow: "ellipsis",
-                                    maxWidth: "200px",
-                                    marginBottom:1,
-                                    cursor:'pointer'
-                                  }}
-                                    variant="h6"
-                                    onClick={() => handleTeamClick(team)}
-                                >
-                                    {team.teamName}
-                                </Typography>
+                                    <Typography
+                                        sx={{
+                                            whiteSpace: "nowrap",
+                                            overflow: "hidden",
+                                            textOverflow: "ellipsis",
+                                            maxWidth: "200px",
+                                            marginBottom: 1,
+                                            cursor: "pointer",
+                                        }}
+                                        variant="h6"
+                                        onClick={() => handleTeamClick(team)}
+                                    >
+                                        {team.teamName}
+                                    </Typography>
                                 </Box>
                                 <Divider />
-                                <Box sx={{ p: 1, flexGrow: 1, overflowY: "auto"}}>
+                                <Box sx={{ p: 1, flexGrow: 1, overflowY: "auto" }}>
                                     <ListPanels panels={team.panels} setTeams={setTeams} />
                                 </Box>
                                 <Box>
-                                <Divider />
+                                    <Divider />
                                     <CreatePanel
                                         createPanel={(newPanel) =>
                                             addNewPanel(newPanel, team.teamId)
@@ -123,11 +132,19 @@ function ListTeams() {
                     ))}
                 </Box>
             </Box>
-            
+
             <ViewTeam
                 team={selectedTeam}
                 openView={openViewTeam}
                 closeView={handleCloseViewTeam}
+            />
+
+            {/* Snackbar for displaying messages */}
+            <Snackbar
+                open={openSnackbar}
+                message={snackbarMessage}
+                autoHideDuration={2000} 
+                onClose={() => setOpenSnackbar(false)}
             />
         </>
     );

@@ -10,7 +10,7 @@ import { userRegister } from '../../taskmasterApi';
 import { InputAdornment } from '@mui/material';
 import IconButton from '@mui/material/IconButton';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
-
+import Snackbar from '@mui/material/Snackbar';
 
 
 export default function Register() {
@@ -23,6 +23,10 @@ export default function Register() {
     const [showPassword, setShowPassword] = useState(false);
 
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+
+    
+    const [openSnackbar, setOpenSnackbar] = useState(false);
+    const [snackbarMessage, setSnackbarMessage] = useState(''); 
 
     const navigate = useNavigate();
 
@@ -61,11 +65,15 @@ export default function Register() {
 
         try {
             await userRegister(user);
+            setSnackbarMessage('Registration successful!'); 
+            setOpenSnackbar(true); 
             handleClickClose();
             console.log("Registration successfull");
 
         } catch (error) {
             setError("Registration failed: " + error.message);
+            setSnackbarMessage('Registration failed. Please try again.');
+            setOpenSnackbar(true); 
         }
     };
 
@@ -210,6 +218,12 @@ export default function Register() {
                     <Button onClick={handleRegister}>Save</Button>
                 </DialogActions>
             </Dialog>
+            <Snackbar
+                open={openSnackbar}
+                message={snackbarMessage}
+                autoHideDuration={2000}
+                onClose={() => setOpenSnackbar(false)} 
+            />
         </>
     )
 

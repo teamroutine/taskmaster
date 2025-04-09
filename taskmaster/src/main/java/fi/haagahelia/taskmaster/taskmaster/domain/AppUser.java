@@ -38,7 +38,7 @@ public class AppUser implements UserDetails {
     }
 
     public AppUser(Long id, String firstName, String lastName, String email, String phone, String username,
-            String password) {
+            String password,List <Team> teams) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -46,7 +46,16 @@ public class AppUser implements UserDetails {
         this.phone = phone;
         this.username = username;
         this.password = password;
+        this.teams = teams;
     }
+    public List<Team> getTeams() {
+        return teams;
+    }
+
+    public void setTeams(List<Team> teams) {
+        this.teams = teams;
+    }
+
 
     public Long getId() {
         return id;

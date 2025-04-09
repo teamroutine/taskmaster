@@ -41,7 +41,7 @@ public class TaskmasterApplication {
 
 			String encodedPassword = passwordEncoder.encode("salasana");
 			AppUser appuser1 = new AppUser(null, "Hilja", "Katajamäki", "hilja.example@gmail", "0123456789", "hilja123",
-					encodedPassword);
+					encodedPassword, null);
 			arepository.save(appuser1);
 
 			Panel panel1 = new Panel(null, "Project 1", "description for panel 1 ", team1, null);

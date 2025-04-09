@@ -46,7 +46,7 @@ export default function Login() {
             localStorage.setItem('tokenExpiresAt', expiresAt);
 
             // Navigate to panels
-            navigate('/teams');
+            navigate('/teams', { state: { snackbarMessage: 'Login successful!' } });
         } catch (error) {
             alert(error.message);
         }

@@ -46,7 +46,7 @@ public class TaskmasterApplication {
 					encodedPassword, null);
 			arepository.save(appuser1);
 			AppUser appuser2 = new AppUser(null, "Admin", "Katajamäki", "hilja.example@gmail", "0123456789", "admin",
-					encodedPassword2);
+					encodedPassword2,  null);
 			arepository.save(appuser2);
 
 			Panel panel1 = new Panel(null, "Project 1", "description for panel 1 ", team1, null);

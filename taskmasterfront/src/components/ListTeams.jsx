@@ -3,11 +3,14 @@ import { Paper, Box, Typography, Divider } from "@mui/material";
 import { fetchTeams, handleAddPanel } from "../../taskmasterApi";
 import ListPanels from "./ListPanels";
 import CreatePanel from "./CreatePanel";
+import ViewTeam from "./ViewTeam";
 
 function ListTeams() {
     const [teams, setTeams] = useState([]);
     const [openSnackbar, setOpenSnackbar] = useState(false);
     const [snackbarMessage, setSnackbarMessage] = useState('');
+    const [selectedTeam, setSelectedTeam] = useState(null);
+    const [openViewTeam, setOpenViewTeam] = useState(false);
 
     useEffect(() => {
         fetchTeams()
@@ -18,6 +21,16 @@ function ListTeams() {
                 console.error("Error fetching teams: " + err.message);
             });
     }, []);
+
+    const handleTeamClick = (team) => {
+        setSelectedTeam(team);
+        setOpenViewTeam(true);
+    };
+    
+    const handleCloseViewTeam = () => {
+        setSelectedTeam(null);
+        setOpenViewTeam(false);
+    };
 
     const addNewPanel = (newPanel, teamId) => {
         handleAddPanel({ ...newPanel, teamId })
@@ -78,17 +91,20 @@ function ListTeams() {
                                         alignItems: "center",
                                     }}
                                 >
-                                    <Typography
-                                        sx={{
-                                            whiteSpace: "nowrap",
-                                            overflow: "hidden",
-                                            textOverflow: "ellipsis",
-                                            maxWidth: "200px",
-                                        }}
-                                        variant="h6"
-                                    >
-                                        {team.teamName}
-                                    </Typography>
+                                <Typography
+                                 sx={{
+                                    whiteSpace: "nowrap",
+                                    overflow: "hidden",
+                                    textOverflow: "ellipsis",
+                                    maxWidth: "200px",
+                                    marginBottom:1,
+                                    cursor:'pointer'
+                                  }}
+                                    variant="h6"
+                                    onClick={() => handleTeamClick(team)}
+                                >
+                                    {team.teamName}
+                                </Typography>
                                 </Box>
                                 <Divider />
                                 <Box sx={{ p: 1, flexGrow: 1, overflowY: "auto"}}>
@@ -107,6 +123,12 @@ function ListTeams() {
                     ))}
                 </Box>
             </Box>
+            
+            <ViewTeam
+                team={selectedTeam}
+                openView={openViewTeam}
+                closeView={handleCloseViewTeam}
+            />
         </>
     );
 }

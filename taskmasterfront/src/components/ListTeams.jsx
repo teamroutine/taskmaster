@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { Paper, Box, Typography, Divider, Button, MenuItem } from "@mui/material";
+import { useLocation } from "react-router-dom";
+import { Paper, Box, Typography, Divider, Button, MenuItem, Snackbar } from "@mui/material";
 import { fetchTeams, handleAddPanel, handleAddTeam } from "../../taskmasterApi";
 import ListPanels from "./ListPanels";
 import CreatePanel from "./CreatePanel";
@@ -17,6 +18,9 @@ function ListTeams({ username }) {
   const [openInviteModal, setOpenInviteModal] = useState(false); // State for invite modal
   const [selectedTeamId, setSelectedTeamId] = useState(null); // State for selected team ID
 
+    // Get location state to show Snackbar after login
+    const location = useLocation();
+
   useEffect(() => {
     fetchTeams()
       .then((data) => {
@@ -25,8 +29,13 @@ function ListTeams({ username }) {
       .catch((err) => {
         console.error("Error fetching teams: " + err.message);
       });
-  }, []);
-
+    
+        if (location.state?.snackbarMessage) {
+            setSnackbarMessage(location.state.snackbarMessage);
+            setOpenSnackbar(true);
+        }
+  }, []); 
+    
   const handleTeamClick = (team) => {
     setSelectedTeam(team);
     setOpenViewTeam(true);

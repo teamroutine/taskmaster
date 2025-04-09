@@ -43,7 +43,7 @@ public class TaskmasterApplication {
 			String encodedPassword2 = passwordEncoder.encode("admin");
 
 			AppUser appuser1 = new AppUser(null, "Hilja", "Katajamäki", "hilja.example@gmail", "0123456789", "hilja123",
-					encodedPassword);
+					encodedPassword, null);
 			arepository.save(appuser1);
 			AppUser appuser2 = new AppUser(null, "Admin", "Katajamäki", "hilja.example@gmail", "0123456789", "admin",
 					encodedPassword2);

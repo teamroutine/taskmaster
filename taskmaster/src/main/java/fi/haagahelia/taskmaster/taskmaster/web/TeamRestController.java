@@ -1,5 +1,6 @@
 package fi.haagahelia.taskmaster.taskmaster.web;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +20,6 @@ import fi.haagahelia.taskmaster.taskmaster.dto.TeamDTO;
 import fi.haagahelia.taskmaster.taskmaster.service.JwtService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
-
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -50,6 +50,11 @@ public class TeamRestController {
     @GetMapping
     public ResponseEntity<List<Team>> getAllTeamns() {
         List<Team> teams = teamRepository.findAll();
+        teams.forEach(team -> {
+            if (team.getPanels() == null) {
+                team.setPanels(new ArrayList<>());
+            }
+        });
         return ResponseEntity.ok(teams);
     }
 
@@ -69,23 +74,20 @@ public class TeamRestController {
         }
 
         AppUser user = appUserRepository.findByUsername(username)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found"));
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found" + username));
 
-    
         Team newTeam = new Team();
         newTeam.setTeamName(teamDTO.getTeamName());
         newTeam.setDescription(teamDTO.getDescription());
         newTeam.setCreatedBy(username);
-
-        
         newTeam.setAppUsers(List.of(user));
-
+        newTeam.setPanels(new ArrayList<>());
         
+
         Team savedTeam = teamRepository.save(newTeam);
         return ResponseEntity.status(HttpStatus.CREATED).body(savedTeam);
     }
 
-    
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteTeam(@PathVariable Long id) {
         Team team = teamRepository.findById(id)

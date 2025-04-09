@@ -50,9 +50,18 @@ public class SecurityConfig {
                                                 .requestMatchers(
                                                                 antMatcher(HttpMethod.POST, "/api/auth/login"),
                                                                 antMatcher(HttpMethod.POST, "/api/users"),
+                                                                antMatcher(HttpMethod.GET, "/api/users"),
                                                                 antMatcher("/error"),
+                                                                antMatcher(HttpMethod.GET, "/api/teams"),
                                                                 antMatcher(HttpMethod.GET, "/h2-console/**"),
-                                                                antMatcher(HttpMethod.POST, "/h2-console/**"))
+                                                                antMatcher(HttpMethod.POST, "/h2-console/**"),
+                                                                antMatcher(HttpMethod.POST,
+                                                                                "/api/invites/generateInvite"), // Allow
+                                                                                                                // generateInvite
+                                                                antMatcher(HttpMethod.GET,
+                                                                                "/api/invites/validateInvite"), // Allow
+                                                                                                                // validateInvite
+                                                                antMatcher(HttpMethod.GET, "/api/invites/all"))
                                                 // antMatcher(HttpMethod.POST, "/api/users"),
                                                 // antMatcher(HttpMethod.GET, "/api/panels"),
                                                 // antMatcher(HttpMethod.GET, "/api/teams"),

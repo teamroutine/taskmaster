@@ -11,10 +11,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
+import fi.haagahelia.taskmaster.taskmaster.domain.AppUser;
+import fi.haagahelia.taskmaster.taskmaster.domain.AppUserRepository;
 import fi.haagahelia.taskmaster.taskmaster.domain.Team;
 import fi.haagahelia.taskmaster.taskmaster.domain.TeamRepository;
 import fi.haagahelia.taskmaster.taskmaster.dto.TeamDTO;
+import fi.haagahelia.taskmaster.taskmaster.service.JwtService;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
+
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -29,6 +34,12 @@ public class TeamRestController {
 
     @Autowired
     private final TeamRepository teamRepository;
+
+    @Autowired
+    private JwtService jwtService;
+
+    @Autowired
+    private AppUserRepository appUserRepository;
 
     public TeamRestController(TeamRepository teamRepository) {
         this.teamRepository = teamRepository;
@@ -51,17 +62,30 @@ public class TeamRestController {
     }
 
     @PostMapping
-    public ResponseEntity<Team> newTeam(@RequestBody @Valid TeamDTO teamDTO) {
-        Team newTeam = new Team();
+    public ResponseEntity<Team> newTeam(@RequestBody @Valid TeamDTO teamDTO, HttpServletRequest request) {
+        String username = jwtService.getAuthUser(request);
+        if (username == null) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "User not authenticated");
+        }
 
+        AppUser user = appUserRepository.findByUsername(username)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found"));
+
+    
+        Team newTeam = new Team();
         newTeam.setTeamName(teamDTO.getTeamName());
         newTeam.setDescription(teamDTO.getDescription());
+        newTeam.setCreatedBy(username);
 
+        
+        newTeam.setAppUsers(List.of(user));
+
+        
         Team savedTeam = teamRepository.save(newTeam);
         return ResponseEntity.status(HttpStatus.CREATED).body(savedTeam);
     }
 
-    // Delete team
+    
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteTeam(@PathVariable Long id) {
         Team team = teamRepository.findById(id)

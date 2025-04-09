@@ -22,6 +22,7 @@ public class Team {
     private Long teamId;
     private String teamName;
     private String description;
+    private String createdBy;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "team")
     private List<Panel> panels;
@@ -35,12 +36,21 @@ public class Team {
     public Team() {
     }
 
-    public Team(Long teamId, String teamName, String description, List<Panel> panels, List<AppUser> appusers) {
+    public Team(Long teamId, String teamName, String description, List<Panel> panels, List<AppUser> appusers, String createdBy) {
         this.teamId = teamId;
         this.teamName = teamName;
         this.description = description;
         this.panels = panels;
         this.appusers = appusers;
+        this.createdBy = createdBy;
+    }
+
+    public String getCreatedBy() {
+        return createdBy;
+    }
+
+    public void setCreatedBy(String createdBy) {
+        this.createdBy = createdBy;
     }
 
     public Long getTeamId() {

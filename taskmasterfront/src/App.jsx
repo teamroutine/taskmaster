@@ -11,9 +11,21 @@ import theme from "./theme";
 import Register from "./components/Register";
 import Login from "./components/Login";
 import AuthButton from "./components/AuthButton";
+import { jwtDecode } from "jwt-decode";
 
 
 function App() {
+    const token = localStorage.getItem("accessToken");
+    let username = null;
+    if (token) {
+        try {
+            const decodedToken = jwtDecode(token); 
+            username = decodedToken.sub; 
+        } catch (error) {
+            console.error("Failed to decode token:", error);
+        }
+    }
+    
     return (
         <ThemeProvider theme={theme}>
             <Router>
@@ -41,7 +53,7 @@ function App() {
                         <Route path="/panels" element={<ListPanelView />} />
                         <Route path="/panels/:panelid" element={<PanelView />} />
                         <Route path="/panel/create" element={<CreatePanel />} />
-                        <Route path="/teams" element={<ListTeams />} />
+                        <Route path="/teams" element={<ListTeams username={username}/>} />
                         <Route path="/register" element={<Register />} />
                         <Route path="/login" element={<Login />} />
                     </Routes>

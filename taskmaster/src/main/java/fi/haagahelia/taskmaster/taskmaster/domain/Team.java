@@ -2,7 +2,7 @@ package fi.haagahelia.taskmaster.taskmaster.domain;
 
 import java.util.List;
 
-
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import jakarta.persistence.CascadeType;
@@ -26,12 +26,13 @@ public class Team {
     private String createdBy;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "team")
+    @JsonIgnoreProperties("team")
     private List<Panel> panels;
 
-    @JsonManagedReference
     @ManyToMany(cascade = { CascadeType.ALL }, fetch = FetchType.EAGER)
     @JoinTable(name = "team_appUser", joinColumns = { @JoinColumn(name = "teamId") }, inverseJoinColumns = {
             @JoinColumn(name = "id") })
+    @JsonIgnoreProperties("teams")
     private List<AppUser> appUsers;
 
     public Team() {

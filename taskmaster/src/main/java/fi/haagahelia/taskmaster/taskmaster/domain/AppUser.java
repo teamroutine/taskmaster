@@ -31,7 +31,7 @@ public class AppUser implements UserDetails {
     @JsonIgnore
     private String password;
 
-    @JsonBackReference
+    @JsonIgnoreProperties("appUsers")
     @ManyToMany(mappedBy = "appUsers")
     private List<Team> teams;
 

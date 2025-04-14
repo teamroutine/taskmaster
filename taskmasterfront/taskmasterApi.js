@@ -132,12 +132,19 @@ export const apiFetch = async (URL, options = {}) => {
       const errorText = await response.text();
       throw new Error(
         "Error: " +
-          response.status +
-          " - " +
-          response.statusText +
-          "-" +
-          errorText
+        response.status +
+        " - " +
+        response.statusText +
+        "-" +
+        errorText
       );
+    }
+
+    const contentLength = response.headers.get("content-length");
+    const contentType = response.headers.get("content-type");
+
+    if (response.status === 204 || !contentType || parseInt(contentLength) === 0) {
+      return null;
     }
 
     return response.json(); // return API answer

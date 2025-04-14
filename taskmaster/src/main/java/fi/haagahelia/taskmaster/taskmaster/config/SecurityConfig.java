@@ -12,90 +12,41 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import static org.springframework.security.web.util.matcher.AntPathRequestMatcher.antMatcher;
-import static org.springframework.security.config.Customizer.withDefaults;
 
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
 
         @Bean
-        public PasswordEncoder passwordEncoder() { // Bean for encrypting the passwords
+        public PasswordEncoder passwordEncoder() {
                 return new BCryptPasswordEncoder();
-
         }
 
         @Bean
-        public SecurityFilterChain filterChain(HttpSecurity http, AuthenticationFilter authenticationFilter) // Configuration
-                                                                                                             // for HTTP
-                                                                                                             // requests
+        public SecurityFilterChain filterChain(HttpSecurity http, AuthenticationFilter authenticationFilter)
                         throws Exception {
-                http.csrf(csrf -> csrf.disable()).cors(withDefaults()) // Csrf disabled because of token based
-                                                                       // authentication
-                                .sessionManagement(
-                                                sessionManagement -> sessionManagement
-                                                                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)) // Application
-                                                                                                                         // uses
-                                                                                                                         // JWT
-                                                                                                                         // token
-                                                                                                                         // so
-                                                                                                                         // sessions
-                                                                                                                         // have
-                                                                                                                         // to
-                                                                                                                         // stateless
-                                .authorizeHttpRequests(authorizeHttpRequests -> authorizeHttpRequests // Endpoints which
-                                                                                                      // are allowed for
-                                                                                                      // unauthenticated
-                                                                                                      // users
-                                                .requestMatchers(
-                                                                antMatcher(HttpMethod.POST, "/api/auth/login"),
-                                                                antMatcher(HttpMethod.POST, "/api/users"),
-                                                                antMatcher(HttpMethod.GET, "/api/users"),
-                                                                antMatcher("/error"),
-                                                                antMatcher(HttpMethod.GET, "/api/teams"),
-                                                                antMatcher(HttpMethod.GET, "/h2-console/**"),
-                                                                antMatcher(HttpMethod.POST, "/h2-console/**"),
-                                                                antMatcher(HttpMethod.POST,
-                                                                                "/api/invites/generateInvite"), // Allow
-                                                                                                                // generateInvite
-                                                                antMatcher(HttpMethod.GET,
-                                                                                "/api/invites/validateInvite"), // Allow
-                                                                                                                // validateInvite
-                                                                antMatcher(HttpMethod.GET, "/api/invites/all"))
-                                                // antMatcher(HttpMethod.POST, "/api/users"),
-                                                // antMatcher(HttpMethod.GET, "/api/panels"),
-                                                // antMatcher(HttpMethod.GET, "/api/teams"),
-                                                // antMatcher(HttpMethod.GET, "/api/tickets"),
-                                                // antMatcher(HttpMethod.GET, "/api/blocks"),
-                                                // antMatcher(HttpMethod.POST, "/api/blocks"),
-                                                // antMatcher(HttpMethod.POST, "/api/tickets"),
-                                                // antMatcher(HttpMethod.POST, "/api/panels"),
-                                                // antMatcher(HttpMethod.POST, "/api/teams"),
-
-                                                .permitAll()
-                                                .anyRequest() // Rest of the endpoints are restricted
-                                                .authenticated())
-                                .headers(headers -> headers.frameOptions(frameOptions -> frameOptions.disable()))
-                                .addFilterBefore(authenticationFilter, UsernamePasswordAuthenticationFilter.class); // Filter
-                                                                                                                    // the
-                                                                                                                    // requests
-                                                                                                                    // with
-                                                                                                                    // custom
-                                                                                                                    // filter
+                http.csrf(csrf -> csrf.disable())
+                                .cors(cors -> cors.configurationSource(
+                                                request -> new org.springframework.web.cors.CorsConfiguration()
+                                                                .applyPermitDefaultValues()))
+                                .sessionManagement(session -> session
+                                                .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                                .authorizeHttpRequests(auth -> auth
+                                                .requestMatchers(HttpMethod.POST, "/api/auth/login").permitAll()
+                                                .requestMatchers(HttpMethod.POST, "/api/users").permitAll()
+                                                .requestMatchers(HttpMethod.GET, "/api/teams").permitAll()
+                                                .requestMatchers(HttpMethod.GET, "/api/invites/**").permitAll()
+                                                .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll() // Preflightit
+                                                .requestMatchers("/error", "/h2-console/**").permitAll()
+                                                .anyRequest().authenticated())
+                                .headers(headers -> headers.frameOptions(frame -> frame.disable()))
+                                .addFilterBefore(authenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
                 return http.build();
         }
 
         @Bean
-        public AuthenticationManager authenticationManager(AuthenticationConfiguration authConfig) throws Exception { // Spring
-                                                                                                                      // securitys
-                                                                                                                      // own
-                                                                                                                      // authentication
-                                                                                                                      // which
-                                                                                                                      // handles
-                                                                                                                      // usernames
-                                                                                                                      // and
-                                                                                                                      // passwords
+        public AuthenticationManager authenticationManager(AuthenticationConfiguration authConfig) throws Exception {
                 return authConfig.getAuthenticationManager();
         }
 }

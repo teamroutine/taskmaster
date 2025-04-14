@@ -19,7 +19,7 @@ import jakarta.servlet.http.HttpServletRequest;
 
 @Service
 public class JwtService {
-    private static final long EXPIRATION_TIME = Duration.ofHours(2).toMillis(); // Set 2 hour validity period for token
+    private static final long EXPIRATION_TIME = Duration.ofHours(8).toMillis(); // Set 2 hour validity period for token
     private static final String PREFIX = "Bearer "; // Prefix for JWT itoken. Used in Authorization header
 
     @Value("${auth.jwt-secret}") // Upload value from configuration file

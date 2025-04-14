@@ -70,7 +70,7 @@ public class PanelRestController {
     }
 
     // Edit one panel
-    @PutMapping("/{id}")
+    @PutMapping(value = "/{id}")
     public ResponseEntity<Panel> editPanel(@PathVariable Long id,
             @RequestBody Panel panelData) {
         Panel editPanel = panelRepository.findById(id)

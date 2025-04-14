@@ -3,6 +3,7 @@ package fi.haagahelia.taskmaster.taskmaster.domain;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
@@ -22,25 +23,36 @@ public class Team {
     private Long teamId;
     private String teamName;
     private String description;
+    private String createdBy;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "team")
+    @JsonIgnoreProperties("team")
     private List<Panel> panels;
 
     @ManyToMany(cascade = { CascadeType.ALL }, fetch = FetchType.EAGER)
-    @JoinTable(name = "team_appuser", joinColumns = { @JoinColumn(name = "teamId") }, inverseJoinColumns = {
+    @JoinTable(name = "team_appUser", joinColumns = { @JoinColumn(name = "teamId") }, inverseJoinColumns = {
             @JoinColumn(name = "id") })
     @JsonIgnoreProperties("teams")
-    List<AppUser> appusers;
+    private List<AppUser> appUsers;
 
     public Team() {
     }
 
-    public Team(Long teamId, String teamName, String description, List<Panel> panels, List<AppUser> appusers) {
+    public Team(Long teamId, String teamName, String description, List<Panel> panels, List<AppUser> appUsers, String createdBy) {
         this.teamId = teamId;
         this.teamName = teamName;
         this.description = description;
         this.panels = panels;
-        this.appusers = appusers;
+        this.appUsers = appUsers;
+        this.createdBy = createdBy;
+    }
+
+    public String getCreatedBy() {
+        return createdBy;
+    }
+
+    public void setCreatedBy(String createdBy) {
+        this.createdBy = createdBy;
     }
 
     public Long getTeamId() {
@@ -76,17 +88,18 @@ public class Team {
     }
 
     public List<AppUser> getAppUsers() {
-        return appusers;
+        return appUsers;
     }
 
-    public void setAppUsers(List<AppUser> appusers) {
-        this.appusers = appusers;
+    public void setAppUsers(List<AppUser> appUsers) {
+        this.appUsers = appUsers;
     }
+    
 
     @Override
     public String toString() {
         return "Team [teamId=" + teamId + ", teamName=" + teamName + ", description=" + description + ", panels="
-                + panels + ", appusers=" + appusers + "]";
+                + panels + ", appUsers=" + appUsers + "]";
     }
 
 }

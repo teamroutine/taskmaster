@@ -4,6 +4,7 @@ import java.time.LocalDate;
 
 import org.hibernate.annotations.CreationTimestamp;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import jakarta.persistence.Entity;
@@ -25,7 +26,7 @@ public class Ticket {
     private LocalDate created;
 
     @ManyToOne
-    @JsonIgnoreProperties("tickets")
+    @JsonBackReference
     @JoinColumn(name = "blockId")
     private Block block;
 

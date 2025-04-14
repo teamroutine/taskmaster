@@ -50,19 +50,32 @@ public class SecurityConfig {
                                                 .requestMatchers(
                                                                 antMatcher(HttpMethod.POST, "/api/auth/login"),
                                                                 antMatcher(HttpMethod.POST, "/api/users"),
-                                                                // antMatcher(HttpMethod.POST, "/api/users"),
-                                                                // antMatcher(HttpMethod.GET, "/api/panels"),
-                                                                // antMatcher(HttpMethod.GET, "/api/teams"),
-                                                                // antMatcher(HttpMethod.GET, "/api/tickets"),
-                                                                // antMatcher(HttpMethod.GET, "/api/blocks"),
-                                                                // antMatcher(HttpMethod.POST, "/api/blocks"),
-                                                                // antMatcher(HttpMethod.POST, "/api/tickets"),
-                                                                // antMatcher(HttpMethod.POST, "/api/panels"),
-                                                                // antMatcher(HttpMethod.POST, "/api/teams"),
-                                                                antMatcher("/error"))
+                                                                antMatcher(HttpMethod.GET, "/api/users"),
+                                                                antMatcher("/error"),
+                                                                antMatcher(HttpMethod.GET, "/api/teams"),
+                                                                antMatcher(HttpMethod.GET, "/h2-console/**"),
+                                                                antMatcher(HttpMethod.POST, "/h2-console/**"),
+                                                                antMatcher(HttpMethod.POST,
+                                                                                "/api/invites/generateInvite"), // Allow
+                                                                                                                // generateInvite
+                                                                antMatcher(HttpMethod.GET,
+                                                                                "/api/invites/validateInvite"), // Allow
+                                                                                                                // validateInvite
+                                                                antMatcher(HttpMethod.GET, "/api/invites/all"))
+                                                // antMatcher(HttpMethod.POST, "/api/users"),
+                                                // antMatcher(HttpMethod.GET, "/api/panels"),
+                                                // antMatcher(HttpMethod.GET, "/api/teams"),
+                                                // antMatcher(HttpMethod.GET, "/api/tickets"),
+                                                // antMatcher(HttpMethod.GET, "/api/blocks"),
+                                                // antMatcher(HttpMethod.POST, "/api/blocks"),
+                                                // antMatcher(HttpMethod.POST, "/api/tickets"),
+                                                // antMatcher(HttpMethod.POST, "/api/panels"),
+                                                // antMatcher(HttpMethod.POST, "/api/teams"),
+
                                                 .permitAll()
                                                 .anyRequest() // Rest of the endpoints are restricted
                                                 .authenticated())
+                                .headers(headers -> headers.frameOptions(frameOptions -> frameOptions.disable()))
                                 .addFilterBefore(authenticationFilter, UsernamePasswordAuthenticationFilter.class); // Filter
                                                                                                                     // the
                                                                                                                     // requests

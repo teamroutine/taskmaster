@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
@@ -30,15 +31,15 @@ public class AppUser implements UserDetails {
     @JsonIgnore
     private String password;
 
-    @ManyToMany(mappedBy = "appusers")
-    @JsonIgnoreProperties("appusers")
+    @JsonIgnoreProperties("appUsers")
+    @ManyToMany(mappedBy = "appUsers")
     private List<Team> teams;
 
     public AppUser() {
     }
 
     public AppUser(Long id, String firstName, String lastName, String email, String phone, String username,
-            String password) {
+            String password,List <Team> teams) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -46,7 +47,16 @@ public class AppUser implements UserDetails {
         this.phone = phone;
         this.username = username;
         this.password = password;
+        this.teams = teams;
     }
+    public List<Team> getTeams() {
+        return teams;
+    }
+
+    public void setTeams(List<Team> teams) {
+        this.teams = teams;
+    }
+
 
     public Long getId() {
         return id;

@@ -2,8 +2,12 @@ package fi.haagahelia.taskmaster.taskmaster.dto;
 
 import java.time.Instant;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 public class AccessTokenPayloadDto {
     private String accessToken;
+
+    @JsonFormat(shape = JsonFormat.Shape.STRING)
     private Instant expiresAt;
 
     public AccessTokenPayloadDto(String accessToken, Instant expiresAt) {

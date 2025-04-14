@@ -3,6 +3,7 @@ package fi.haagahelia.taskmaster.taskmaster.domain;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
@@ -27,7 +28,9 @@ public class Block {
     @JoinColumn(name = "panelId")
     private Panel panel;
 
+
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "block")
+    @JsonManagedReference
     private List<Ticket> tickets;
 
     public Block() {

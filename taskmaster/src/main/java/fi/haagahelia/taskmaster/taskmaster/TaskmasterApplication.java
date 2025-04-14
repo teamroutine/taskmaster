@@ -36,13 +36,18 @@ public class TaskmasterApplication {
 			TicketRepository tirepository, AppUserRepository arepository) {
 		return args -> {
 			log.info("Saving panels and team");
-			Team team1 = new Team(null, "Team1", "description for team 1", null, null);
+			Team team1 = new Team(null, "Team1", "description for team 1", null, null, null);
 			terepository.save(team1);
 
 			String encodedPassword = passwordEncoder.encode("salasana");
+			String encodedPassword2 = passwordEncoder.encode("admin");
+
 			AppUser appuser1 = new AppUser(null, "Hilja", "Katajamäki", "hilja.example@gmail", "0123456789", "hilja123",
-					encodedPassword);
+					encodedPassword, null);
 			arepository.save(appuser1);
+			AppUser appuser2 = new AppUser(null, "Admin", "Katajamäki", "hilja.example@gmail", "0123456789", "admin",
+					encodedPassword2, null);
+			arepository.save(appuser2);
 
 			Panel panel1 = new Panel(null, "Project 1", "description for panel 1 ", team1, null);
 

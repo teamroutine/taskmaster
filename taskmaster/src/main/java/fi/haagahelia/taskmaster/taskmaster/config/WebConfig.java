@@ -11,9 +11,11 @@ public class WebConfig implements WebMvcConfigurer {
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
-                .allowedOrigins("http://localhost:5173", // Allow local frontend(endpoint: localhost:5173) to make API
-                                                         // requests
-                        "https://taskmaster-8ien.onrender.com") // Allow this website for API requests
+                .allowedOrigins(
+                        "http://localhost:5173", // Allow local frontend(endpoint: localhost:5173) to make API-requests
+                        "https://taskmaster-8ien.onrender.com",
+                        "https://taskmaster-git-ohjelmistoprojekti-2-taskmaster.2.rahtiapp.fi") // Allow this website
+                                                                                                // for API requests
                 .allowedMethods("GET", "POST", "PUT", "DELETE")
                 .allowedHeaders("*")
                 .allowCredentials(true);

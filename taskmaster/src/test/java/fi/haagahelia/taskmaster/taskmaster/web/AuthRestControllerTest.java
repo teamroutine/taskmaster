@@ -86,6 +86,10 @@ class AuthRestControllerTest {
     @InjectMocks
     private AuthRestController authRestController;
 
+    private String generateMockJwtToken() {
+        return "Bearer mock-jwt-token-more-text-so-its-long-enough"; // Mockattu token
+    }
+
     @BeforeEach
     void setUp() {
         mockMvc = MockMvcBuilders.standaloneSetup(authRestController).build();
@@ -122,5 +126,23 @@ class AuthRestControllerTest {
                 .content(asJsonString(loginDto)))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.accessToken").value("fake-jwt-token"));
+    }
+
+    @Test
+    void testUnsuccesfulAuthenticationReturnsForbiddenStatus() throws Exception {
+        String username = "testuser";
+        String password = "wrongpassword";
+
+        LoginUserDto loginUserDto = new LoginUserDto(username, password);
+
+        when(authenticationManager.authenticate(any(Authentication.class)))
+                .thenThrow(
+                        new org.springframework.security.authentication.BadCredentialsException(("Bad credentials")));
+
+        mockMvc.perform(post("/api/auth/login")
+                .header("Authorization", generateMockJwtToken())
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(asJsonString(loginUserDto)))
+                .andExpect(status().isUnauthorized());
     }
 }

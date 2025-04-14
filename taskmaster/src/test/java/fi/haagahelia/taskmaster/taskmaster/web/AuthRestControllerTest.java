@@ -145,4 +145,38 @@ class AuthRestControllerTest {
                 .content(asJsonString(loginUserDto)))
                 .andExpect(status().isUnauthorized());
     }
+
+    @Test
+    void testLoginWithMissingRequestBodyReturnsBadRequest() throws Exception {
+        mockMvc.perform(post("/api/auth/login")
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isBadRequest());
+
+    }
+
+    @Test
+    void testLoginWithValidCredentialsReturnsToken() throws Exception {
+        String username = "testuser";
+        String password = "testpassword";
+
+        LoginUserDto loginDto = new LoginUserDto(username, password);
+        AccessTokenPayloadDto mockToken = new AccessTokenPayloadDto("valid-jwt-token", mockExpiresAt);
+
+        // Mock UserDetails to avoid NullPointerException
+        UserDetails mockUserDetails = new org.springframework.security.core.userdetails.User(
+                username, password, new ArrayList<>());
+
+        when(userDetailsService.loadUserByUsername(username)).thenReturn(mockUserDetails);
+
+        // Mock authentication and token generation
+        when(authenticationManager.authenticate(any(Authentication.class))).thenReturn(null);
+        when(jwtService.getAccessToken(username)).thenReturn(mockToken);
+
+        mockMvc.perform(post("/api/auth/login")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(asJsonString(loginDto)))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.accessToken").value("valid-jwt-token"))
+                .andExpect(jsonPath("$.expiresAt").value(mockExpiresAt.toString()));
+    }
 }

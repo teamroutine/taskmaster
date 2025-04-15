@@ -40,13 +40,13 @@ public class AuthRestController {
     @PostMapping("/login")
     public ResponseEntity<?> login(@Valid @RequestBody LoginUserDto loginUserDto) {
         try {
-            // Authenticates the user
+
             authenticationManager.authenticate(
-                    // Checks users input and tries to combine username and password
-                    new UsernamePasswordAuthenticationToken(loginUserDto.getUsername(), loginUserDto.getPassword()));
-            // Get the user data from database
+
+                    new UsernamePasswordAuthenticationToken(loginUserDto.getUsername(),
+                            loginUserDto.getPassword()));
             UserDetails userDetails = userDetailsService.loadUserByUsername(loginUserDto.getUsername());
-            // Create JWT-token and returns it as AccessTokenPayload object
+
             AccessTokenPayloadDto accessTokenPayloadDto = jwtService.getAccessToken(userDetails.getUsername());
 
             return ResponseEntity.ok(accessTokenPayloadDto);

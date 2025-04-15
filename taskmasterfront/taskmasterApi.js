@@ -109,6 +109,12 @@ export const generateInvite = (teamId, durationHours) => {
   });
 };
 
+// Dynamically set the base URL based on the environment
+const BASE_URL = process.env.NODE_ENV === "production"
+  ? "https://taskmaster-git-ohjelmistoprojekti-2-taskmaster.2.rahtiapp.fi"
+  : "http://localhost:8080";
+
+// Centralized API fetch function
 export const apiFetch = async (URL, options = {}) => {
   const token = localStorage.getItem("accessToken"); // Fetch the token from localStorage
 
@@ -126,7 +132,7 @@ export const apiFetch = async (URL, options = {}) => {
   };
 
   try {
-    const response = await fetch(URL, { ...options, headers });
+    const response = await fetch(`${BASE_URL}${URL}`, { ...options, headers });
 
     if (!response.ok) {
       const errorText = await response.text();
@@ -139,7 +145,6 @@ export const apiFetch = async (URL, options = {}) => {
         errorText
       );
     }
-
 
     const contentType = response.headers.get("content-type");
     if (response.status === 204 || !contentType || !contentType.includes("application/json")) {

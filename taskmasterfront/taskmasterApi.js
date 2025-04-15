@@ -140,7 +140,13 @@ export const apiFetch = async (URL, options = {}) => {
       );
     }
 
-    return response.json(); // return API answer
+
+    const contentType = response.headers.get("content-type");
+    if (response.status === 204 || !contentType || !contentType.includes("application/json")) {
+      return null;
+    }
+
+    return response.json();
   } catch (error) {
     console.error("Fetch error: ", error);
     throw error;

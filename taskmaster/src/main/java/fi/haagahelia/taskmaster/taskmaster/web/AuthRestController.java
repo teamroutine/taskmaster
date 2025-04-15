@@ -41,10 +41,10 @@ public class AuthRestController {
     public ResponseEntity<?> login(@Valid @RequestBody LoginUserDto loginUserDto) {
         try {
 
-            // authenticationManager.authenticate(
+            authenticationManager.authenticate(
 
-            // new UsernamePasswordAuthenticationToken(loginUserDto.getUsername(),
-            // loginUserDto.getPassword()));
+                    new UsernamePasswordAuthenticationToken(loginUserDto.getUsername(),
+                            loginUserDto.getPassword()));
             UserDetails userDetails = userDetailsService.loadUserByUsername(loginUserDto.getUsername());
 
             AccessTokenPayloadDto accessTokenPayloadDto = jwtService.getAccessToken(userDetails.getUsername());

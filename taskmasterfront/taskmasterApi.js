@@ -93,7 +93,7 @@ export const userRegister = async (newUser) => {
 };
 
 export const userLogin = async (user) => {
-  return apiFetch(import.meta.env.VITE_API_URL + "/auth/login", {
+  return apiFetch("api/auth/login", {
     method: "POST",
     body: JSON.stringify(user),
   });

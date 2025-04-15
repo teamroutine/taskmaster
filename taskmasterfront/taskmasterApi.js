@@ -132,7 +132,11 @@ export const apiFetch = async (URL, options = {}) => {
   };
 
   try {
-    const response = await fetch(`${BASE_URL}${URL}`, { ...options, headers });
+    const response = await fetch(`${BASE_URL}${URL}`, {
+      credentials: "include",
+      ...options,
+      headers
+    });
 
     if (!response.ok) {
       const errorText = await response.text();

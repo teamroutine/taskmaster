@@ -30,7 +30,7 @@ public class SecurityConfig {
         // ✅ Tämä Bean takaa että CORS toimii oikein myös preflight (OPTIONS)
         // -pyynnöillä
         @Bean
-        public CorsFilter corsFilter() {
+        public org.springframework.web.cors.CorsConfigurationSource corsConfigurationSource() {
                 CorsConfiguration config = new CorsConfiguration();
                 config.setAllowedOrigins(List.of(
                                 "http://localhost:5173",
@@ -43,7 +43,7 @@ public class SecurityConfig {
 
                 UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
                 source.registerCorsConfiguration("/**", config);
-                return new CorsFilter(source);
+                return (source);
         }
 
         @Bean

@@ -140,16 +140,6 @@ export const apiFetch = async (URL, options = {}) => {
       );
     }
 
-    const contentLength = response.headers.get("content-length");
-    const contentType = response.headers.get("content-type");
-
-    if (response.status === 204 || !contentType || parseInt(contentLength) === 0) {
-      if (URL.includes("/auth/login")) {
-        throw new Error("Login failed: No token returned from backend.");
-      }
-      return null;
-    }
-
     return response.json(); // return API answer
   } catch (error) {
     console.error("Fetch error: ", error);

@@ -13,6 +13,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+import java.util.List;
+
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
@@ -26,9 +28,18 @@ public class SecurityConfig {
         public SecurityFilterChain filterChain(HttpSecurity http, AuthenticationFilter authenticationFilter)
                         throws Exception {
                 http.csrf(csrf -> csrf.disable())
-                                .cors(cors -> cors.configurationSource(
-                                                request -> new org.springframework.web.cors.CorsConfiguration()
-                                                                .applyPermitDefaultValues()))
+                                .cors(cors -> cors.configurationSource(request -> {
+                                        org.springframework.web.cors.CorsConfiguration config = new org.springframework.web.cors.CorsConfiguration();
+                                        config.setAllowedOrigins(List.of(
+                                            "http://localhost:5173",
+                                            "https://taskmaster-8ien.onrender.com",
+                                            "https://taskmaster-git-ohjelmistoprojekti-2-taskmaster.2.rahtiapp.fi"
+                                        ));
+                                        config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE"));
+                                        config.setAllowedHeaders(List.of("*"));
+                                        config.setAllowCredentials(true);
+                                        return config;
+                                }))
                                 .sessionManagement(session -> session
                                                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                                 .authorizeHttpRequests(auth -> auth

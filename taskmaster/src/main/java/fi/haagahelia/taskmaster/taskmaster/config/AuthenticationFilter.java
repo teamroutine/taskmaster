@@ -28,21 +28,24 @@ public class AuthenticationFilter extends OncePerRequestFilter {
             @NonNull FilterChain filterChain)
             throws ServletException, java.io.IOException {
 
-        String jws = request.getHeader(HttpHeaders.AUTHORIZATION); // Retrive the authorization header from HTTP request
+        String path = request.getRequestURI();
 
-        if (jws != null) { // Check if the authorization header exists and contains JWT token
-            String user = jwtService.getAuthUser(request); // Use the user information from the token
-
-            Authentication authentication = new UsernamePasswordAuthenticationToken( // If user is found create
-                                                                                     // Authentication object
-                    user, null, List.of());
-
-            SecurityContextHolder.getContext().setAuthentication(authentication); // Authenticates user for current
-                                                                                  // request
-
+        if (path.equals("/api/auth/login") || path.equals("/api/users")) {
+            filterChain.doFilter(request, response);
+            return;
         }
 
-        filterChain.doFilter(request, response); // Continue the process and filter all the layers
+        String jws = request.getHeader(HttpHeaders.AUTHORIZATION);
 
+        if (jws != null) {
+            String user = jwtService.getAuthUser(request);
+
+            Authentication authentication = new UsernamePasswordAuthenticationToken(
+                    user, null, List.of());
+
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+        }
+
+        filterChain.doFilter(request, response);
     }
 }

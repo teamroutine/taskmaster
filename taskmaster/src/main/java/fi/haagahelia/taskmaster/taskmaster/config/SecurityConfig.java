@@ -12,6 +12,9 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.web.filter.CorsFilter;
 
 import java.util.List;
 
@@ -24,21 +27,31 @@ public class SecurityConfig {
                 return new BCryptPasswordEncoder();
         }
 
+        // ✅ Tämä Bean takaa että CORS toimii oikein myös preflight (OPTIONS)
+        // -pyynnöillä
+        @Bean
+        public CorsFilter corsFilter() {
+                CorsConfiguration config = new CorsConfiguration();
+                config.setAllowedOrigins(List.of(
+                                "http://localhost:5173",
+                                "https://taskmaster-8ien.onrender.com",
+                                "https://taskmaster-git-ohjelmistoprojekti-2-taskmaster.2.rahtiapp.fi"));
+                config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+                config.setAllowedHeaders(List.of("Authorization", "Content-Type"));
+                config.setExposedHeaders(List.of("Authorization")); // Jos token lähetetään takaisin
+                config.setAllowCredentials(true);
+
+                UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+                source.registerCorsConfiguration("/**", config);
+                return new CorsFilter(source);
+        }
+
         @Bean
         public SecurityFilterChain filterChain(HttpSecurity http, AuthenticationFilter authenticationFilter)
                         throws Exception {
                 http.csrf(csrf -> csrf.disable())
-                                .cors(cors -> cors.configurationSource(request -> {
-                                        org.springframework.web.cors.CorsConfiguration config = new org.springframework.web.cors.CorsConfiguration();
-                                        config.setAllowedOrigins(List.of(
-                                                        "http://localhost:5173",
-                                                        "https://taskmaster-8ien.onrender.com",
-                                                        "https://taskmaster-git-ohjelmistoprojekti-2-taskmaster.2.rahtiapp.fi"));
-                                        config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE"));
-                                        config.setAllowedHeaders(List.of("Authorization", "Content-Type"));
-                                        config.setAllowCredentials(true);
-                                        return config;
-                                }))
+                                .cors(cors -> {
+                                }) // Huom! jätetään tyhjäksi, koska käytämme omaa CorsFilteriä
                                 .sessionManagement(session -> session
                                                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                                 .authorizeHttpRequests(auth -> auth
@@ -46,7 +59,7 @@ public class SecurityConfig {
                                                 .requestMatchers(HttpMethod.POST, "/api/users").permitAll()
                                                 .requestMatchers(HttpMethod.GET, "/api/teams").permitAll()
                                                 .requestMatchers(HttpMethod.GET, "/api/invites/**").permitAll()
-                                                .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll() // Preflightit
+                                                .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                                                 .requestMatchers("/error", "/h2-console/**").permitAll()
                                                 .anyRequest().authenticated())
                                 .headers(headers -> headers.frameOptions(frame -> frame.disable()))

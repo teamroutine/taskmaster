@@ -15,7 +15,7 @@ export function fetchTickets() {
 }
 
 export function fetchAppUsers() {
-  return apiFetch(import.meta.env.VITE_API_URL + "/users");
+  return apiFetch("/users");
 }
 
 export const handleAddTicket = (newTicket) => {

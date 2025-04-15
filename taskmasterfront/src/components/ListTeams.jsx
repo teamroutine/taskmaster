@@ -193,6 +193,12 @@ function ListTeams({ username }) {
         open={openInviteModal}
         onClose={() => setOpenInviteModal(false)} // Close the modal
       />
+      <Snackbar
+        open={openSnackbar}
+        autoHideDuration={2000}
+        onClose={() => setOpenSnackbar(false)}
+        message={snackbarMessage}
+      />
     </>
   );
 }

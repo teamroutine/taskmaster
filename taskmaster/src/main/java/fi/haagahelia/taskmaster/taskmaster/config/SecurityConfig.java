@@ -31,12 +31,11 @@ public class SecurityConfig {
                                 .cors(cors -> cors.configurationSource(request -> {
                                         org.springframework.web.cors.CorsConfiguration config = new org.springframework.web.cors.CorsConfiguration();
                                         config.setAllowedOrigins(List.of(
-                                            "http://localhost:5173",
-                                            "https://taskmaster-8ien.onrender.com",
-                                            "https://taskmaster-git-ohjelmistoprojekti-2-taskmaster.2.rahtiapp.fi"
-                                        ));
+                                                        "http://localhost:5173",
+                                                        "https://taskmaster-8ien.onrender.com",
+                                                        "https://taskmaster-git-ohjelmistoprojekti-2-taskmaster.2.rahtiapp.fi"));
                                         config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE"));
-                                        config.setAllowedHeaders(List.of("*"));
+                                        config.setAllowedHeaders(List.of("Authorization", "Content-Type"));
                                         config.setAllowCredentials(true);
                                         return config;
                                 }))

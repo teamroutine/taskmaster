@@ -21,26 +21,34 @@ function PanelView() {
     useEffect(() => {
         fetchPanels(panelid)
             .then((data) => {
-
                 const panel = data.find(p => p.panelId === Number(panelid));
-
+    
                 if (panel) {
                     setPanelNameData(panel.panelName);
-                    setDescriptionData(panel.description)
-                    setBlocks(panel.blocks);
+                    setDescriptionData(panel.description);
+                    
+                    
+                    const sortedBlocks = panel.blocks.sort((a, b) => {
+                        if (a.blockName === "Done") return 1;  
+                        if (b.blockName === "Done") return -1; 
+                        return -1;  
+                    });
+    
+                    setBlocks(sortedBlocks);
                 } else {
                     console.error("Panel not found!");
-                    setBlocks([]); // Clear blocks if the corresponding panel is not found
+                    setBlocks([]); 
                 }
             })
             .catch((err) => setError(err.message));
     }, [panelid]);
+    
 
     // Add new block
     const addNewBlock = (newBlock, panelId) => {
         handleAddBlock({ ...newBlock, panelId })
             .then((addedBlock) => {
-                setBlocks((prevBlocks) => [...prevBlocks, addedBlock]);
+                setBlocks((prevBlocks) => [addedBlock, ...prevBlocks]);
                 setSnackbarMessage('Block added successfully!');
                 setOpenSnackbar(true);
             })
@@ -87,7 +95,10 @@ function PanelView() {
             </Box>
             {/*CreateBlock for creating a new Block */}
             <Box>
-                <CreateBlock createBlock={(newBlock) => addNewBlock(newBlock, panelid)} />
+                <CreateBlock 
+                    createBlock={(newBlock) => addNewBlock(newBlock, panelid)} 
+                    existingBlockNames={blocks.map(block =>block.blockName.toLowerCase())}
+                />
             </Box>
             <Snackbar
                 open={openSnackbar}

@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
@@ -6,8 +5,10 @@ import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
+import FormHelperText from '@mui/material/FormHelperText';
+import FormControl from '@mui/material/FormControl';
 
-export default function CreateBlock({ createBlock }) {
+export default function CreateBlock({ createBlock, existingBlockNames = [] }) {
 
     const [open, setOpen] = useState(false);
 
@@ -15,7 +16,9 @@ export default function CreateBlock({ createBlock }) {
         blockName: '',
         description: '',
         highlightColor: '',
-    })
+    });
+
+    const [errorMessage, setErrorMessage] = useState('');
 
     const handleClickOpen = () => {
         setOpen(true);
@@ -23,33 +26,43 @@ export default function CreateBlock({ createBlock }) {
 
     const handleClose = () => {
         setOpen(false);
+        setErrorMessage('');  
     };
 
     const handleSave = () => {
+        //Checking that a block with the same name doesn't already exist
+        if (existingBlockNames.includes(block.blockName.toLowerCase())) {
+            setErrorMessage('Block with this name already exists in this panel!');
+            return;
+        }
+
         createBlock(block);
-        setBlock({ blockName: "", description: "", highlightColor: "" })
+        setBlock({ blockName: "", description: "", highlightColor: "" });
+        setErrorMessage('');
         handleClose();
-    }
+    };
 
     return (
         <>
-            <Button variant='contained' color='success' onClick={handleClickOpen}
-            // väliaikanen style että helpompi testata
-            sx={{ position:"absolute", top:"110px", right:"40px"}}>Add Block</Button>
-            <Dialog
-                open={open}
-                onClose={handleClose}
-            >
+            <Button variant='contained' color='success' onClick={handleClickOpen} sx={{ position:"absolute", top:"110px", right:"40px" }}>
+                Add Block
+            </Button>
+            <Dialog open={open} onClose={handleClose}>
                 <DialogTitle>Add new Block</DialogTitle>
                 <DialogContent>
-                    <TextField
-                        margin='dense'
-                        label='Block name'
-                        value={block.blockName}
-                        onChange={e => setBlock({ ...block, blockName: e.target.value })}
-                        fullWidth
-                        variant='standard'
-                    />
+                    <FormControl fullWidth error={!!errorMessage}>
+                        <TextField
+                            margin='dense'
+                            label='Block name'
+                            value={block.blockName}
+                            onChange={e => setBlock({ ...block, blockName: e.target.value })}
+                            fullWidth
+                            variant='standard'
+                        />
+                        {errorMessage && (
+                            <FormHelperText sx={{ fontSize: '0.95rem' }}>{errorMessage}</FormHelperText>
+                        )}
+                    </FormControl>
                     <TextField
                         margin='dense'
                         label='Description'
@@ -68,12 +81,10 @@ export default function CreateBlock({ createBlock }) {
                     />
                 </DialogContent>
                 <DialogActions>
-                    <Button onClick={handleClose}>Close</Button> {/*Button for closing modal */}
-                    <Button onClick={handleSave}>Save</Button>  {/*Button for saving Ticket information */}
+                    <Button onClick={handleClose}>Close</Button>
+                    <Button onClick={handleSave}>Save</Button>
                 </DialogActions>
             </Dialog>
         </>
     );
-
 }
-

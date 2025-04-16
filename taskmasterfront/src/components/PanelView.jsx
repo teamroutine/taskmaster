@@ -87,7 +87,10 @@ function PanelView() {
             </Box>
             {/*CreateBlock for creating a new Block */}
             <Box>
-                <CreateBlock createBlock={(newBlock) => addNewBlock(newBlock, panelid)} />
+                <CreateBlock 
+                    createBlock={(newBlock) => addNewBlock(newBlock, panelid)} 
+                    existingBlockNames={blocks.map(block =>block.blockName.toLowerCase())}
+                />
             </Box>
             <Snackbar
                 open={openSnackbar}

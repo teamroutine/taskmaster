@@ -112,7 +112,7 @@ export const apiFetch = async (URL, options = {}) => {
   const token = localStorage.getItem("accessToken"); // Fetch the token from localStorage
 
   const isAuthRequired =
-    !URL.includes("/auth/login") && !URL.includes("/users");
+    !URL.includes("/api/auth/login") && !URL.includes("/api/users");
 
   if (isAuthRequired && !token) {
     throw new Error("You are not authenticated. Please log in");

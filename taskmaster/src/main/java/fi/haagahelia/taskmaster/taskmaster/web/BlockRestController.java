@@ -95,6 +95,13 @@ public class BlockRestController {
                         HttpStatus.NOT_FOUND,
                         "Block " + id + " can't be deleted, since it doesn't exist."));
 
+        // Don't let user delete done block  
+        if ("Done".equalsIgnoreCase(block.getBlockName())) {
+            throw new ResponseStatusException(
+                    HttpStatus.FORBIDDEN,
+                    "The 'Done' block cannot be deleted.");
+        }
+
         blockRepository.delete(block);
         return ResponseEntity.noContent().build();
     }

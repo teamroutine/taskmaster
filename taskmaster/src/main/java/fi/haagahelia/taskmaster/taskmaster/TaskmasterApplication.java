@@ -68,7 +68,7 @@ public class TaskmasterApplication {
 			block1.setPanel(panel1);
 			brepository.save(block1);
 
-			Ticket ticket1 = new Ticket(null, "Ticket 1 ", "description for ticket 1", null, null, block1);
+			Ticket ticket1 = new Ticket(null, "Ticket 1 ", "description for ticket 1", null, null, block1, null);
 			tirepository.save(ticket1);
 			ticket1.setBlock(block1);
 			tirepository.save(ticket1);

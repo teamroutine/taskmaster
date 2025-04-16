@@ -211,6 +211,7 @@ function ListBlocks({ blocks, setBlocks }) {
                       variant="contained"
                       color="primary"
                       onClick={() => handleOpen(block)}
+                      disabled={block.blockName === "Done"}
                     >
                       Edit Block
                     </Button>
@@ -220,6 +221,7 @@ function ListBlocks({ blocks, setBlocks }) {
                       variant="contained"
                       color="error"
                       onClick={() => handleBlockDelete(block.blockId)}
+                      disabled={block.blockName === "Done"}
                     >
                       Delete Block
                     </Button>

@@ -36,7 +36,7 @@ public class AuthenticationFilter extends OncePerRequestFilter {
         String uri = request.getRequestURI();
         logger.info("AuthenticationFilter {}", uri);
 
-        if (uri.contains("/api/auth/login") || uri.equals("/api/users")) {
+        if (uri.startsWith("/api/auth/login") || uri.startsWith("/api/users")) {
             filterChain.doFilter(request, response);
             return;
         }

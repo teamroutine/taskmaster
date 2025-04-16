@@ -1,6 +1,10 @@
 package fi.haagahelia.taskmaster.taskmaster.domain;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.swing.text.html.HTML.Tag;
 
 import org.hibernate.annotations.CreationTimestamp;
 
@@ -8,9 +12,12 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.GenerationType;
 
@@ -29,6 +36,15 @@ public class Ticket {
     @JsonBackReference
     @JoinColumn(name = "blockId")
     private Block block;
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+        name = "ticket_tags",
+        joinColumns = @JoinColumn(name = "ticket_id"),
+        inverseJoinColumns = @JoinColumn(name = "tag_id")
+    )
+    @JsonIgnoreProperties("tickets")
+    private List<Tag> tags = new ArrayList<>();
 
     public Ticket() {
     }

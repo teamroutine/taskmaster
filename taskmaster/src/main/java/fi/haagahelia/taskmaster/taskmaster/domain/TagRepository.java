@@ -1,5 +1,9 @@
 package fi.haagahelia.taskmaster.taskmaster.domain;
 
-public interface TagRepository {
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+@Repository
+public interface TagRepository extends JpaRepository <Tag, Long>{
 
 }

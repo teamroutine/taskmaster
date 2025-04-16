@@ -4,7 +4,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.swing.text.html.HTML.Tag;
+import fi.haagahelia.taskmaster.taskmaster.domain.Tag;
 
 import org.hibernate.annotations.CreationTimestamp;
 
@@ -50,13 +50,22 @@ public class Ticket {
     }
 
     public Ticket(Long ticketId, String ticketName, String description, Boolean status, LocalDate created,
-            Block block) {
+            Block block, List<Tag> tags) {
         this.ticketId = ticketId;
         this.ticketName = ticketName;
         this.description = description;
         this.status = status;
         this.created = created;
         this.block = block;
+        this.tags = tags != null ? tags : new ArrayList<>();
+    }
+
+    public List<Tag> getTags() {
+        return tags;
+    }
+
+    public void setTags(List<Tag> tags) {
+        this.tags = tags;
     }
 
     public Long getTicketId() {

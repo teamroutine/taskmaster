@@ -6,4 +6,5 @@ import java.util.List;
 @Repository
 public interface BlockRepository extends JpaRepository<Block, Long>{
     List<Block> findByBlockName(String blockName);
+    List<Block> findByBlockNameAndPanel_PanelId(String blockName, Long panelId);
 }

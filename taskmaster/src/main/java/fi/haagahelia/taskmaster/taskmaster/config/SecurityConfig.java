@@ -27,8 +27,6 @@ public class SecurityConfig {
                 return new BCryptPasswordEncoder();
         }
 
-        // ✅ Tämä Bean takaa että CORS toimii oikein myös preflight (OPTIONS)
-        // -pyynnöillä
         @Bean
         public CorsFilter corsFilter() {
                 CorsConfiguration config = new CorsConfiguration();

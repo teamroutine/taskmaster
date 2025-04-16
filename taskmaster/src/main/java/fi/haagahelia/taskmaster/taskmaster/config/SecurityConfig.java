@@ -30,7 +30,7 @@ public class SecurityConfig {
         // ✅ Tämä Bean takaa että CORS toimii oikein myös preflight (OPTIONS)
         // -pyynnöillä
         @Bean
-        public org.springframework.web.cors.CorsConfigurationSource corsConfigurationSource() {
+        public CorsFilter corsFilter() {
                 CorsConfiguration config = new CorsConfiguration();
                 config.setAllowedOrigins(List.of(
                                 "http://localhost:5173",
@@ -43,7 +43,7 @@ public class SecurityConfig {
 
                 UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
                 source.registerCorsConfiguration("/**", config);
-                return (source);
+                return new CorsFilter(source);
         }
 
         @Bean
@@ -63,6 +63,7 @@ public class SecurityConfig {
                                                 .requestMatchers("/error", "/h2-console/**").permitAll()
                                                 .anyRequest().authenticated())
                                 .headers(headers -> headers.frameOptions(frame -> frame.disable()))
+                                .addFilterBefore(corsFilter(), UsernamePasswordAuthenticationFilter.class)
                                 .addFilterBefore(authenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
                 return http.build();

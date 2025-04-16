@@ -40,7 +40,7 @@ public class JwtService {
         String authorizationHeaderValue = request.getHeader(HttpHeaders.AUTHORIZATION);
 
         // Check if authorizatrion header exists
-        if (authorizationHeaderValue == null) {
+        if (authorizationHeaderValue == null || !authorizationHeaderValue.startsWith(PREFIX)) {
             return null;
         }
 

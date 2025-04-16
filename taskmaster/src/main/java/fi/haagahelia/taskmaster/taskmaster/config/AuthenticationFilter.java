@@ -1,6 +1,8 @@
 package fi.haagahelia.taskmaster.taskmaster.config;
 
 import java.util.List;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -19,18 +21,22 @@ import jakarta.servlet.http.HttpServletResponse;
 
 @Component
 public class AuthenticationFilter extends OncePerRequestFilter {
+
     @Autowired
     private JwtService jwtService;
 
+    private static final Logger logger = LoggerFactory.getLogger(AuthenticationFilter.class);
+
     @Override
-    protected void doFilterInternal(@NonNull HttpServletRequest request,
+    protected void doFilterInternal(
+            @NonNull HttpServletRequest request,
             @NonNull HttpServletResponse response,
-            @NonNull FilterChain filterChain)
-            throws ServletException, java.io.IOException {
+            @NonNull FilterChain filterChain) throws ServletException, java.io.IOException {
 
-        String path = request.getRequestURI();
+        String uri = request.getRequestURI();
+        logger.info("AuthenticationFilter {}", uri);
 
-        if (path.equals("/api/auth/login") || path.equals("/api/users")) {
+        if (uri.contains("/api/auth/login") || uri.equals("/api/users")) {
             filterChain.doFilter(request, response);
             return;
         }
@@ -39,6 +45,7 @@ public class AuthenticationFilter extends OncePerRequestFilter {
 
         if (jws != null) {
             String user = jwtService.getAuthUser(request);
+            logger.info("{} {}", jws, user);
 
             Authentication authentication = new UsernamePasswordAuthenticationToken(
                     user, null, List.of());

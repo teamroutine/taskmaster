@@ -15,7 +15,7 @@ export function fetchTickets() {
 }
 
 export function fetchAppUsers() {
-  return apiFetch("/users");
+  return apiFetch(import.meta.env.VITE_API_URL + "/users");
 }
 
 export const handleAddTicket = (newTicket) => {
@@ -93,12 +93,11 @@ export const userRegister = async (newUser) => {
 };
 
 export const userLogin = async (user) => {
-  return apiFetch("/api/auth/login", {
+  return apiFetch(import.meta.env.VITE_API_URL + "/auth/login", {
     method: "POST",
     body: JSON.stringify(user),
   });
 };
-
 export const generateInvite = (teamId, durationHours) => {
   return apiFetch(`${import.meta.env.VITE_API_URL}/invites/generateInvite`, {
     method: "POST",
@@ -109,12 +108,6 @@ export const generateInvite = (teamId, durationHours) => {
   });
 };
 
-// Dynamically set the base URL based on the environment
-const BASE_URL = process.env.NODE_ENV === "production"
-  ? "https://taskmaster-git-ohjelmistoprojekti-2-taskmaster.2.rahtiapp.fi"
-  : "http://localhost:8080";
-
-// Centralized API fetch function
 export const apiFetch = async (URL, options = {}) => {
   const token = localStorage.getItem("accessToken"); // Fetch the token from localStorage
 
@@ -132,11 +125,7 @@ export const apiFetch = async (URL, options = {}) => {
   };
 
   try {
-    const response = await fetch(`${BASE_URL}${URL}`, {
-      credentials: "include",
-      ...options,
-      headers
-    });
+    const response = await fetch(URL, { ...options, headers });
 
     if (!response.ok) {
       const errorText = await response.text();

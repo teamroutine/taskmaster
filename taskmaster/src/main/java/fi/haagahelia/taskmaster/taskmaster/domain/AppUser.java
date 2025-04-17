@@ -10,6 +10,7 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
@@ -26,6 +27,7 @@ public class AppUser implements UserDetails {
     private String lastName;
     private String email;
     private String phone;
+    @Column(unique = true)
     private String username;
 
     @JsonIgnore
@@ -39,7 +41,7 @@ public class AppUser implements UserDetails {
     }
 
     public AppUser(Long id, String firstName, String lastName, String email, String phone, String username,
-            String password,List <Team> teams) {
+            String password, List<Team> teams) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -49,6 +51,7 @@ public class AppUser implements UserDetails {
         this.password = password;
         this.teams = teams;
     }
+
     public List<Team> getTeams() {
         return teams;
     }
@@ -56,7 +59,6 @@ public class AppUser implements UserDetails {
     public void setTeams(List<Team> teams) {
         this.teams = teams;
     }
-
 
     public Long getId() {
         return id;

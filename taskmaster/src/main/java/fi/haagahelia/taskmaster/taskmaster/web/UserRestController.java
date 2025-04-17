@@ -74,7 +74,8 @@ public class UserRestController {
     }
 
     @PostMapping
-    public AppUser createAppUser(@Valid @RequestBody RegisterUserDto registration, BindingResult bindingResult) {
+    public ResponseEntity<AppUser> createAppUser(@Valid @RequestBody RegisterUserDto registration,
+            BindingResult bindingResult) {
         Optional<AppUser> existingUser = appUserRepository.findByUsername(registration.getUsername());
 
         // Checks if username is vacant
@@ -90,7 +91,7 @@ public class UserRestController {
         }
 
         // Save the data of new user in database
-        return appUserService.registerUser(registration);
+        return ResponseEntity.status(HttpStatus.CREATED).body(appUserService.registerUser(registration));
     }
 
     @PutMapping("/{id}")

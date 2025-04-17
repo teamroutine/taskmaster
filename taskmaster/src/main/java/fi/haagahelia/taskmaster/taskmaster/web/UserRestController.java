@@ -112,7 +112,12 @@ public class UserRestController {
         if (appUserData.getPhone() != null) {
             editAppUser.setPhone(appUserData.getPhone());
         }
-        if (appUserData.getUsername() != null) {
+        if (appUserData.getUsername() != null && !appUserData.getUsername().equals(editAppUser.getUsername())) {
+            Optional<AppUser> existingUser = appUserRepository.findByUsername(appUserData.getUsername());
+            if (existingUser.isPresent()) {
+                throw new ResponseStatusException(HttpStatus.CONFLICT, "Username is already taken.");
+            }
+            // Vain silloin, kun käyttäjänimi on vapaa, asetetaan se
             editAppUser.setUsername(appUserData.getUsername());
         }
         if (appUserData.getPassword() != null) {

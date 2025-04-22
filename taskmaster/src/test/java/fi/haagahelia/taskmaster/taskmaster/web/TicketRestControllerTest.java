@@ -32,6 +32,7 @@ import fi.haagahelia.taskmaster.taskmaster.domain.AppUserRepository;
 import fi.haagahelia.taskmaster.taskmaster.domain.Block;
 import fi.haagahelia.taskmaster.taskmaster.domain.BlockRepository;
 import fi.haagahelia.taskmaster.taskmaster.domain.PanelRepository;
+import fi.haagahelia.taskmaster.taskmaster.domain.TagRepository;
 import fi.haagahelia.taskmaster.taskmaster.domain.TeamRepository;
 import fi.haagahelia.taskmaster.taskmaster.domain.Ticket;
 import fi.haagahelia.taskmaster.taskmaster.domain.TicketRepository;
@@ -57,6 +58,9 @@ class TicketRestControllerTest {
 
         @MockitoBean
         private TeamRepository teamRepository;
+
+        @MockitoBean
+        private TagRepository tagRepository;
 
         @MockitoBean
         private AppUserRepository appUserRepository;

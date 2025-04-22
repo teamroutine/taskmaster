@@ -34,7 +34,8 @@ public class TicketRestController {
     private final TagRepository tagRepository;
 
     @Autowired
-    public TicketRestController(TicketRepository ticketRepository, BlockRepository blockRepository, TagRepository tagRepository) {
+    public TicketRestController(TicketRepository ticketRepository, BlockRepository blockRepository,
+            TagRepository tagRepository) {
         this.ticketRepository = ticketRepository;
         this.blockRepository = blockRepository;
         this.tagRepository = tagRepository;
@@ -109,17 +110,27 @@ public class TicketRestController {
     }
 
     @PutMapping("/{id}/addTags")
-    public ResponseEntity<Ticket> addTagstoTickets(@PathVariable Long id, @RequestBody List<Long> tagIds) {
+    public ResponseEntity<Ticket> addTagsToTickets(@PathVariable Long id, @RequestBody List<Long> tagIds) {
         Ticket ticket = ticketRepository.findById(id)
-            .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Ticket not found"));
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Ticket not found"));
 
         List<Tag> tags = tagRepository.findAllById(tagIds);
         ticket.getTags().addAll(tags);
-        
+
         ticketRepository.save(ticket);
         return ResponseEntity.ok(ticket);
     }
 
-    
+    @PutMapping("/{id}/removeTags")
+    public ResponseEntity<Ticket> removeTagsFromTickets(@PathVariable Long id, @RequestBody List<Long> tagIds) {
+        Ticket ticket = ticketRepository.findById(id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Ticket not found"));
+
+        List<Tag> tags = tagRepository.findAllById(tagIds);
+        ticket.getTags().removeAll(tags);
+
+        ticketRepository.save(ticket);
+        return ResponseEntity.ok(ticket);
+    }
 
 }

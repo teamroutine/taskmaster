@@ -12,6 +12,8 @@ import org.springframework.web.server.ResponseStatusException;
 
 import fi.haagahelia.taskmaster.taskmaster.domain.TicketRepository;
 import fi.haagahelia.taskmaster.taskmaster.domain.BlockRepository;
+import fi.haagahelia.taskmaster.taskmaster.domain.Tag;
+import fi.haagahelia.taskmaster.taskmaster.domain.TagRepository;
 import fi.haagahelia.taskmaster.taskmaster.domain.Block;
 import fi.haagahelia.taskmaster.taskmaster.domain.Ticket;
 import fi.haagahelia.taskmaster.taskmaster.dto.TicketDTO;
@@ -29,11 +31,13 @@ import java.util.List;
 public class TicketRestController {
     private final TicketRepository ticketRepository;
     private final BlockRepository blockRepository;
+    private final TagRepository tagRepository;
 
     @Autowired
-    public TicketRestController(TicketRepository ticketRepository, BlockRepository blockRepository) {
+    public TicketRestController(TicketRepository ticketRepository, BlockRepository blockRepository, TagRepository tagRepository) {
         this.ticketRepository = ticketRepository;
         this.blockRepository = blockRepository;
+        this.tagRepository = tagRepository;
     }
 
     @GetMapping
@@ -103,5 +107,19 @@ public class TicketRestController {
         ticketRepository.delete(ticket);
         return ResponseEntity.noContent().build();
     }
+
+    @PutMapping("/{id}/addTags")
+    public ResponseEntity<Ticket> addTagstoTickets(@PathVariable Long id, @RequestBody List<Long> tagIds) {
+        Ticket ticket = ticketRepository.findById(id)
+            .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Ticket not found"));
+
+        List<Tag> tags = tagRepository.findAllById(tagIds);
+        ticket.getTags().addAll(tags);
+        
+        ticketRepository.save(ticket);
+        return ResponseEntity.ok(ticket);
+    }
+
+    
 
 }

@@ -1,9 +1,13 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Dialog, DialogActions, DialogContent, DialogTitle, Button, Paper, Typography, Box, MenuItem, TextField } from '@mui/material';
 import DropDown from './DropDown';
+import TagListView from './TagListView';
 export default function ViewTicket({ ticket, open, onClose, handleDelete, onEditClick }) {
+    const [tagModalOpen, setTagModalOpen] = useState(false);
+
 
     return (
+        <>
         <Dialog open={open} onClose={onClose}>
             <DialogTitle
                 sx={{
@@ -70,13 +74,21 @@ export default function ViewTicket({ ticket, open, onClose, handleDelete, onEdit
                     <Box
                         sx={{
                             display: 'flex',
-                            justifyContent: 'flex-end',
+                            justifyContent: 'space-between',
                             alignItems: 'center'
                         }}
                     >
                         <Typography variant="body2" color="textSecondary">
                             Created on: {ticket.created}
                         </Typography>
+                        <Button
+                            variant="outlined"
+                            size="small"
+                            sx={{ ml: 2 }}
+                            onClick={() => setTagModalOpen(true)}
+                        >
+                            Manage Tags
+                        </Button>
                     </Box>
                 </Paper>
             </DialogContent>
@@ -85,5 +97,14 @@ export default function ViewTicket({ ticket, open, onClose, handleDelete, onEdit
                 <Button sx={{ backgroundColor: "#9E9E9E" }} variant="contained" onClick={onClose}>Close</Button>
             </DialogActions>
         </Dialog>
+        
+        {tagModalOpen && (
+            <TagListView
+              ticket={ticket}
+              open={tagModalOpen}
+              onClose={() => setTagModalOpen(false)}
+            />
+          )}
+        </>
     );
 }

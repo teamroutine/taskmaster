@@ -18,6 +18,44 @@ export function fetchAppUsers() {
   return apiFetch(import.meta.env.VITE_API_URL + "/users");
 }
 
+export function fetchTags() {
+  return apiFetch(import.meta.env.VITE_API_URL + "/tags");
+}
+
+export function createTag(newTag) {
+  return apiFetch(import.meta.env.VITE_API_URL + "/tags", {
+    method: "POST",
+    body: JSON.stringify(newTag),
+  });
+}
+
+export function updateTag(tagId, updatedTag) {
+  return apiFetch(import.meta.env.VITE_API_URL + `/tags/${tagId}`, {
+    method: "PUT",
+    body: JSON.stringify(updatedTag),
+  });
+}
+
+export function deleteTag(tagId) {
+  return apiFetch(import.meta.env.VITE_API_URL + `/tags/${tagId}`, {
+    method: "DELETE",
+  });
+}
+
+export function addTagsToTicket(ticketId, tagIds) {
+  return apiFetch(import.meta.env.VITE_API_URL + `/tickets/${ticketId}/addTags`, {
+    method: "PUT",
+    body: JSON.stringify(tagIds),
+  });
+}
+
+export function removeTagsFromTicket(ticketId, tagIds) {
+  return apiFetch(import.meta.env.VITE_API_URL + `/tickets/${ticketId}/removeTags`, {
+    method: "PUT",
+    body: JSON.stringify(tagIds),
+  });
+}
+
 export const handleAddTicket = (newTicket) => {
   return apiFetch(import.meta.env.VITE_API_URL + "/tickets", {
     method: "POST",

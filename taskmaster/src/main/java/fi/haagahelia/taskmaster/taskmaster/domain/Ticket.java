@@ -57,7 +57,7 @@ public class Ticket {
         this.status = status;
         this.created = created;
         this.block = block;
-        this.tags = tags != null ? tags : new ArrayList<>();
+        this.tags = tags;
     }
 
     public List<Tag> getTags() {

@@ -1,7 +1,10 @@
 package fi.haagahelia.taskmaster.taskmaster.dto;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+
 import fi.haagahelia.taskmaster.taskmaster.domain.Ticket;
 
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class TicketDTO {
     private Long ticketId;
     private String ticketName;
@@ -23,7 +26,7 @@ public class TicketDTO {
         this.ticketId = ticket.getTicketId();
         this.ticketName = ticket.getTicketName();
         this.description = ticket.getDescription();
-        this.blockId = ticket.getBlock().getBlockId();
+        this.blockId = ticket.getBlock() != null ? ticket.getBlock().getBlockId() : null;
     }
 
     public Long getTicketId() {

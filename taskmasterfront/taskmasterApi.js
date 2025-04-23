@@ -59,6 +59,13 @@ export function updateTicket(ticketId, ticket) {
   });
 }
 
+export const handleReorderTickets = (blockId, reorderedTickets) => {
+  return apiFetch(`${import.meta.env.VITE_API_URL}/tickets/reorder?blockId=${blockId}`, {
+    method: "PUT",
+    body: JSON.stringify(reorderedTickets),
+  });
+};
+
 export function updateBlock(blockId, block) {
   return apiFetch(import.meta.env.VITE_API_URL + `/blocks/${blockId}`, {
     method: "PUT",

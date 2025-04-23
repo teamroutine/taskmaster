@@ -59,6 +59,7 @@ public class SecurityConfig {
                                                 .requestMatchers(HttpMethod.POST, "/api/users").permitAll()
                                                 .requestMatchers(HttpMethod.GET, "/api/teams").permitAll()
                                                 .requestMatchers(HttpMethod.GET, "/api/invites/**").permitAll()
+                                                .requestMatchers(HttpMethod.GET, "/api/blocks/**").permitAll()
                                                 .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                                                 .requestMatchers("/error", "/h2-console/**").permitAll()
                                                 .anyRequest().authenticated())

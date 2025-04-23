@@ -7,6 +7,7 @@ import org.springframework.lang.NonNull;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -55,10 +56,15 @@ public class TicketRestController {
         Block block = blockRepository.findById(ticketDTO.getBlockId())
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Block not found"));
 
+        Integer maxSortOrder = ticketRepository
+                .findMaxSortOrderByBlockId(ticketDTO.getBlockId())
+                .orElse(-1);
+
         Ticket newTicket = new Ticket();
         newTicket.setTicketName(ticketDTO.getTicketName());
         newTicket.setDescription(ticketDTO.getDescription());
         newTicket.setBlock(block);
+        newTicket.setSortOrder(maxSortOrder + 1);
 
         Ticket savedTicket = ticketRepository.save(newTicket);
         return ResponseEntity.status(HttpStatus.CREATED).body(savedTicket);
@@ -104,4 +110,33 @@ public class TicketRestController {
         return ResponseEntity.noContent().build();
     }
 
+    @PutMapping("/reorder")
+    public ResponseEntity<Void> reorderTickets(@RequestBody @NonNull List<TicketDTO> tickets,
+            @RequestParam Long blockId) {
+        
+        Block block = blockRepository.findById(blockId)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Block not found"));
+
+        for (TicketDTO ticketDTO : tickets) {
+            Ticket ticket = ticketRepository.findById(ticketDTO.getTicketId())
+                    .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,
+                            "Ticket not found: " + ticketDTO.getTicketId()));
+
+            if (!ticket.getBlock().getBlockId().equals(blockId)) {
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
+                        "Ticket " + ticketDTO.getTicketId() + " does not belong to block " + blockId);
+            }
+        }
+        int index = 0;
+        for (TicketDTO ticketDTO : tickets) {
+            Ticket ticket = ticketRepository.findById(ticketDTO.getTicketId())
+                    .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,
+                            "Ticket not found: " + ticketDTO.getTicketId()));
+
+            ticket.setSortOrder(index++);
+            ticketRepository.save(ticket);
+        }
+
+        return ResponseEntity.noContent().build();
+    }
 }

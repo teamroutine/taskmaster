@@ -22,8 +22,10 @@ public class Ticket {
     private String ticketName;
     private String description;
     private Boolean status;
+    private Integer sortOrder;
     @CreationTimestamp
     private LocalDate created;
+    
 
     @ManyToOne
     @JsonBackReference
@@ -34,13 +36,14 @@ public class Ticket {
     }
 
     public Ticket(Long ticketId, String ticketName, String description, Boolean status, LocalDate created,
-            Block block) {
+            Block block, Integer sortOrder) {
         this.ticketId = ticketId;
         this.ticketName = ticketName;
         this.description = description;
         this.status = status;
         this.created = created;
         this.block = block;
+        this.sortOrder = sortOrder;
     }
 
     public Long getTicketId() {
@@ -94,7 +97,15 @@ public class Ticket {
     @Override
     public String toString() {
         return "Ticket [ticketId=" + ticketId + ", ticketName=" + ticketName + ", description=" + description
-                + ", status=" + status + ", created=" + created + ", block=" + block + "]";
+                + ", status=" + status + ", created=" + created + ", block=" + block + ", sortOrder=" + sortOrder + "]";
+    }
+
+    public Integer getSortOrder() {
+        return sortOrder;
+    }
+
+    public void setSortOrder(Integer sortOrder) {
+        this.sortOrder = sortOrder;
     }
 
 }

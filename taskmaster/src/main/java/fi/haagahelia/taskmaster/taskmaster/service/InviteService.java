@@ -16,14 +16,18 @@ import fi.haagahelia.taskmaster.taskmaster.domain.TeamRepository;
 @Service
 public class InviteService {
 
-    @Autowired
-    private InviteRepository inviteRepository;
+    private final InviteRepository inviteRepository;
+    private final TeamRepository teamRepository;
 
-    @Autowired
-    private TeamRepository teamRepository;
+    public InviteService(InviteRepository inviteRepository, TeamRepository teamRepository) {
+        this.inviteRepository = inviteRepository;
+        this.teamRepository = teamRepository;
+    }
 
     public String generateInviteCode(Long teamId, int durationHours) {
-        Team team = teamRepository.findById(teamId).orElseThrow(() -> new RuntimeException("Team not found"));
+        Team team = teamRepository.findById(teamId)
+                .orElseThrow(() -> new RuntimeException("Team not found"));
+
         String nanoId = NanoIdUtils.randomNanoId();
         Date createdAt = new Date();
         Date expiresAt = new Date(createdAt.getTime() + TimeUnit.HOURS.toMillis(durationHours));

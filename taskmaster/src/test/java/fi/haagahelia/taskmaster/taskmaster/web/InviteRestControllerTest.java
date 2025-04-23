@@ -68,7 +68,7 @@ class InviteRestControllerTest {
     void testGenerateInvite() throws Exception {
 
         when(inviteService.generateInviteCode(Mockito.anyLong(), Mockito.anyInt()))
-                .thenReturn("mockInviteLink");
+                .thenReturn("mockInviteCode");
 
         String requestBody = "{\"teamId\": 1, \"durationHours\": 24}";
 
@@ -77,7 +77,7 @@ class InviteRestControllerTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(requestBody))
                 .andExpect(status().isCreated())
-                .andExpect(jsonPath("$.inviteLink").value("mockInviteLink"));
+                .andExpect(jsonPath("$.inviteCode").value("mockInviteCode"));
     }
 
     @Test
@@ -87,7 +87,7 @@ class InviteRestControllerTest {
         mockInvite.setNanoId("valid-nano-id");
         when(inviteService.validateInviteCode("valid-nano-id")).thenReturn(mockInvite);
 
-        mockMvc.perform(get("/api/invites/validateInvite")
+        mockMvc.perform(get("/api/invites/validate/valid-nano-id")
                 .param("nanoId", "valid-nano-id")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())

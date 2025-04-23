@@ -153,6 +153,16 @@ export const generateInvite = (teamId, durationHours) => {
   });
 };
 
+export const validateInvite = (inviteCode) => {
+  return apiFetch(`${import.meta.env.VITE_API_URL}/invites/validate/${inviteCode}`)
+}
+
+export const joinTeamWithInvite = (inviteCode) => {
+  return apiFetch(`${import.meta.env.VITE_API_URL}/team/join/${inviteCode}`, {
+    method: "POST",
+  });
+};
+
 export const apiFetch = async (URL, options = {}) => {
   const token = localStorage.getItem("accessToken"); // Fetch the token from localStorage
 

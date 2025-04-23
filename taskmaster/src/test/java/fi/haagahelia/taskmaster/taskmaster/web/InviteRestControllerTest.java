@@ -67,7 +67,7 @@ class InviteRestControllerTest {
     @Test
     void testGenerateInvite() throws Exception {
 
-        when(inviteService.generateInviteLink(Mockito.anyLong(), Mockito.anyInt()))
+        when(inviteService.generateInviteCode(Mockito.anyLong(), Mockito.anyInt()))
                 .thenReturn("mockInviteLink");
 
         String requestBody = "{\"teamId\": 1, \"durationHours\": 24}";
@@ -85,7 +85,7 @@ class InviteRestControllerTest {
 
         Invite mockInvite = new Invite();
         mockInvite.setNanoId("valid-nano-id");
-        when(inviteService.validateInviteLink("valid-nano-id")).thenReturn(mockInvite);
+        when(inviteService.validateInviteCode("valid-nano-id")).thenReturn(mockInvite);
 
         mockMvc.perform(get("/api/invites/validateInvite")
                 .param("nanoId", "valid-nano-id")
@@ -97,7 +97,7 @@ class InviteRestControllerTest {
     @Test
     void testValidateInvite_InvalidInvite() throws Exception {
 
-        when(inviteService.validateInviteLink("invalid-nano-id")).thenThrow(new RuntimeException("Invite not found"));
+        when(inviteService.validateInviteCode("invalid-nano-id")).thenThrow(new RuntimeException("Invite not found"));
 
         mockMvc.perform(get("/api/invites/validateInvite")
                 .param("nanoId", "invalid-nano-id")

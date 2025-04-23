@@ -100,6 +100,28 @@ The project frontend will be constructed using following Material UI components 
 ```
 
 ## Testing
+### Frontend testing
+The project uses Vitest as a testing framework optimized for JavaScript and TypeScript. Tests have been written using the following tools and techniques:
+
+#### Vitest
+Vitest is a testing framework designed for Vite projects. It supports both unit and integration tests. It uses jsdom to create a virtual environment that allows DOM editing, event handling, and interactions between React components.
+
+#### React Testing Library
+The project utilizes @testing-library/react, which makes testing React components simple and fast. It allows users to test components without real events. It simulates the events, which means that the tests don't affect the actual application.
+
+#### Test coverage
+Test coverage is tracked using the V8 component, which provides detailed reports on the results and the coverage of the tests.
+
+### Backend testing
+The backend is implemented using Spring Boot, which offers various tools for Java testing.
+
+#### JUnit 5
+JUnit 5 is a framework for Java tests, especially for unit tests. Service and repository classes of the Taskmaster project are tested using JUnit 5.
+
+#### Mockito
+Mockito is a mocking library for Java applications. It is used to mock data for testing purposes, especially in controller classes. For integration tests, mocked data is used to ensure that the testing environment remains stable and independent of external resources.
+
+
    
 ## Work in progress
  - Firebase / Spring security authentication

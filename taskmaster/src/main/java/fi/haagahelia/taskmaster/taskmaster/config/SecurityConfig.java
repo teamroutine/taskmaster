@@ -27,8 +27,6 @@ public class SecurityConfig {
                 return new BCryptPasswordEncoder();
         }
 
-        // ✅ Tämä Bean takaa että CORS toimii oikein myös preflight (OPTIONS)
-        // -pyynnöillä
         @Bean
         public CorsFilter corsFilter() {
                 CorsConfiguration config = new CorsConfiguration();
@@ -38,7 +36,12 @@ public class SecurityConfig {
                                 "https://taskmaster-git-ohjelmistoprojekti-2-taskmaster.2.rahtiapp.fi"));
                 config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
                 config.setAllowedHeaders(List.of("Authorization", "Content-Type"));
-                config.setExposedHeaders(List.of("Authorization")); // Jos token lähetetään takaisin
+                config.setExposedHeaders(List.of("Authorization",
+                                "Content-Type",
+                                "Accept",
+                                "Origin",
+                                "Access-Control-Allow-Origin",
+                                "Access-Control-Allow-Credentials"));
                 config.setAllowCredentials(true);
 
                 UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();

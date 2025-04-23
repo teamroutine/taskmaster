@@ -9,7 +9,7 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "test": "vitest",
-    "coverage": "vitest --run coverage"
+    "coverage": "vitest run --coverage"
   },
   "dependencies": {
     "@atlaskit/pragmatic-drag-and-drop": "^1.5.1",
@@ -23,16 +23,17 @@
     "jwt-decode": "^4.0.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
-    "taskmasterfront": "file:",
-    "vitest": "^3.0.9"
+    "taskmasterfront": "file:"
   },
   "devDependencies": {
     "@eslint/js": "^9.17.0",
     "@testing-library/jest-dom": "^6.6.3",
     "@testing-library/react": "^16.2.0",
+    "@testing-library/user-event": "^14.6.1",
     "@types/react": "^18.3.18",
     "@types/react-dom": "^18.3.5",
-    "@vitejs/plugin-react": "^4.3.4",
+    "@vitejs/plugin-react": "^4.4.1",
+    "@vitest/coverage-v8": "^3.1.2",
     "eslint": "^9.17.0",
     "eslint-plugin-react": "^7.37.2",
     "eslint-plugin-react-hooks": "^5.0.0",
@@ -40,6 +41,7 @@
     "globals": "^15.14.0",
     "jsdom": "^26.0.0",
     "react-router-dom": "^7.2.0",
-    "vite": "^6.0.11"
+    "vite": "^6.0.11",
+    "vitest": "^3.1.2"
   }
 }

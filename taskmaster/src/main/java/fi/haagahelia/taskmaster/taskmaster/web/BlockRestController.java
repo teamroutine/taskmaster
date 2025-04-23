@@ -58,7 +58,11 @@ public class BlockRestController {
     public ResponseEntity<Block> newBlock(@RequestBody @NonNull BlockDto blockDto) {
         Panel panel = panelRepository.findById(blockDto.getPanelId())
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Panel not found"));
-
+        
+        List<Block> existingBlock = blockRepository.findByBlockNameAndPanel_PanelId(blockDto.getBlockName(), blockDto.getPanelId());
+        if (!existingBlock.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "Block with the same name already exists in this panel.");
+        }
         Block newBlock = new Block();
         newBlock.setBlockName(blockDto.getBlockName());
         newBlock.setDescription(blockDto.getDescription());
@@ -94,6 +98,13 @@ public class BlockRestController {
                 .orElseThrow(() -> new ResponseStatusException(
                         HttpStatus.NOT_FOUND,
                         "Block " + id + " can't be deleted, since it doesn't exist."));
+
+        // Don't let user delete done block  
+        if ("Done".equalsIgnoreCase(block.getBlockName())) {
+            throw new ResponseStatusException(
+                    HttpStatus.FORBIDDEN,
+                    "The 'Done' block cannot be deleted.");
+        }
 
         blockRepository.delete(block);
         return ResponseEntity.noContent().build();

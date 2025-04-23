@@ -13,6 +13,7 @@ export default function CreateTicket({ createTicket }) {
     const [ticket, setTicket] = useState({
         ticketName: '',
         description: '',
+        dueDate: new Date().toISOString().split('T')[0],//initializinf with today's date
     })
 
     // Open new Ticket modal
@@ -28,7 +29,7 @@ export default function CreateTicket({ createTicket }) {
     // Save new Ticket information 
     const handleSave = () => {
         createTicket(ticket);
-        setTicket({ ticketName: "", description: "" });
+        setTicket({ ticketName: "", description: "", dueDate: new Date().toISOString().split('T')[0] });
         handleClose();
     }
 
@@ -47,19 +48,37 @@ export default function CreateTicket({ createTicket }) {
                 <DialogContent>
                     <TextField
                         margin='dense'
-                        label='Ticket name'
+                        placeholder='Ticket Name'
                         value={ticket.ticketName}
                         onChange={e => setTicket({ ...ticket, ticketName: e.target.value })}
                         fullWidth
-                        variant='standard'
+                        variant='outlined'
+                        InputLabelProps={{
+                            shrink: true, // label above input
+                        }}
                     />
                     <TextField
                         margin='dense'
-                        label='Ticket description'
+                        placeholder='Ticket description'
                         value={ticket.description}
                         onChange={e => setTicket({ ...ticket, description: e.target.value })}
                         fullWidth
-                        variant='standard'
+                        variant='outlined'
+                        InputLabelProps={{
+                            shrink: true, 
+                        }}
+                    />
+                    <TextField
+                        margin='dense'
+                        label='Due Date'
+                        type='date'
+                        value={ticket.dueDate}
+                        onChange={e => setTicket({ ...ticket, dueDate: e.target.value })}
+                        fullWidth
+                        variant='outlined'
+                        InputLabelProps={{
+                            shrink: true, // Ensures the label is above the input
+                        }}
                     />
                 </DialogContent>
                 <DialogActions>

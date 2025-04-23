@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { Snackbar, Dialog, Typography, DialogActions, DialogContent, DialogTitle, Button, TextField, Paper, Box } from '@mui/material';
+import { Snackbar, Dialog, Typography, DialogActions, DialogContent, DialogTitle, Button, TextField, Paper, Box, Divider } from '@mui/material';
 import { updateTicket } from '../../taskmasterApi';
 
 export default function EditTicket({ open, ticket, onClose, onSave }) {
     const [ticketData, setTicketData] = useState({
         ticketName: '',
         description: '',
+        dueDate:'',
     });
 
     const [openSnackbar, setOpenSnackbar] = useState(false);
@@ -15,6 +16,7 @@ export default function EditTicket({ open, ticket, onClose, onSave }) {
         setTicketData({
             ticketName: ticket.ticketName,
             description: ticket.description,
+            dueDate: ticket.dueDate
         });
 
     }, [ticket]);
@@ -69,7 +71,7 @@ export default function EditTicket({ open, ticket, onClose, onSave }) {
 
                             />
                         </Box>
-
+                        
                         <Box mb={3}>
                             <TextField
                                 margin="dense"
@@ -84,6 +86,21 @@ export default function EditTicket({ open, ticket, onClose, onSave }) {
                                     style: { fontSize: '20px' }
                                 }}
                                 sx={{ marginTop: 1, borderRadius: 2, }}
+                            />
+                        </Box>
+
+                        <Box mb={3}>
+                            <TextField
+                                margin="dense"
+                                label="Due Date"
+                                type='date'
+                                value={ticketData.dueDate}
+                                onChange={e => setTicketData({ ...ticketData, dueDate: e.target.value })}
+                                fullWidth
+                                variant="outlined"
+                                InputProps={{
+                                    style: { fontSize: '20px' }
+                                }}
                             />
                         </Box>
                     </Paper>

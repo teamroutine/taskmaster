@@ -13,7 +13,6 @@ import fi.haagahelia.taskmaster.taskmaster.domain.Team;
 import fi.haagahelia.taskmaster.taskmaster.domain.InviteRepository;
 import fi.haagahelia.taskmaster.taskmaster.domain.TeamRepository;
 
-
 @Service
 public class InviteService {
 
@@ -23,7 +22,7 @@ public class InviteService {
     @Autowired
     private TeamRepository teamRepository;
 
-    public String generateInviteLink(Long teamId, int durationHours) {
+    public String generateInviteCode(Long teamId, int durationHours) {
         Team team = teamRepository.findById(teamId).orElseThrow(() -> new RuntimeException("Team not found"));
         String nanoId = NanoIdUtils.randomNanoId();
         Date createdAt = new Date();
@@ -35,8 +34,9 @@ public class InviteService {
         return nanoId;
     }
 
-    public Invite validateInviteLink(String nanoId) {
-        Invite invite = inviteRepository.findByNanoId(nanoId).orElseThrow(() -> new RuntimeException("Invite link not found"));
+    public Invite validateInviteCode(String nanoId) {
+        Invite invite = inviteRepository.findByNanoId(nanoId)
+                .orElseThrow(() -> new RuntimeException("Invite link not found"));
 
         if (invite.getExpiresAt().before(new Date())) {
             throw new RuntimeException("Invite link has expired");
@@ -44,6 +44,7 @@ public class InviteService {
 
         return invite;
     }
+
     public List<Invite> getAllInvites() {
         return inviteRepository.findAll();
     }

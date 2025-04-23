@@ -68,13 +68,13 @@ export default function ListTickets({
   const getTicketColor = (dueDateString) => {
     const remainingDays = calculateDaysUntilDue(dueDateString)
     if ( remainingDays <= 0 ){
-      return "rgba(255, 0, 0, 0.65)";
+      return "rgba(255, 0, 0, 0.65)"; //alustin värit niitä voi tästä nyt muuttaa
     } else if ( remainingDays <= 3 ){
       return "rgba(255, 87, 0, 0.7)";
     } else if (remainingDays <= 7){
       return "rgba(255, 223, 0, 0.7)";
     }else{
-      return null;
+       return "rgba(64, 64, 64, 0.6)";
     }
   }
 
@@ -329,7 +329,8 @@ export default function ListTickets({
                   cursor: "grab",
                   wordWrap: "break-word",
                   overflow: "hidden",
-                  backgroundColor: getTicketColor(ticket.dueDate)
+                  backgroundColor: getTicketColor(ticket.dueDate),
+                  
                 }}
                 onClick={() => handleTicketClick(ticket)}
               >

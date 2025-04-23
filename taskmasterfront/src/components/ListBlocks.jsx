@@ -114,21 +114,18 @@ function ListBlocks({ blocks, setBlocks }) {
       dropTargetForElements({
         element: el,
         getData: () => ({ type: "block", blockId: block.blockId }),
-        /*onDrop: ({ source, self }) => {
-          console.log("Drop event received:", source.data);
-          if (source.data.type === "ticket") {
-            console.log(
-              "Moving ticket with ID:",
-              source.data.ticketId,
-              "to block",
-              block.blockId
-            );
-            const closestEdge = extractClosestEdge(self.data);
-            moveTicket(source.data.ticketId, block.blockId, closestEdge);
-          } else {
-            console.warn("Dropped item is not a ticket:", source.data);
+        onDrop: ({ source }) => {
+          if (block.tickets?.length === 0) {
+            // Handle drop only if the block is empty
+            if (source.data.type === "ticket") {
+              const sourceTicketId = source.data.ticketId;
+              console.log(
+                `Adding ticket ${sourceTicketId} to empty block ${block.blockId}`
+              );
+              moveTicket(sourceTicketId, null, block.blockId, null); // No targetTicketId or closestEdge needed
+            }
           }
-        },*/
+        },
       });
     });
   }, [blocks]);
@@ -155,6 +152,21 @@ function ListBlocks({ blocks, setBlocks }) {
       const finalBlocks = updatedBlocks.map((block) => {
         if (block.blockId === targetBlockId && movedTicket) {
           const targetTickets = block.tickets ?? [];
+          // Handle empty block case
+        if (targetTickets.length === 0) {
+          const updatedTickets = [{ ...movedTicket, sortOrder: 0 }];
+
+          // Sync with backend
+          updateTicket(ticketId, { block: { blockId: targetBlockId } })
+            .then(() => {
+              reorderTickets(targetBlockId, updatedTickets);
+            })
+            .catch((error) => {
+              console.error("Failed to update ticket:", error);
+            });
+
+          return { ...block, tickets: updatedTickets };
+        }
 
           // Find the index of the target ticket
           const targetIndex = targetTickets.findIndex(

@@ -94,6 +94,7 @@ const handleSaveEdit = (updatedTicket) => {
   const handleDrop = ({ source, self }) => {
     if (source.data.type === "ticket") {
       const sourceTicketId = source.data.ticketId;
+      
       const targetTicketId = self.data.ticketId;
 
       // Determine the closest edge of the target ticket
@@ -181,7 +182,9 @@ const handleSaveEdit = (updatedTicket) => {
 
   return (
     <>
-      <Box component="ul" sx={{ padding: 0, margin: 0, listStyleType: "none" }}>
+      <Box component="ul" sx={{ padding: 0, margin: 0, listStyleType: "none", minHeight: "100%", // Ensure the ul has a minimum height
+    minWidth: "100%", }}
+    >
         {tickets
           .slice() // Create a shallow copy to avoid mutating the original array
           .sort((a, b) => a.sortOrder - b.sortOrder) // Sort tickets by sortOrder

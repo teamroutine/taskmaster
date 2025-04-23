@@ -55,41 +55,66 @@ export default function ListTickets({
     setOpenEdit(false);
   };
 
+  const calculateDaysUntilDue = (dueDateString) => {
+    const dueDate = new Date(dueDateString);
+    const today = new Date();
+
+    const timeLeft = dueDate - today;
+    //Converting milliseconds to days
+    const daysLeft = Math.ceil(timeLeft/(1000 * 60 * 60 *24));
+
+    return daysLeft;
+  }
+  const getTicketColor = (dueDateString) => {
+    const remainingDays = calculateDaysUntilDue(dueDateString)
+    if ( remainingDays <= 0 ){
+      return "rgba(255, 0, 0, 0.65)";
+    } else if ( remainingDays <= 3 ){
+      return "rgba(255, 87, 0, 0.7)";
+    } else if (remainingDays <= 7){
+      return "rgba(255, 223, 0, 0.7)";
+    }else{
+      return null;
+    }
+  }
+
   const handleDelete = (ticketId) => {
     const confirmed = window.confirm("Are you sure you want to delete this ticket?");
     if (confirmed) {
-        deleteTicket(ticketId)
-            .then(() => {
-                setBlocks(prevBlocks =>
-                    prevBlocks.map(block => ({
-                        ...block,
-                        tickets: block.tickets.filter(t => t.ticketId !== ticketId),
-                    }))
-                );
-                setOpenView(false);
-                setSnackbarMessage('Ticket deleted successfully');
-                setOpenSnackbar(true);      //Opens snackbar to show success message
-            })
-            .catch((err) => {
-                console.error("Failed to delete ticket:", err);
-                setSnackbarMessage('Error deleting ticket');
-                setOpenSnackbar(true);
-            });
+      deleteTicket(ticketId)
+        .then(() => {
+          setBlocks(prevBlocks =>
+            prevBlocks.map(block => ({
+              ...block,
+              tickets: block.tickets.filter(t => t.ticketId !== ticketId),
+            }))
+          );
+          setOpenView(false);
+          setSnackbarMessage('Ticket deleted successfully');
+          setOpenSnackbar(true);      //Opens snackbar to show success message
+        })
+        .catch((err) => {
+          console.error("Failed to delete ticket:", err);
+          setSnackbarMessage('Error deleting ticket');
+          setOpenSnackbar(true);
+        });
     }
-};
+  };
 
-const handleSaveEdit = (updatedTicket) => {
+  const handleSaveEdit = (updatedTicket) => {
     setBlocks(prevBlocks =>
-        prevBlocks.map(block => ({
-            ...block,
-            tickets: block.tickets.map(ticket =>
-                ticket.ticketId === selectedTicket.ticketId
-                    ? { ...ticket, ...updatedTicket }
-                    : ticket
-            ),
-        }))
+      prevBlocks.map(block => ({
+        ...block,
+        tickets: block.tickets.map(ticket =>
+          ticket.ticketId === selectedTicket.ticketId
+            ? { ...ticket, ...updatedTicket }
+            : ticket
+        ),
+      }))
     );
-};
+  };
+
+
 
   const handleDrop = ({ source, self }) => {
     if (source.data.type === "ticket") {
@@ -301,6 +326,7 @@ const handleSaveEdit = (updatedTicket) => {
                   cursor: "grab",
                   wordWrap: "break-word",
                   overflow: "hidden",
+                  backgroundColor: getTicketColor(ticket.dueDate)
                 }}
                 onClick={() => handleTicketClick(ticket)}
               >

@@ -22,8 +22,8 @@ import fi.haagahelia.taskmaster.taskmaster.domain.AppUserRepository;
 @SpringBootApplication
 public class TaskmasterApplication {
 
-	// @Autowired
-	// private PasswordEncoder passwordEncoder;
+	@Autowired
+	private PasswordEncoder passwordEncoder;
 
 	// private static final Logger log =
 	// LoggerFactory.getLogger(TaskmasterApplication.class);
@@ -32,27 +32,27 @@ public class TaskmasterApplication {
 		SpringApplication.run(TaskmasterApplication.class, args);
 	}
 
-	// @Bean
-	// public CommandLineRunner demo(PanelRepository prepository, TeamRepository
-	// terepository, BlockRepository brepository,
-	// TicketRepository tirepository, AppUserRepository arepository) {
-	// return args -> {
+	@Bean
+	public CommandLineRunner demo(PanelRepository prepository, TeamRepository
+	terepository, BlockRepository brepository,
+	TicketRepository tirepository, AppUserRepository arepository) {
+	return args -> {
 	// log.info("Saving panels and team");
 	// Team team1 = new Team(null, "Team1", "description for team 1", null, null,
 	// null);
 	// terepository.save(team1);
 
 	// String encodedPassword = passwordEncoder.encode("salasana");
-	// String encodedPassword2 = passwordEncoder.encode("admin");
+	String encodedPassword2 = passwordEncoder.encode("admin");
 
 	// AppUser appuser1 = new AppUser(null, "Hilja", "Katajamäki",
 	// "hilja.example@gmail", "0123456789", "hilja123",
 	// encodedPassword, null);
 	// arepository.save(appuser1);
-	// AppUser appuser2 = new AppUser(null, "Admin", "Katajamäki",
-	// "hilja.example@gmail", "0123456789", "admin",
-	// encodedPassword2, null);
-	// arepository.save(appuser2);
+	AppUser appuser2 = new AppUser(null, "Admin", "Katajamäki",
+	"hilja.example@gmail", "0123456789", "admin",
+	encodedPassword2, null);
+	arepository.save(appuser2);
 
 	// Panel panel1 = new Panel(null, "Project 1", "description for panel 1 ",
 	// team1, null);
@@ -82,7 +82,7 @@ public class TaskmasterApplication {
 	// ticket1.setBlock(block1);
 	// tirepository.save(ticket1);
 
-	// };
-	// }
+	};
+	}
 
 }

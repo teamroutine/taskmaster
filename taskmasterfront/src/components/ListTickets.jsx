@@ -15,6 +15,7 @@ import Divider from "@mui/material/Divider";
 import ViewTicket from "./ViewTicket";
 import EditTicket from "./EditTicket";
 import { Snackbar } from "@mui/material";
+import { deleteTicket } from "../../taskmasterApi";
 
 export default function ListTickets({
   tickets,
@@ -53,6 +54,42 @@ export default function ListTickets({
     setOpenView(false);
     setOpenEdit(false);
   };
+
+  const handleDelete = (ticketId) => {
+    const confirmed = window.confirm("Are you sure you want to delete this ticket?");
+    if (confirmed) {
+        deleteTicket(ticketId)
+            .then(() => {
+                setBlocks(prevBlocks =>
+                    prevBlocks.map(block => ({
+                        ...block,
+                        tickets: block.tickets.filter(t => t.ticketId !== ticketId),
+                    }))
+                );
+                setOpenView(false);
+                setSnackbarMessage('Ticket deleted successfully');
+                setOpenSnackbar(true);      //Opens snackbar to show success message
+            })
+            .catch((err) => {
+                console.error("Failed to delete ticket:", err);
+                setSnackbarMessage('Error deleting ticket');
+                setOpenSnackbar(true);
+            });
+    }
+};
+
+const handleSaveEdit = (updatedTicket) => {
+    setBlocks(prevBlocks =>
+        prevBlocks.map(block => ({
+            ...block,
+            tickets: block.tickets.map(ticket =>
+                ticket.ticketId === selectedTicket.ticketId
+                    ? { ...ticket, ...updatedTicket }
+                    : ticket
+            ),
+        }))
+    );
+};
 
   const handleDrop = ({ source, self }) => {
     if (source.data.type === "ticket") {
@@ -309,7 +346,7 @@ export default function ListTickets({
           ticket={selectedTicket}
           open={openView}
           onClose={handleClose}
-          handleDelete={() => {}}
+          handleDelete={handleDelete}
           onEditClick={handleEditClick}
         />
       )}
@@ -318,7 +355,7 @@ export default function ListTickets({
           open={openEdit}
           ticket={selectedTicket}
           onClose={handleClose}
-          onSave={() => {}}
+          onSave={handleSaveEdit}
         />
       )}
       <Snackbar

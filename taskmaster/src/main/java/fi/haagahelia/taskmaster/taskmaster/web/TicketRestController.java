@@ -63,6 +63,7 @@ public class TicketRestController {
         Ticket newTicket = new Ticket();
         newTicket.setTicketName(ticketDTO.getTicketName());
         newTicket.setDescription(ticketDTO.getDescription());
+        newTicket.setDueDate(ticketDTO.getDueDate());
         newTicket.setBlock(block);
 
         Ticket savedTicket = ticketRepository.save(newTicket);
@@ -86,6 +87,9 @@ public class TicketRestController {
         }
         if (ticketData.getStatus() != null) {
             editTicket.setStatus(ticketData.getStatus());
+        }
+        if (ticketData.getDueDate() != null) {
+            editTicket.setDueDate(ticketData.getDueDate());
         }
         if (ticketData.getBlock() != null && ticketData.getBlock().getBlockId() != null) {
             Block newBlock = blockRepository.findById(ticketData.getBlock().getBlockId())

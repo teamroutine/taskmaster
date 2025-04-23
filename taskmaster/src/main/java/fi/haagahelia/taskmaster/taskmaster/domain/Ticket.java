@@ -27,6 +27,7 @@ public class Ticket {
     private String ticketName;
     private String description;
     private Boolean status;
+    private LocalDate dueDate;
     @CreationTimestamp
     private LocalDate created;
 
@@ -47,12 +48,13 @@ public class Ticket {
     public Ticket() {
     }
 
-    public Ticket(Long ticketId, String ticketName, String description, Boolean status, LocalDate created,
+    public Ticket(Long ticketId, String ticketName, String description, Boolean status,LocalDate dueDate, LocalDate created,
             Block block, List<Tag> tags) {
         this.ticketId = ticketId;
         this.ticketName = ticketName;
         this.description = description;
         this.status = status;
+        this.dueDate = dueDate;
         this.created = created;
         this.block = block;
         this.tags = tags;
@@ -90,6 +92,14 @@ public class Ticket {
         this.description = description;
     }
 
+    public LocalDate getDueDate() {
+        return dueDate;
+    }
+
+    public void setDueDate(LocalDate dueDate) {
+        this.dueDate = dueDate;
+    }
+
     public Boolean getStatus() {
         return status;
     }
@@ -117,7 +127,8 @@ public class Ticket {
     @Override
     public String toString() {
         return "Ticket [ticketId=" + ticketId + ", ticketName=" + ticketName + ", description=" + description
-                + ", status=" + status + ", created=" + created + ", block=" + block + "]";
+                + ", status=" + status + ", dueDate=" + dueDate + ", created=" + created + ", block=" + block + "]";
     }
 
+   
 }

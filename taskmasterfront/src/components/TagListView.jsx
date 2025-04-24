@@ -38,12 +38,12 @@ export default function TagListView({ open, onClose }) {
 
     const handleDeleteTag = async (id) => {
         await deleteTag(id);
-        setTags(tags.filter((tag) => tag.tagId !== id));
+        setTags(tags.filter((tag) => tag.id !== id));
     };
 
     const handleEditSave = async () => {
-        const updated = await updateTag(editTagData.tagId, editTagData);
-        setTags(tags.map(tag => tag.tagId === updated.tagId ? updated : tag));
+        const updated = await updateTag(editTagData.id, editTagData);
+        setTags(tags.map(tag => tag.id === updated.id ? updated : tag));
         setEditTagData(null);
     };
 
@@ -57,7 +57,7 @@ export default function TagListView({ open, onClose }) {
                 <Stack spacing={2}>
                     {tags.map((tag) => (
                         <Paper
-                            key={tag.tagId}
+                            key={tag.id}
                             elevation={2}
                             sx={{
                                 padding: 2,
@@ -82,7 +82,7 @@ export default function TagListView({ open, onClose }) {
                             </Box>
                             <Box>
                                 <IconButton onClick={() => setEditTagData(tag)}><Edit htmlColor="#fff" /></IconButton>
-                                <IconButton onClick={() => handleDeleteTag(tag.tagId)}><Delete htmlColor="#fff" /></IconButton>
+                                <IconButton onClick={() => handleDeleteTag(tag.id)}><Delete htmlColor="#fff" /></IconButton>
                             </Box>
                         </Paper>
                     ))}

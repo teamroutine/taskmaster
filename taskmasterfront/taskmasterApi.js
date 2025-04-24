@@ -32,6 +32,9 @@ export function createTag(newTag) {
 export function updateTag(tagId, updatedTag) {
   return apiFetch(import.meta.env.VITE_API_URL + `/tags/${tagId}`, {
     method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+    },
     body: JSON.stringify(updatedTag),
   });
 }

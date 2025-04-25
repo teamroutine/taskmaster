@@ -44,7 +44,7 @@ function JoinTeamPage() {
             return;
         }
 
-        joinTeamWithInvite(inviteCode, username)
+        joinTeamWithInvite(inviteCode)
             .then(() => {
                 setSnackbarMessage("You joined the team succesfully!");
                 setTimeout(() => navigate("/teams"), 2000);

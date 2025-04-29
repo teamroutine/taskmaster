@@ -65,6 +65,11 @@ public class SecurityConfig {
                                                 .requestMatchers(HttpMethod.GET, "/api/blocks/**").permitAll()
                                                 .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                                                 .requestMatchers("/error", "/h2-console/**").permitAll()
+                                                .requestMatchers(
+                                                                "/v3/api-docs/**",
+                                                                "/swagger-ui/**",
+                                                                "/swagger-ui.html")
+                                                .permitAll()
                                                 .anyRequest().authenticated())
                                 .headers(headers -> headers.frameOptions(frame -> frame.disable()))
                                 .addFilterBefore(corsFilter(), UsernamePasswordAuthenticationFilter.class)

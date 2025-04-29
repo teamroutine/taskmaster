@@ -146,6 +146,11 @@ export function deletePanel(panelId) {
     method: "DELETE",
   });
 }
+export function  deleteTeam(teamId){
+  return apiFetch(import.meta.env.VITE_API_URL + `/teams/${teamId}`,{
+  method:"DELETE"
+  });
+}
 
 export const userRegister = async (newUser) => {
   return apiFetch(import.meta.env.VITE_API_URL + "/users", {

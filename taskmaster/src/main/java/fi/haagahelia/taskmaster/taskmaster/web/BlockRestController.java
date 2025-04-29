@@ -17,6 +17,10 @@ import fi.haagahelia.taskmaster.taskmaster.domain.PanelRepository;
 
 import fi.haagahelia.taskmaster.taskmaster.dto.BlockDto;
 import io.micrometer.common.lang.NonNull;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import java.util.List;
@@ -28,6 +32,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 @CrossOrigin
 @RestController
 @RequestMapping("/api/blocks")
+@Tag(name = "Blocks", description = "Endpoints for managing blocks within panels")
 public class BlockRestController {
     private final BlockRepository blockRepository;
     private final PanelRepository panelRepository;
@@ -39,6 +44,10 @@ public class BlockRestController {
     }
 
     // Get all blocks
+    @Operation(summary = "Get all blocks", description = "Returns a list of all blocks")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Successfully retrieved blocks")
+    })
     @GetMapping
     public ResponseEntity<List<Block>> getAllBlocks() {
         List<Block> blocks = blockRepository.findAll();
@@ -46,6 +55,11 @@ public class BlockRestController {
     }
 
     // Get block by id
+    @Operation(summary = "Get a block by ID", description = "Fetch a single block using its ID")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Block found"),
+            @ApiResponse(responseCode = "404", description = "Block not found")
+    })
     @GetMapping("/{id}")
     public ResponseEntity<Block> getBlockById(@PathVariable Long id) {
         return blockRepository.findById(id)
@@ -54,6 +68,12 @@ public class BlockRestController {
     }
 
     // Create a new block
+    @Operation(summary = "Create a new block", description = "Adds a new block to the specified panel")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description = "Block successfully created"),
+            @ApiResponse(responseCode = "404", description = "Panel not found"),
+            @ApiResponse(responseCode = "409", description = "Block with the same name already exists in this panel")
+    })
     @PostMapping
     public ResponseEntity<Block> newBlock(@RequestBody @NonNull BlockDto blockDto) {
         Panel panel = panelRepository.findById(blockDto.getPanelId())
@@ -82,6 +102,11 @@ public class BlockRestController {
     }
 
     // Edit block
+    @Operation(summary = "Edit an existing block", description = "Updates the details of an existing block")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Block successfully updated"),
+            @ApiResponse(responseCode = "404", description = "Block not found")
+    })
     @PutMapping("/{id}")
     public ResponseEntity<Block> editBlock(@PathVariable Long id, @RequestBody Block blockData) {
         Block editBlock = blockRepository.findById(id)
@@ -100,6 +125,12 @@ public class BlockRestController {
     }
 
     // Delete a block
+    @Operation(summary = "Delete a block", description = "Removes a block unless it is the 'Done' block")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "204", description = "Block successfully deleted"),
+            @ApiResponse(responseCode = "403", description = "Forbidden to delete 'Done' block"),
+            @ApiResponse(responseCode = "404", description = "Block not found")
+    })
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteBlock(@PathVariable Long id) {
         Block block = blockRepository.findById(id)
@@ -118,6 +149,12 @@ public class BlockRestController {
         return ResponseEntity.noContent().build();
     }
 
+    @Operation(summary = "Reorder blocks", description = "Changes the sort order of blocks in a panel")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "204", description = "Blocks reordered successfully"),
+            @ApiResponse(responseCode = "404", description = "Panel or Block not found"),
+            @ApiResponse(responseCode = "400", description = "Block does not belong to the specified panel")
+    })
     @PutMapping("/reorder")
     public ResponseEntity<Void> reorderBlocks(@RequestBody @NonNull List<BlockDto> blocks,
             @RequestParam Long panelId) {

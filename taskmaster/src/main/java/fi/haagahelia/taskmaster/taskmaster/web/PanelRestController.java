@@ -1,5 +1,10 @@
 package fi.haagahelia.taskmaster.taskmaster.web;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,6 +32,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 @CrossOrigin
 @RestController
 @RequestMapping("/api/panels") // Is (api/teams/{teamId}/panels) better?
+@Tag(name = "Panels", description = "Endpoints for managing panels within teams")
 public class PanelRestController {
 
     @Autowired
@@ -39,6 +45,8 @@ public class PanelRestController {
     }
 
     // Get all the team's Panels
+    @Operation(summary = "Get all panels", description = "Returns a list of all panels")
+    @ApiResponse(responseCode = "200", description = "Successfully retrieved panels")
     @GetMapping
     public ResponseEntity<List<Panel>> getAllPanels() {
         List<Panel> panels = panelRepository.findAll();
@@ -46,6 +54,11 @@ public class PanelRestController {
     }
 
     // Get one of the team's Panel
+    @Operation(summary = "Get panel by ID", description = "Fetch a panel by its ID")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Panel found"),
+            @ApiResponse(responseCode = "404", description = "Panel not found")
+    })
     @GetMapping("/{id}")
     public ResponseEntity<Panel> getPanelById(@PathVariable Long id) {
         return panelRepository.findById(id)
@@ -54,6 +67,11 @@ public class PanelRestController {
     }
 
     // Create a new panel
+    @Operation(summary = "Create a new panel", description = "Creates a new panel under a specific team")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description = "Panel successfully created"),
+            @ApiResponse(responseCode = "404", description = "Team not found")
+    })
     @PostMapping
     public ResponseEntity<Panel> newPanel(@RequestBody @NonNull PanelDto panelDto) {
 
@@ -70,6 +88,11 @@ public class PanelRestController {
     }
 
     // Edit one panel
+    @Operation(summary = "Edit an existing panel", description = "Update the name and description of a panel")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Panel successfully updated"),
+            @ApiResponse(responseCode = "404", description = "Panel not found")
+    })
     @PutMapping(value = "/{id}")
     public ResponseEntity<Panel> editPanel(@PathVariable Long id,
             @RequestBody Panel panelData) {
@@ -87,6 +110,11 @@ public class PanelRestController {
     }
 
     // Delete a panel
+    @Operation(summary = "Delete a panel", description = "Deletes a panel by its ID")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "204", description = "Panel successfully deleted"),
+            @ApiResponse(responseCode = "404", description = "Panel not found")
+    })
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deletePanel(@PathVariable Long id) {
         Panel panel = panelRepository.findById(id)

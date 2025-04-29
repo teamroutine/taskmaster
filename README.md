@@ -184,7 +184,7 @@ cd taskmasterfront
 npm install
 ```
 ```bash
-npm run
+npm run dev
 ```
 ### 3. Run Backend (Minimum Requirement Java 17)
 ```bash
@@ -198,7 +198,7 @@ http://localhost:5173
 http://localhost:8080
 ```
 ### 5. Environment configuration
-If .env file is missing: Create taskmasterfront/.env file and add next content into the file
+If .env file is missing: Create taskmasterfront/.env file and add the following:
 ```bash
 VITE_API_URL=http://localhost:8080/api
 ```
@@ -210,7 +210,7 @@ spring.datasource.driverClassName=org.h2.Driver
 spring.h2.console.enabled=true
 spring.datasource.username=sa
 spring.datasource.password=password
-auth.jwt-secret=your-256-bit-long-secret-key-here
+auth.jwt-secret=syour-256-bit-long-secret-key-here
 spring.profiles.active=rahti
 ```
 ### 6. Backend API documentation available at:

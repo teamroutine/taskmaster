@@ -98,7 +98,7 @@ public class TeamRestController {
         Team team = teamRepository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(
                         HttpStatus.NOT_FOUND,
-                        "Block" + id + "can't be deleted, since it doesn't exist."));
+                        "Team" + id + "can't be deleted, since it doesn't exist."));
         teamRepository.delete(team);
         return ResponseEntity.noContent().build();
     }

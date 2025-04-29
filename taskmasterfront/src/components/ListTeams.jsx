@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import { Paper, Box, Typography, Divider, Button, MenuItem, Snackbar } from "@mui/material";
-import { fetchMyTeams, handleAddPanel, handleAddTeam, handleAddBlock } from "../../taskmasterApi";
+import { fetchMyTeams, handleAddPanel, handleAddTeam, handleAddBlock, deleteTeam } from "../../taskmasterApi";
 import ListPanels from "./ListPanels";
 import CreatePanel from "./CreatePanel";
 import CreateTeam from "./CreateTeam";
@@ -102,6 +102,25 @@ function ListTeams({ username }) {
         setOpenSnackbar(true);
       });
   };
+  
+  const handleDeleteTeam = (teamId) => {
+    if (window.confirm("Are you sure you want to delete this team and all its contents?")) {
+      deleteTeam(teamId)
+        .then(() => {
+          setTeams((prevTeams) =>
+            prevTeams.filter((team) => team.teamId !== teamId)
+          );
+
+          setSnackbarMessage("Team deleted successfully!");
+          setOpenSnackbar(true);
+        })
+        .catch((err) => {
+          console.error("Error deleting team:", err);
+          setSnackbarMessage("Error deleting team.");
+          setOpenSnackbar(true);
+        });
+    }
+  };
 
   return (
     <>
@@ -177,6 +196,11 @@ function ListTeams({ username }) {
                         onClick={() => handleInviteUsers(team.teamId)} // Open invite modal
                       >
                         Invite Users
+                      </Button>
+                    </MenuItem>
+                    <MenuItem>
+                      <Button variant="contained" color="error" onClick={() => handleDeleteTeam(team.teamId)}>
+                        Delete Team
                       </Button>
                     </MenuItem>
                   </DropDown>

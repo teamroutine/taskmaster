@@ -94,14 +94,21 @@ public class TeamRestController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteTeam(@PathVariable Long id) {
-        Team team = teamRepository.findById(id)
-                .orElseThrow(() -> new ResponseStatusException(
-                        HttpStatus.NOT_FOUND,
-                        "Team" + id + "can't be deleted, since it doesn't exist."));
-        teamRepository.delete(team);
-        return ResponseEntity.noContent().build();
+    public ResponseEntity<Void> deleteTeam(@PathVariable Long id, Authentication auth) {
+    String currentUsername = auth.getName(); 
+
+    Team team = teamRepository.findById(id)
+            .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Team not found"));
+    
+    if (!team.getCreatedBy().equals(currentUsername)) {
+        throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Only the creator can delete this team.");
     }
+
+    teamRepository.delete(team);
+    return ResponseEntity.noContent().build();
+}
+
+
 
     @PutMapping("/{id}")
     public ResponseEntity<Team> editTeam(@PathVariable Long id, @RequestBody Team teamData) {

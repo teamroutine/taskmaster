@@ -199,7 +199,7 @@ function ListTeams({ username }) {
                       </Button>
                     </MenuItem>
                     <MenuItem>
-                      <Button variant="contained" color="error" onClick={() => handleDeleteTeam(team.teamId)}>
+                      <Button variant="contained" color="error" onClick={() => handleDeleteTeam(team.teamId)} disabled={team.createdBy !== username}>
                         Delete Team
                       </Button>
                     </MenuItem>

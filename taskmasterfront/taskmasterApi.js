@@ -48,6 +48,9 @@ export function deleteTag(tagId) {
 export function addTagsToTicket(ticketId, tagIds) {
   return apiFetch(import.meta.env.VITE_API_URL + `/tickets/${ticketId}/addTags`, {
     method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+    },
     body: JSON.stringify(tagIds),
   });
 }

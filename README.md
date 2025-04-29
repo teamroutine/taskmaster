@@ -20,7 +20,7 @@ Taskmaster will provide simple and fluent task and project management for groups
 ## Used technologies 
  - Spring Boot
  - Vite React
- - Postgersql
+ - PostgreSQL
  - H2
 ## Team members
    - Kosti Kangasmaa https://github.com/kostikangasmaa
@@ -35,10 +35,46 @@ Taskmaster will provide simple and fluent task and project management for groups
    #### Minimum requirments for components
    - Node.js version 22.13.0
    - Java version 17
-   - Spring version 3.4.1
+   - Spring Boot version 3.4.1
    - Vite version 6.0.11
-   #### npm packages to install
-   - npm install react-router-dom
+   #### Backend
+   - **Spring Boot**
+      - Java framework used for developing the REST-interfaces and business logic
+   - **Spring Security and JWT**
+      - For user authentication and managing protected routes
+   - **Spring Boot Validation Starter**
+      - For validating the input data
+   - **Swagger / OpenAPI**
+      - Interactive API documentation is available via Swagger UI
+   #### Frontend
+   - **React** 
+      - For creating the user interface
+   - **React Router DOM**
+      - For routing
+   - **MUI (Material UI)**
+      - For user interface components, icons and appearence of the application
+   - **jwt-decode**
+      - For decoding of the JWT-tokens
+   - **Atlaskit Pragmatic Drag & Drop**
+      - Library for Drag & Drop functionality of blocks and tickets
+      You can install all frontend components by running the command:
+```bash
+npm install
+```
+   #### Database
+   - **PostgreSQL**
+      - Database for production environment
+   - **H2**
+      - Internal database for testing and development
+   #### Developer tools
+   - **Vite**
+      - Frontend server for developement and bundling
+   - **ESLint**
+      - Quality assurance of the frontend code
+   - **jnanoid-enhanced**
+      - For creating unique invite codes into teams
+
+
 ### UI Draft
 <div align="center">
   <img src="./FramingPrototype.png" alt="UI prototype">

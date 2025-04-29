@@ -165,14 +165,6 @@ function ListBlocks({ blocks, setBlocks }) {
 
       registeredBlocks.current.add(block.blockId); // Mark as registered
 
-      draggable({
-        element: el,
-        getInitialData: () => ({
-          type: "block",
-          blockId: block.blockId,
-        }),
-      });
-
       dropTargetForElements({
         element: el,
         getData: () => ({ type: "block", blockId: block.blockId }),

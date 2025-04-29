@@ -5,6 +5,7 @@ import {
   handleAddTicket,
   updateTicket,
   handleReorderTickets,
+  handleReorderBlocks,
 } from "../../taskmasterApi.js";
 import Paper from "@mui/material/Paper";
 import Box from "@mui/material/Box";
@@ -16,6 +17,7 @@ import CreateTicket from "./CreateTicket.jsx";
 import EditBlock from "./EditBlock.jsx";
 import DropDown from "./DropDown.jsx";
 
+import { draggable } from "@atlaskit/pragmatic-drag-and-drop/element/adapter";
 import { dropTargetForElements } from "@atlaskit/pragmatic-drag-and-drop/element/adapter";
 import { extractClosestEdge } from "@atlaskit/pragmatic-drag-and-drop-hitbox/closest-edge";
 import { reorder } from "@atlaskit/pragmatic-drag-and-drop/reorder";
@@ -26,7 +28,7 @@ function ListBlocks({ blocks, setBlocks }) {
   const [selectedBlock, setSelectedBlock] = useState(null);
   const [open, setOpen] = useState(false);
   const blockRefs = useRef(new Map());
-
+  const registeredBlocks = useRef(new Set());
   const [openSnackbar, setOpenSnackbar] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState("");
 
@@ -99,7 +101,59 @@ function ListBlocks({ blocks, setBlocks }) {
       });
   };
 
-  const registeredBlocks = useRef(new Set());
+  const moveBlockLeft = (blockId) => {
+    setBlocks((prevBlocks) => {
+      const index = prevBlocks.findIndex((block) => block.blockId === blockId);
+      const reorderedBlocks = reorder({
+        list: prevBlocks,
+        startIndex: index,
+        finishIndex: index - 1, // Ensure the index doesn't go below 0
+      });
+
+      // Sync with backend
+      handleReorderBlocks(panelid, reorderedBlocks)
+        .then(() => {
+          const updatedBlocks = reorderedBlocks.map((Block, index) => ({
+            ...Block,
+            sortOrder: index,
+          }));
+          console.log("Blocks reordered successfully" + updatedBlocks);
+          setBlocks(updatedBlocks);
+        })
+        .catch((err) => {
+          console.error("Error reordering blocks:", err);
+        });
+
+      return reorderedBlocks;
+    });
+  };
+
+  const moveBlockRight = (blockId) => {
+    setBlocks((prevBlocks) => {
+      const index = prevBlocks.findIndex((block) => block.blockId === blockId);
+      const reorderedBlocks = reorder({
+        list: prevBlocks,
+        startIndex: index,
+        finishIndex: index + 1, // Ensure the index doesn't exceed the last position
+      });
+      console.log(reorderedBlocks);
+      // Sync with backend
+      handleReorderBlocks(panelid, reorderedBlocks)
+        .then(() => {
+          const updatedBlocks = reorderedBlocks.map((Block, index) => ({
+            ...Block,
+            sortOrder: index,
+          }));
+          console.log("Blocks reordered successfully" + updatedBlocks);
+          setBlocks(updatedBlocks);
+        })
+        .catch((err) => {
+          console.error("Error reordering blocks:", err);
+        });
+
+      return reorderedBlocks;
+    });
+  };
 
   useEffect(() => {
     blocks.forEach((block) => {
@@ -110,6 +164,14 @@ function ListBlocks({ blocks, setBlocks }) {
       if (!el) return;
 
       registeredBlocks.current.add(block.blockId); // Mark as registered
+
+      draggable({
+        element: el,
+        getInitialData: () => ({
+          type: "block",
+          blockId: block.blockId,
+        }),
+      });
 
       dropTargetForElements({
         element: el,
@@ -153,20 +215,20 @@ function ListBlocks({ blocks, setBlocks }) {
         if (block.blockId === targetBlockId && movedTicket) {
           const targetTickets = block.tickets ?? [];
           // Handle empty block case
-        if (targetTickets.length === 0) {
-          const updatedTickets = [{ ...movedTicket, sortOrder: 0 }];
+          if (targetTickets.length === 0) {
+            const updatedTickets = [{ ...movedTicket, sortOrder: 0 }];
 
-          // Sync with backend
-          updateTicket(ticketId, { block: { blockId: targetBlockId } })
-            .then(() => {
-              reorderTickets(targetBlockId, updatedTickets);
-            })
-            .catch((error) => {
-              console.error("Failed to update ticket:", error);
-            });
+            // Sync with backend
+            updateTicket(ticketId, { block: { blockId: targetBlockId } })
+              .then(() => {
+                reorderTickets(targetBlockId, updatedTickets);
+              })
+              .catch((error) => {
+                console.error("Failed to update ticket:", error);
+              });
 
-          return { ...block, tickets: updatedTickets };
-        }
+            return { ...block, tickets: updatedTickets };
+          }
 
           // Find the index of the target ticket
           const targetIndex = targetTickets.findIndex(
@@ -194,12 +256,12 @@ function ListBlocks({ blocks, setBlocks }) {
           }));
 
           updateTicket(ticketId, { block: { blockId: targetBlockId } })
-          .then(() => {
-            reorderTickets(targetBlockId, updatedTickets);
-          })
-          .catch((error) => {
-            console.error("Failed to update ticket:", error);
-          });
+            .then(() => {
+              reorderTickets(targetBlockId, updatedTickets);
+            })
+            .catch((error) => {
+              console.error("Failed to update ticket:", error);
+            });
 
           return { ...block, tickets: updatedTickets };
         }
@@ -231,89 +293,112 @@ function ListBlocks({ blocks, setBlocks }) {
           listStyleType: "none",
         }}
       >
-        {blocks.map((block) => (
-          <Box
-            component="li"
-            key={block.blockId}
-            ref={(el) => {
-              if (el) blockRefs.current.set(block.blockId, el);
-            }}
-            sx={{ display: "inline-block", marginRight: 2 }}
-          >
-            <Paper
-              elevation={5}
-              sx={{
-                width: 300,
-                height: 800,
-                padding: 2,
-                textAlign: "center",
-                display: "flex",
-                flexDirection: "column",
-                justifyContent: "space-between",
+        {blocks
+          .slice()
+          .sort((a, b) => a.sortOrder - b.sortOrder)
+          .map((block) => (
+            <Box
+              component="li"
+              key={block.blockId}
+              ref={(el) => {
+                if (el) blockRefs.current.set(block.blockId, el);
               }}
+              sx={{ display: "inline-block", marginRight: 2 }}
             >
-              <Box
+              <Paper
+                elevation={5}
                 sx={{
+                  width: 300,
+                  height: 800,
+                  padding: 2,
+                  textAlign: "center",
                   display: "flex",
+                  flexDirection: "column",
                   justifyContent: "space-between",
-                  alignItems: "center",
                 }}
               >
-                <Typography
+                <Box
                   sx={{
-                    whiteSpace: "nowrap",
-                    overflow: "hidden",
-                    textOverflow: "ellipsis",
-                    maxWidth: "200px",
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "center",
                   }}
-                  variant="h6"
                 >
-                  {block.blockName}
-                </Typography>
-                <DropDown>
-                  <MenuItem>
-                    <Button
-                      variant="contained"
-                      color="primary"
-                      onClick={() => handleOpen(block)}
-                      disabled={block.blockName === "Done"}
-                    >
-                      Edit Block
-                    </Button>
-                  </MenuItem>
-                  <MenuItem>
-                    <Button
-                      variant="contained"
-                      color="error"
-                      onClick={() => handleBlockDelete(block.blockId)}
-                      disabled={block.blockName === "Done"}
-                    >
-                      Delete Block
-                    </Button>
-                  </MenuItem>
-                </DropDown>
-              </Box>
-              <Divider />
-              <Box sx={{ p: 1, flexGrow: 1, overflowY: "auto" }}>
-                <ListTickets
-                  tickets={block.tickets}
-                  setBlocks={setBlocks}
-                  blockId={block.blockId}
-                  reorderTickets={reorderTickets}
-                  moveTicket={moveTicket}
-                />
-              </Box>
-              <Box>
+                  <Typography
+                    sx={{
+                      whiteSpace: "nowrap",
+                      overflow: "hidden",
+                      textOverflow: "ellipsis",
+                      maxWidth: "200px",
+                    }}
+                    variant="h6"
+                  >
+                    {block.blockName}
+                  </Typography>
+                  <DropDown>
+                    <MenuItem>
+                      <Button
+                        variant="contained"
+                        color="primary"
+                        onClick={() => handleOpen(block)}
+                        disabled={block.blockName === "Done"}
+                      >
+                        Edit Block
+                      </Button>
+                    </MenuItem>
+                    <MenuItem>
+                      <Button
+                        variant="contained"
+                        color="error"
+                        onClick={() => handleBlockDelete(block.blockId)}
+                        disabled={block.blockName === "Done"}
+                      >
+                        Delete Block
+                      </Button>
+                    </MenuItem>
+                    <MenuItem>
+                      <Button
+                        variant="contained"
+                        color="secondary"
+                        onClick={() => moveBlockLeft(block.blockId)}
+                        disabled={block.sortOrder === 0} // Disable if it's the first block
+                      >
+                        Move Left
+                      </Button>
+                    </MenuItem>
+                    <MenuItem>
+                      <Button
+                        variant="contained"
+                        color="secondary"
+                        onClick={() => moveBlockRight(block.blockId)}
+                        disabled={block.sortOrder === blocks.length - 1} // Disable if it's the last block
+                      >
+                        Move Right
+                      </Button>
+                    </MenuItem>
+                  </DropDown>
+                </Box>
                 <Divider />
-                <CreateTicket
-                  createTicket={(newTicket) =>
-                    addNewTicket(newTicket, block.blockId)
-                  }
-                />
-              </Box>
-            </Paper>
-          </Box>
-        ))}
+                <Box sx={{ p: 1, flexGrow: 1, overflowY: "auto" }}>
+                  <ListTickets
+                    tickets={block.tickets}
+                    setBlocks={setBlocks}
+                    blockId={block.blockId}
+                    reorderTickets={reorderTickets}
+                    moveTicket={moveTicket}
+                  />
+                </Box>
+                <Box>
+                  <Divider />
+                  <CreateTicket
+                    createTicket={(newTicket) =>
+                      addNewTicket(newTicket, block.blockId)
+                    }
+                  />
+                </Box>
+              </Paper>
+            </Box>
+          ))}
       </Box>
       {selectedBlock && (
         <EditBlock

@@ -6,7 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -58,16 +58,24 @@ public class BlockRestController {
     public ResponseEntity<Block> newBlock(@RequestBody @NonNull BlockDto blockDto) {
         Panel panel = panelRepository.findById(blockDto.getPanelId())
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Panel not found"));
-        
-        List<Block> existingBlock = blockRepository.findByBlockNameAndPanel_PanelId(blockDto.getBlockName(), blockDto.getPanelId());
+
+        List<Block> existingBlock = blockRepository.findByBlockNameAndPanel_PanelId(blockDto.getBlockName(),
+                blockDto.getPanelId());
         if (!existingBlock.isEmpty()) {
-            throw new ResponseStatusException(HttpStatus.CONFLICT, "Block with the same name already exists in this panel.");
+            throw new ResponseStatusException(HttpStatus.CONFLICT,
+                    "Block with the same name already exists in this panel.");
         }
+
+        Integer maxSortOrder = blockRepository
+                .findMaxSortOrderByPanelId(blockDto.getPanelId())
+                .orElse(-1);
+
         Block newBlock = new Block();
         newBlock.setBlockName(blockDto.getBlockName());
         newBlock.setDescription(blockDto.getDescription());
         newBlock.setHighlightColor(blockDto.getHighlightColor());
         newBlock.setPanel(panel);
+        newBlock.setSortOrder(maxSortOrder + 1);
 
         Block savedBlock = blockRepository.save(newBlock);
         return ResponseEntity.status(HttpStatus.CREATED).body(savedBlock);
@@ -99,7 +107,7 @@ public class BlockRestController {
                         HttpStatus.NOT_FOUND,
                         "Block " + id + " can't be deleted, since it doesn't exist."));
 
-        // Don't let user delete done block  
+        // Don't let user delete done block
         if ("Done".equalsIgnoreCase(block.getBlockName())) {
             throw new ResponseStatusException(
                     HttpStatus.FORBIDDEN,
@@ -107,6 +115,37 @@ public class BlockRestController {
         }
 
         blockRepository.delete(block);
+        return ResponseEntity.noContent().build();
+    }
+
+    @PutMapping("/reorder")
+    public ResponseEntity<Void> reorderBlocks(@RequestBody @NonNull List<BlockDto> blocks,
+            @RequestParam Long panelId) {
+
+        Panel panel = panelRepository.findById(panelId)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Panel not found"));
+
+        for (BlockDto blockDto : blocks) {
+            Block block = blockRepository.findById(blockDto.getBlockId())
+                    .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,
+                            "Block not found: " + blockDto.getBlockId()));
+
+            if (!block.getPanel().getPanelId().equals(panelId)) {
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
+                        "Block " + blockDto.getBlockId() + " does not belong to panel " + panelId);
+            }
+        }
+
+        int index = 0;
+        for (BlockDto blockDto : blocks) {
+            Block block = blockRepository.findById(blockDto.getBlockId())
+                    .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,
+                            "Block not found: " + blockDto.getBlockId()));
+
+            block.setSortOrder(index++);
+            blockRepository.save(block);
+        }
+
         return ResponseEntity.noContent().build();
     }
 

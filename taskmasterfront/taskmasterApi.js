@@ -111,6 +111,13 @@ export function updateBlock(blockId, block) {
   });
 }
 
+export const handleReorderBlocks = (panelId, reorderedBlocks) => {
+  return apiFetch(`${import.meta.env.VITE_API_URL}/blocks/reorder?panelId=${panelId}`, {
+    method: "PUT",
+    body: JSON.stringify(reorderedBlocks),
+  });
+};
+
 export function updatePanel(panelId, panel) {
   return apiFetch(import.meta.env.VITE_API_URL + `/panels/${panelId}`, {
     method: "PUT",

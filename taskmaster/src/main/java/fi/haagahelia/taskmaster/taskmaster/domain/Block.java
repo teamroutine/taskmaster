@@ -22,6 +22,9 @@ public class Block {
     private String blockName;
     private String description;
     private String highlightColor;
+    private Integer sortOrder;
+
+    
 
     @ManyToOne
     @JsonIgnoreProperties("blocks")
@@ -37,13 +40,14 @@ public class Block {
     }
 
     public Block(Long blockId, String blockName, String description, String highlightColor, Panel panel,
-            List<Ticket> tickets) {
+            List<Ticket> tickets, Integer sortOrder) {
         this.blockId = blockId;
         this.blockName = blockName;
         this.description = description;
         this.highlightColor = highlightColor;
         this.panel = panel;
         this.tickets = tickets;
+        this.sortOrder = sortOrder;
     }
 
     public Long getBlockId() {
@@ -93,11 +97,20 @@ public class Block {
     public void setTickets(List<Ticket> tickets) {
         this.tickets = tickets;
     }
+    
+    public Integer getSortOrder() {
+        return sortOrder;
+    }
+
+    public void setSortOrder(Integer sortOrder) {
+        this.sortOrder = sortOrder;
+    }
 
     @Override
     public String toString() {
         return "Block [blockId=" + blockId + ", blockName=" + blockName + ", description=" + description
-                + ", highlightColor=" + highlightColor + ", panel=" + panel + ", tickets=" + tickets + "]";
+                + ", highlightColor=" + highlightColor + ", sortOrder=" + sortOrder + ", panel=" + panel + ", tickets="
+                + tickets + "]";
     }
 
 }

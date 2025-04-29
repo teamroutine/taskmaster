@@ -47,7 +47,7 @@ export default function CreateTeam({ createTeam }) {
             value={team.teamName}
             onChange={(e) => setTeam({ ...team, teamName: e.target.value })}
             fullWidth
-            variant="standard"
+            variant="outlined"
           />
           <TextField
             margin="dense"
@@ -55,7 +55,8 @@ export default function CreateTeam({ createTeam }) {
             value={team.description}
             onChange={(e) => setTeam({ ...team, description: e.target.value })}
             fullWidth
-            variant="standard"
+            multiline
+            variant="outlined"
           />
         </DialogContent>
         <DialogActions>

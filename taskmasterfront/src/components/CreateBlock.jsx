@@ -57,7 +57,7 @@ export default function CreateBlock({ createBlock, existingBlockNames = [] }) {
                             value={block.blockName}
                             onChange={e => setBlock({ ...block, blockName: e.target.value })}
                             fullWidth
-                            variant='standard'
+                            variant='outlined'
                         />
                         {errorMessage && (
                             <FormHelperText sx={{ fontSize: '0.95rem' }}>{errorMessage}</FormHelperText>
@@ -69,7 +69,8 @@ export default function CreateBlock({ createBlock, existingBlockNames = [] }) {
                         value={block.description}
                         onChange={e => setBlock({ ...block, description: e.target.value })}
                         fullWidth
-                        variant='standard'
+                        multiline
+                        variant='outlined'
                     />
                     <TextField
                         margin='dense'
@@ -77,7 +78,7 @@ export default function CreateBlock({ createBlock, existingBlockNames = [] }) {
                         value={block.highlightColor}
                         onChange={e => setBlock({ ...block, highlightColor: e.target.value })}
                         fullWidth
-                        variant='standard'
+                        variant='outlined'
                     />
                 </DialogContent>
                 <DialogActions>

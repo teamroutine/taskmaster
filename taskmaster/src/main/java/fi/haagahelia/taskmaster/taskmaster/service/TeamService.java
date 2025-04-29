@@ -1,9 +1,11 @@
 package fi.haagahelia.taskmaster.taskmaster.service;
 
 import java.util.Date;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import fi.haagahelia.taskmaster.taskmaster.domain.AppUser;
 import fi.haagahelia.taskmaster.taskmaster.domain.AppUserRepository;
@@ -45,5 +47,12 @@ public class TeamService {
 
         team.getAppUsers().add(appUser);
         teamRepository.save(team);
+    }
+
+    public List<Team> getTeamsForAppUser(String username) {
+        return appUserRepository.findByUsername(username)
+                .map(AppUser::getTeams)
+                .orElse(List.of());
+
     }
 }

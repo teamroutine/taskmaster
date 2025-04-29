@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import { Paper, Box, Typography, Divider, Button, MenuItem, Snackbar } from "@mui/material";
-import { fetchTeams, handleAddPanel, handleAddTeam, handleAddBlock } from "../../taskmasterApi";
+import { fetchMyTeams, handleAddPanel, handleAddTeam, handleAddBlock } from "../../taskmasterApi";
 import ListPanels from "./ListPanels";
 import CreatePanel from "./CreatePanel";
 import CreateTeam from "./CreateTeam";
@@ -19,15 +19,15 @@ function ListTeams({ username }) {
   const [selectedTeamId, setSelectedTeamId] = useState(null); // State for selected team ID
 
   useEffect(() => {
-    fetchTeams()
+    fetchMyTeams()
       .then((data) => {
         setTeams(data || []);
       })
       .catch((err) => {
         console.error("Error fetching teams: " + err.message);
       });
-  }, []); 
-    
+  }, []);
+
   const handleTeamClick = (team) => {
     setSelectedTeam(team);
     setOpenViewTeam(true);
@@ -59,28 +59,28 @@ function ListTeams({ username }) {
         handleAddBlock({
           blockName: "Done",
           description: "Block for completed tickets",
-          panelId: addedPanel.panelId, 
+          panelId: addedPanel.panelId,
         })
           .then((addedBlock) => {
             setTeams((prevTeams) =>
               prevTeams.map((team) =>
                 team.teamId === teamId
                   ? {
-                      ...team,
-                      panels: team.panels.map((panel) =>
-                        panel.panelId === addedPanel.panelId
-                          ? {
-                              ...panel,
-                              blocks: [...(panel.blocks || []), addedBlock],
-                            }
-                          : panel
-                      ),
-                    }
+                    ...team,
+                    panels: team.panels.map((panel) =>
+                      panel.panelId === addedPanel.panelId
+                        ? {
+                          ...panel,
+                          blocks: [...(panel.blocks || []), addedBlock],
+                        }
+                        : panel
+                    ),
+                  }
                   : team
               )
             );
           });
-        
+
       })
       .catch((err) => {
         console.error("Error adding panel:", err);

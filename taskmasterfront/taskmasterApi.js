@@ -10,6 +10,10 @@ export function fetchTeams() {
   return apiFetch(import.meta.env.VITE_API_URL + "/teams");
 }
 
+export function fetchMyTeams() {
+  return apiFetch(import.meta.env.VITE_API_URL + "/teams/my")
+}
+
 export function fetchTickets() {
   return apiFetch(import.meta.env.VITE_API_URL + "/tickets");
 }

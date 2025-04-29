@@ -38,7 +38,7 @@ function App() {
                             <img src={taskmasterLogo} style={{ height: "75px" }} alt="Taskmaster Logo" />
                         </Typography>
                         <Button color="inherit" component={Link} to="/" sx={{ marginRight: 2, fontSize: '1.05rem' }}>Home</Button>
-                        <Button color="inherit" component={Link} to="/teams" sx={{ marginRight: 2, fontSize: '1.05rem' }}>All Teams</Button>
+                        <Button color="inherit" component={Link} to="/teams" sx={{ marginRight: 2, fontSize: '1.05rem' }}>Your Teams</Button>
                         {/* <Button variant="outlined" color="inherit" component={Link} to="/login" sx={{ marginRight: 1 }}>Login</Button> */}
                         <AuthButton variant='outlined' color='inherit' component={Link} to="/login" sx={{ marginRight: 1 }} />
                         {/* <Button variant="outlined" color="inherit" component={Link} to="/register" sx={{ marginRight: 1, marginLeft: 1 }}>Register</Button> */}

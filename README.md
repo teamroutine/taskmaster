@@ -44,6 +44,8 @@ Taskmaster will provide simple and fluent task and project management for groups
       - For user authentication and managing protected routes
    - **Spring Boot Validation Starter**
       - For validating the input data
+   - **Swagger / OpenAPI**
+      - Interactive API documentation is available via Swagger UI
    #### Frontend
    - **React** 
       - For creating the user interface

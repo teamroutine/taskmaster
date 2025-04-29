@@ -1,5 +1,6 @@
 package fi.haagahelia.taskmaster.taskmaster.web;
 
+import java.net.Authenticator;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,8 +19,10 @@ import fi.haagahelia.taskmaster.taskmaster.domain.Team;
 import fi.haagahelia.taskmaster.taskmaster.domain.TeamRepository;
 import fi.haagahelia.taskmaster.taskmaster.dto.TeamDTO;
 import fi.haagahelia.taskmaster.taskmaster.service.JwtService;
+import fi.haagahelia.taskmaster.taskmaster.service.TeamService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
+import org.springframework.security.core.Authentication;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -37,6 +40,9 @@ public class TeamRestController {
 
     @Autowired
     private JwtService jwtService;
+
+    @Autowired
+    private TeamService teamService;
 
     @Autowired
     private AppUserRepository appUserRepository;
@@ -82,7 +88,6 @@ public class TeamRestController {
         newTeam.setCreatedBy(username);
         newTeam.setAppUsers(List.of(user));
         newTeam.setPanels(new ArrayList<>());
-        
 
         Team savedTeam = teamRepository.save(newTeam);
         return ResponseEntity.status(HttpStatus.CREATED).body(savedTeam);
@@ -111,6 +116,14 @@ public class TeamRestController {
         teamRepository.save(editTeam);
 
         return ResponseEntity.ok(editTeam);
+
+    }
+
+    @GetMapping("/my")
+    public ResponseEntity<List<Team>> getUsersOwnTeams(Authentication auth) {
+        String username = auth.getName();
+        List<Team> teams = teamService.getTeamsForAppUser(username);
+        return ResponseEntity.ok(teams);
 
     }
 }

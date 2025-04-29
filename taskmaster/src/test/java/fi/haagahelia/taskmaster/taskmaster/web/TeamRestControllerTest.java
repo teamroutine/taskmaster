@@ -36,6 +36,7 @@ import fi.haagahelia.taskmaster.taskmaster.domain.TeamRepository;
 import fi.haagahelia.taskmaster.taskmaster.domain.TicketRepository;
 import fi.haagahelia.taskmaster.taskmaster.dto.TeamDTO;
 import fi.haagahelia.taskmaster.taskmaster.service.JwtService;
+import fi.haagahelia.taskmaster.taskmaster.service.TeamService;
 
 @WebMvcTest(TeamRestController.class)
 @Import(SecurityConfig.class)
@@ -62,6 +63,9 @@ class TeamRestControllerTest {
 
     @MockitoBean
     private JwtService jwtService;
+
+    @MockitoBean
+    private TeamService teamService;
 
     private String generateMockJwtToken() {
         return "Bearer mock-jwt-token-more-text-so-its-long-enough";

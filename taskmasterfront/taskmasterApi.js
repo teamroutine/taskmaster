@@ -10,6 +10,10 @@ export function fetchTeams() {
   return apiFetch(import.meta.env.VITE_API_URL + "/teams");
 }
 
+export function fetchMyTeams() {
+  return apiFetch(import.meta.env.VITE_API_URL + "/teams/my")
+}
+
 export function fetchTickets() {
   return apiFetch(import.meta.env.VITE_API_URL + "/tickets");
 }
@@ -32,6 +36,9 @@ export function createTag(newTag) {
 export function updateTag(tagId, updatedTag) {
   return apiFetch(import.meta.env.VITE_API_URL + `/tags/${tagId}`, {
     method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+    },
     body: JSON.stringify(updatedTag),
   });
 }
@@ -45,6 +52,9 @@ export function deleteTag(tagId) {
 export function addTagsToTicket(ticketId, tagIds) {
   return apiFetch(import.meta.env.VITE_API_URL + `/tickets/${ticketId}/addTags`, {
     method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+    },
     body: JSON.stringify(tagIds),
   });
 }
@@ -157,6 +167,16 @@ export const generateInvite = (teamId, durationHours) => {
       "Content-Type": "application/json",
     },
     body: JSON.stringify({ teamId, durationHours }),
+  });
+};
+
+export const validateInvite = (inviteCode) => {
+  return apiFetch(`${import.meta.env.VITE_API_URL}/invites/validate/${inviteCode}`)
+}
+
+export const joinTeamWithInvite = (inviteCode) => {
+  return apiFetch(`${import.meta.env.VITE_API_URL}/team/join/${inviteCode}`, {
+    method: "POST",
   });
 };
 

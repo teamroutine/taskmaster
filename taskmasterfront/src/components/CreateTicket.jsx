@@ -59,10 +59,12 @@ export default function CreateTicket({ createTicket }) {
                     />
                     <TextField
                         margin='dense'
-                        placeholder='Ticket description'
+                        placeholder='Add a description'
                         value={ticket.description}
                         onChange={e => setTicket({ ...ticket, description: e.target.value })}
                         fullWidth
+                        multiline
+                        rows={3}
                         variant='outlined'
                         InputLabelProps={{
                             shrink: true, 

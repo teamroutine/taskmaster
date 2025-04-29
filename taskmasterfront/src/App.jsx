@@ -11,6 +11,7 @@ import Register from "./components/Register";
 import Login from "./components/Login";
 import AuthButton from "./components/AuthButton";
 import { jwtDecode } from "jwt-decode";
+import JoinTeamPage from "./pages/JoinTeamPage";
 
 
 function App() {
@@ -18,13 +19,13 @@ function App() {
     let username = null;
     if (token) {
         try {
-            const decodedToken = jwtDecode(token); 
-            username = decodedToken.sub; 
+            const decodedToken = jwtDecode(token);
+            username = decodedToken.sub;
         } catch (error) {
             console.error("Failed to decode token:", error);
         }
     }
-    
+
     return (
         <ThemeProvider theme={theme}>
             <Router>
@@ -37,7 +38,7 @@ function App() {
                             <img src={taskmasterLogo} style={{ height: "75px" }} alt="Taskmaster Logo" />
                         </Typography>
                         <Button color="inherit" component={Link} to="/" sx={{ marginRight: 2, fontSize: '1.05rem' }}>Home</Button>
-                        <Button color="inherit" component={Link} to="/teams" sx={{ marginRight: 2, fontSize: '1.05rem' }}>All Teams</Button>
+                        <Button color="inherit" component={Link} to="/teams" sx={{ marginRight: 2, fontSize: '1.05rem' }}>Your Teams</Button>
                         {/* <Button variant="outlined" color="inherit" component={Link} to="/login" sx={{ marginRight: 1 }}>Login</Button> */}
                         <AuthButton variant='outlined' color='inherit' component={Link} to="/login" sx={{ marginRight: 1 }} />
                         {/* <Button variant="outlined" color="inherit" component={Link} to="/register" sx={{ marginRight: 1, marginLeft: 1 }}>Register</Button> */}
@@ -50,9 +51,10 @@ function App() {
                         <Route path="/" element={<Home />} />
                         <Route path="/panels/:panelid" element={<PanelView />} />
                         <Route path="/panel/create" element={<CreatePanel />} />
-                        <Route path="/teams" element={<ListTeams username={username}/>} />
+                        <Route path="/teams" element={<ListTeams username={username} />} />
                         <Route path="/register" element={<Register />} />
                         <Route path="/login" element={<Login />} />
+                        <Route path="/team/join/:inviteCode" element={<JoinTeamPage />} />
                     </Routes>
                 </Container>
             </Router>

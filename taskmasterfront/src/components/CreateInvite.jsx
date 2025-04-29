@@ -21,7 +21,8 @@ function CreateInvite({ teamId, open, onClose }) {
   const handleGenerateInvite = () => {
     generateInvite(teamId, inviteDuration)
       .then((data) => {
-        setInviteLink(data.inviteLink);
+        const inviteURL = `https://taskmaster-8ien.com/team/join/${data.inviteCode}`;
+        setInviteLink(inviteURL);
         setSnackbarMessage("Invite link generated successfully!");
         setOpenSnackbar(true);
       })

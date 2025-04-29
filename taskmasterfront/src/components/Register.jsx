@@ -24,9 +24,9 @@ export default function Register() {
 
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
-    
+
     const [openSnackbar, setOpenSnackbar] = useState(false);
-    const [snackbarMessage, setSnackbarMessage] = useState(''); 
+    const [snackbarMessage, setSnackbarMessage] = useState('');
 
     const navigate = useNavigate();
 
@@ -50,8 +50,17 @@ export default function Register() {
     // Close the modal
     const handleClickClose = () => {
         setOpen(false);
-        navigate(-1);
-    }
+        setUser({
+            firstName: '',
+            lastName: '',
+            email: '',
+            phone: '',
+            username: '',
+            password: '',
+        });
+        setConfirmPassword("");
+        setError("");
+    };
 
     // Save the user data and send it to back end
     const handleRegister = async () => {
@@ -65,15 +74,20 @@ export default function Register() {
 
         try {
             await userRegister(user);
-            setSnackbarMessage('Registration successful!'); 
-            setOpenSnackbar(true); 
+            setSnackbarMessage('Registration successful!');
+            setOpenSnackbar(true);
             handleClickClose();
             console.log("Registration successfull");
+
+            setTimeout(() => {
+                navigate("/login");
+
+            }, 1800);
 
         } catch (error) {
             setError("Registration failed: " + error.message);
             setSnackbarMessage('Registration failed. Please try again.');
-            setOpenSnackbar(true); 
+            setOpenSnackbar(true);
         }
     };
 
@@ -222,7 +236,7 @@ export default function Register() {
                 open={openSnackbar}
                 message={snackbarMessage}
                 autoHideDuration={2000}
-                onClose={() => setOpenSnackbar(false)} 
+                onClose={() => setOpenSnackbar(false)}
             />
         </>
     )

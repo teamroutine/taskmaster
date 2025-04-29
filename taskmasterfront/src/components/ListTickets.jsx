@@ -14,8 +14,10 @@ import Typography from "@mui/material/Typography";
 import Divider from "@mui/material/Divider";
 import ViewTicket from "./ViewTicket";
 import EditTicket from "./EditTicket";
-import { Snackbar } from "@mui/material";
+import { Snackbar, Chip, Button } from "@mui/material";
 import { deleteTicket } from "../../taskmasterApi";
+import TagListView from "./TagListView";
+import { addTagsToTicket, removeTagsFromTicket } from "../../taskmasterApi";
 
 export default function ListTickets({
   tickets,
@@ -30,6 +32,8 @@ export default function ListTickets({
   const [openSnackbar, setOpenSnackbar] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState("");
   const [closestEdges, setClosestEdges] = useState({});
+  const [openTagSelectorForTicketId, setOpenTagSelectorForTicketId] = useState(null);
+  const [selectedTags, setSelectedTags] = useState([]);
 
   const setClosestEdgeForTicket = (ticketId, edge) => {
     setClosestEdges((prev) => ({
@@ -55,46 +59,154 @@ export default function ListTickets({
     setOpenEdit(false);
   };
 
+  const calculateDaysUntilDue = (dueDateString) => {
+    const dueDate = new Date(dueDateString);
+    const today = new Date();
+
+    const timeLeft = dueDate - today;
+    //Converting milliseconds to days
+    const daysLeft = Math.ceil(timeLeft / (1000 * 60 * 60 * 24));
+
+    return daysLeft;
+  }
+  const getTicketColor = (dueDateString) => {
+    const remainingDays = calculateDaysUntilDue(dueDateString)
+    if (remainingDays <= 0) {
+      return "rgba(255, 0, 0, 0.65)"; //alustin värit niitä voi tästä nyt muuttaa
+    } else if (remainingDays <= 3) {
+      return "rgba(255, 87, 0, 0.7)";
+    } else if (remainingDays <= 7) {
+      return "rgba(255, 223, 0, 0.7)";
+    } else {
+      return "rgba(64, 64, 64, 0.6)";
+    }
+  }
+
   const handleDelete = (ticketId) => {
     const confirmed = window.confirm("Are you sure you want to delete this ticket?");
     if (confirmed) {
-        deleteTicket(ticketId)
-            .then(() => {
-                setBlocks(prevBlocks =>
-                    prevBlocks.map(block => ({
-                        ...block,
-                        tickets: block.tickets.filter(t => t.ticketId !== ticketId),
-                    }))
-                );
-                setOpenView(false);
-                setSnackbarMessage('Ticket deleted successfully');
-                setOpenSnackbar(true);      //Opens snackbar to show success message
-            })
-            .catch((err) => {
-                console.error("Failed to delete ticket:", err);
-                setSnackbarMessage('Error deleting ticket');
-                setOpenSnackbar(true);
-            });
+      deleteTicket(ticketId)
+        .then(() => {
+          setBlocks(prevBlocks =>
+            prevBlocks.map(block => ({
+              ...block,
+              tickets: block.tickets.filter(t => t.ticketId !== ticketId),
+            }))
+          );
+          setOpenView(false);
+          setSnackbarMessage('Ticket deleted successfully');
+          setOpenSnackbar(true);      //Opens snackbar to show success message
+        })
+        .catch((err) => {
+          console.error("Failed to delete ticket:", err);
+          setSnackbarMessage('Error deleting ticket');
+          setOpenSnackbar(true);
+        });
     }
-};
+  };
 
-const handleSaveEdit = (updatedTicket) => {
+  const handleSaveEdit = (updatedTicket) => {
     setBlocks(prevBlocks =>
-        prevBlocks.map(block => ({
-            ...block,
-            tickets: block.tickets.map(ticket =>
-                ticket.ticketId === selectedTicket.ticketId
-                    ? { ...ticket, ...updatedTicket }
-                    : ticket
-            ),
-        }))
+      prevBlocks.map(block => ({
+        ...block,
+        tickets: block.tickets.map(ticket =>
+          ticket.ticketId === selectedTicket.ticketId
+            ? { ...ticket, ...updatedTicket }
+            : ticket
+        ),
+      }))
     );
-};
+  };
+
+  const handleAddTags = async (ticketId, selectedTags) => {
+    // Find the ticket
+    const ticket = tickets.find((t) => t.ticketId === ticketId);
+    if (!ticket) return;
+
+    // Filter out tags that are already on the ticket
+    const newTags = selectedTags.filter(
+      (tag) => !ticket.tags.some((existingTag) => existingTag.id === tag.id)
+    );
+
+    // If there's nothing new to add, just close and return
+    if (newTags.length === 0) {
+      setSnackbarMessage("Tag already exists on ticket");
+      setOpenSnackbar(true);
+      setOpenTagSelectorForTicketId(null);
+      return;
+    }
+
+    const tagIds = newTags.map((tag) => tag.id);
+
+    try {
+      await addTagsToTicket(ticketId, tagIds);
+      console.log("Tags added successfully");
+
+      // Update the state with the newly added tags
+      setBlocks((prevBlocks) =>
+        prevBlocks.map((block) => ({
+          ...block,
+          tickets: block.tickets.map((t) =>
+            t.ticketId === ticketId
+              ? { ...t, tags: [...t.tags, ...newTags] }
+              : t
+          ),
+        }))
+      );
+      setSnackbarMessage("Tags added successfully");
+    } catch (error) {
+      console.error(error);
+      setSnackbarMessage("Error adding tags");
+    } finally {
+      setOpenSnackbar(true);
+      setOpenTagSelectorForTicketId(null);
+    }
+  };
+
+  const handleRemoveTag = async (ticketId, tagId) => {
+    try {
+      // Remove tag from the ticket via API call
+      await removeTagsFromTicket(ticketId, [tagId]);
+
+      // Update blocks and tickets state to reflect the removed tag
+      setBlocks((prevBlocks) =>
+        prevBlocks.map((block) => ({
+          ...block,
+          tickets: block.tickets.map((ticket) =>
+            ticket.ticketId === ticketId
+              ? {
+                ...ticket,
+                tags: ticket.tags.filter((tag) => tag.id !== tagId),
+              }
+              : ticket
+          ),
+        }))
+      );
+
+      // Update the selectedTags state to remove the tag from selected tags if it was selected
+      setSelectedTags((prevSelectedTags) =>
+        prevSelectedTags.filter((id) => id !== tagId)
+      );
+
+      setSnackbarMessage("Tag removed successfully");
+    } catch (error) {
+      console.error(error);
+      setSnackbarMessage("Error removing tag");
+    } finally {
+      setOpenSnackbar(true);
+    }
+  };
+
+  const handleTagSelection = (selected) => {
+    setSelectedTags(selected);
+  };
+
+
 
   const handleDrop = ({ source, self }) => {
     if (source.data.type === "ticket") {
       const sourceTicketId = source.data.ticketId;
-      
+
       const targetTicketId = self.data.ticketId;
 
       // Determine the closest edge of the target ticket
@@ -182,9 +294,11 @@ const handleSaveEdit = (updatedTicket) => {
 
   return (
     <>
-      <Box component="ul" sx={{ padding: 0, margin: 0, listStyleType: "none", minHeight: "100%", // Ensure the ul has a minimum height
-    minWidth: "100%", }}
-    >
+      <Box component="ul" sx={{
+        padding: 0, margin: 0, listStyleType: "none", minHeight: "100%", // Ensure the ul has a minimum height
+        minWidth: "100%",
+      }}
+      >
         {tickets
           .slice() // Create a shallow copy to avoid mutating the original array
           .sort((a, b) => a.sortOrder - b.sortOrder) // Sort tickets by sortOrder
@@ -304,6 +418,8 @@ const handleSaveEdit = (updatedTicket) => {
                   cursor: "grab",
                   wordWrap: "break-word",
                   overflow: "hidden",
+                  backgroundColor: getTicketColor(ticket.dueDate),
+
                 }}
                 onClick={() => handleTicketClick(ticket)}
               >
@@ -328,6 +444,32 @@ const handleSaveEdit = (updatedTicket) => {
                 >
                   {ticket.description}
                 </Typography>
+                <Box sx={{ display: "flex", flexWrap: "wrap", gap: 1, mt: 1 }}>
+                  {ticket.tags?.map((tag) => (
+                    <Chip
+                      key={tag.id}
+                      label={tag.name}
+                      size="small"
+                      sx={{ backgroundColor: tag.color, color: "#fff" }}
+                      onDelete={(e) => {
+                        e.stopPropagation();
+                        handleRemoveTag(ticket.ticketId, tag.id);
+                      }}
+                    />
+                  ))}
+                </Box>
+
+                <Button
+                  variant="outlined"
+                  size="small"
+                  sx={{ mt: 1 }}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setOpenTagSelectorForTicketId(ticket.ticketId);
+                  }}
+                >
+                  Add Tag
+                </Button>
               </Paper>
               {closestEdges[ticket.ticketId] && (
                 <DropIndicator
@@ -367,6 +509,24 @@ const handleSaveEdit = (updatedTicket) => {
         autoHideDuration={2000}
         onClose={() => setOpenSnackbar(false)}
       />
+      {openTagSelectorForTicketId && (
+        <TagListView
+          open={Boolean(openTagSelectorForTicketId)}
+          ticketId={openTagSelectorForTicketId}
+          onClose={() => setOpenTagSelectorForTicketId(null)}
+          selectable={true}
+          selected={
+            tickets.find(t => t.ticketId === openTagSelectorForTicketId)?.tags || []
+          }
+          disabledTagIds={
+            tickets.find(t => t.ticketId === openTagSelectorForTicketId)?.tags.map(tag => tag.id) || []
+          }
+          onSelectTags={(selected) => {
+            handleTagSelection(selected);
+            handleAddTags(openTagSelectorForTicketId, selected);
+          }}
+        />
+      )}
     </>
   );
 }

@@ -71,7 +71,7 @@ export default function EditTicket({ open, ticket, onClose, onSave }) {
 
                             />
                         </Box>
-                        
+
                         <Box mb={3}>
                             <TextField
                                 margin="dense"
@@ -80,7 +80,7 @@ export default function EditTicket({ open, ticket, onClose, onSave }) {
                                 onChange={e => setTicketData({ ...ticketData, description: e.target.value })}
                                 fullWidth
                                 multiline
-                                rows={6}
+                                rows={5}
                                 variant="outlined"
                                 InputProps={{
                                     style: { fontSize: '20px' }

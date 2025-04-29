@@ -1,0 +1,4 @@
+-DTO luokkien nimeämiskäytännöt yhdenmukaiseksi
+-Swagger documentoinnin lisääminen
+-Käyttäjen rekisteröinnin validointi DTO luokkaan
+-Kommentoinnin läpikäynti.

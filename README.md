@@ -107,6 +107,8 @@ The project frontend will be constructed using following Material UI components 
       string lastName
       string email
       long phone
+      string username
+      string password
    }
    Panel ||--o{ Block : ""
    Panel{
@@ -120,6 +122,7 @@ The project frontend will be constructed using following Material UI components 
       string blockName
       string description
       string highlightColor
+      integer sortOrder
    }
    
    Ticket{
@@ -127,7 +130,10 @@ The project frontend will be constructed using following Material UI components 
       string ticketName
       string description
       boolean status
+      localDate dueDate
+      integer sortOrder
       date created
+
    }
     Team }|--o{ AppUser : ""
     Team ||--o{ Panel : ""
@@ -135,7 +141,22 @@ The project frontend will be constructed using following Material UI components 
       long teamId
       string teamName
       string description
+      string createdBy
    }
+   Tag }|--o{ Ticket : ""
+   Tag {
+        long id
+        string name
+        string color
+     }
+   Invite }o--|| Team : ""
+   Invite {
+        long inviteId
+        string nanoId
+        date createdAt
+        date expiresAt
+    }
+
 ```
 
 ## Testing

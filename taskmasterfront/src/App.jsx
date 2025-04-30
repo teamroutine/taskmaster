@@ -64,7 +64,7 @@ function App() {
             <Button
               color="inherit"
               component={Link}
-              to="/teams"
+              to={isAuthenticated ? "/teams" : "/login"}
               sx={{ marginRight: 2, fontSize: "1.05rem" }}
             >
               Your Teams

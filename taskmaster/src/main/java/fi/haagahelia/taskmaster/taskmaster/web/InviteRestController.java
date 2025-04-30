@@ -14,16 +14,27 @@ import org.springframework.web.bind.annotation.RequestBody;
 import fi.haagahelia.taskmaster.taskmaster.domain.Invite;
 import fi.haagahelia.taskmaster.taskmaster.service.InviteService;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
+
 import java.util.List;
 import java.util.Map;
 
 @RestController
 @RequestMapping("/api/invites")
+@Tag(name = "Invites", description = "Endpoints for managing team invite links")
 public class InviteRestController {
 
     @Autowired
     private InviteService inviteService;
 
+    @Operation(summary = "Generate an invite link", description = "Creates a time-limited invite code for a team")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description = "Invite successfully generated"),
+            @ApiResponse(responseCode = "500", description = "Server error during invite generation")
+    })
     @PostMapping("/generateInvite")
     public ResponseEntity<Map<String, String>> generateInvite(@RequestBody Map<String, Object> requestBody) {
         try {
@@ -40,6 +51,11 @@ public class InviteRestController {
         }
     }
 
+    @Operation(summary = "Validate an invite code", description = "Checks if the provided invite code is valid and not expired")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Invite is valid"),
+            @ApiResponse(responseCode = "404", description = "Invite not found or expired")
+    })
     @GetMapping("/validate/{nanoId}")
     public ResponseEntity<Invite> validateInvite(@PathVariable String nanoId) {
         try {
@@ -50,6 +66,10 @@ public class InviteRestController {
         }
     }
 
+    @Operation(summary = "Get all invites", description = "Returns a list of all invite codes")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Successfully retrieved all invites")
+    })
     @GetMapping("/all")
     public ResponseEntity<List<Invite>> getAllInvites() {
         List<Invite> invites = inviteService.getAllInvites();

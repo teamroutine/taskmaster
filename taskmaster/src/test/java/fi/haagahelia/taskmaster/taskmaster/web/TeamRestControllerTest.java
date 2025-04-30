@@ -14,6 +14,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.Collections;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +26,8 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.http.MediaType;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 import fi.haagahelia.taskmaster.taskmaster.config.SecurityConfig;
 import fi.haagahelia.taskmaster.taskmaster.domain.AppUser;
@@ -143,7 +146,12 @@ class TeamRestControllerTest {
     @Test
     void testDeleteTeam() throws Exception {
         Team team = new Team(1L, "ToDelete", "Desc", new ArrayList<>(), new ArrayList<>(), "user");
+
+        when(jwtService.getAuthUser(any())).thenReturn("user");
         when(teamRepository.findById(1L)).thenReturn(Optional.of(team));
+
+        SecurityContextHolder.getContext().setAuthentication(
+                new UsernamePasswordAuthenticationToken("user", null, Collections.emptyList()));
 
         mockMvc.perform(delete("/api/teams/1")
                 .header("Authorization", generateMockJwtToken()))
@@ -151,5 +159,4 @@ class TeamRestControllerTest {
 
         verify(teamRepository, times(1)).delete(team);
     }
-
 }

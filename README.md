@@ -45,7 +45,10 @@ Taskmaster will provide simple and fluent task and project management for groups
    - **Spring Boot Validation Starter**
       - For validating the input data
    - **Swagger / OpenAPI**
-      - Interactive API documentation is available via Swagger UI
+      - Interactive API documentation is available via Swagger UI at /swagger-ui.html, allowing you to explore and test endpoints directly.
+```bash
+http://localhost:8080/swagger-ui/index.html
+```
    #### Frontend
    - **React** 
       - For creating the user interface

@@ -25,10 +25,12 @@ public class JwtService {
     @Value("${auth.jwt-secret}") // Upload value from configuration file
     private String jwtSecret;
 
-    public AccessTokenPayloadDto getAccessToken(String username) { // Create JWT using username
+    public AccessTokenPayloadDto getAccessToken(String username, String email, String initials) { // Create JWT using username
         Instant expiresAt = Instant.now().plusMillis(EXPIRATION_TIME); // Define time of validity
         String accessToken = Jwts.builder()
                 .setSubject(username) // User details attached to token
+                .claim("email", email)
+                .claim("initials", initials)
                 .setExpiration(Date.from(expiresAt)) // Set time of expiration
                 .signWith(getSigningKey()) // Sign token with secret key
                 .compact(); // Compile everything

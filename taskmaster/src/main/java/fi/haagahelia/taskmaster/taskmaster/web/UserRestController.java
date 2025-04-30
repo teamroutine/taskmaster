@@ -53,7 +53,7 @@ public class UserRestController {
         List<AppUser> users = appUserRepository.findAll();
         return ResponseEntity.ok(users);
     }
-
+    
     // Get one user
     @GetMapping("/{id}")
     public ResponseEntity<AppUser> getAppuserById(@PathVariable Long id) {

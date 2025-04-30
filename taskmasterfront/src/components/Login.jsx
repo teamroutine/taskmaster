@@ -10,10 +10,12 @@ import { Visibility, VisibilityOff } from '@mui/icons-material';
 import { InputAdornment } from '@mui/material';
 import IconButton from '@mui/material/IconButton';
 import { useNavigate } from 'react-router-dom';
+import { useContext } from "react";
+import { AuthContext } from "../context/AuthProvider";
 
 
 export default function Login() {
-
+    const { login } = useContext(AuthContext);
     const [open, setOpen] = useState(false);
 
     const [showPassword, setShowPassword] = useState('');
@@ -44,6 +46,8 @@ export default function Login() {
             // Save token into localStorage
             localStorage.setItem('accessToken', accessToken);
             localStorage.setItem('tokenExpiresAt', expiresAt);
+
+            login();
 
             // Navigate to panels
             navigate('/teams');

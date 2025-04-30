@@ -30,9 +30,15 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
+
 @CrossOrigin
 @RestController
 @RequestMapping("/api/teams")
+@Tag(name = "Teams", description = "Endpoints for managing teams")
 public class TeamRestController {
 
     @Autowired
@@ -53,6 +59,8 @@ public class TeamRestController {
     }
 
     // Get all the teams
+    @Operation(summary = "Get all teams", description = "Returns a list of all teams")
+    @ApiResponse(responseCode = "200", description = "Successfully retrieved all teams")
     @GetMapping
     public ResponseEntity<List<Team>> getAllTeamns() {
         List<Team> teams = teamRepository.findAll();
@@ -65,6 +73,11 @@ public class TeamRestController {
     }
 
     // Get one team
+    @Operation(summary = "Get a team by ID", description = "Returns a single team by its ID")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Team found"),
+            @ApiResponse(responseCode = "404", description = "Team not found")
+    })
     @GetMapping("/{id}")
     public ResponseEntity<Team> getTeamById(@PathVariable Long id) {
         return teamRepository.findById(id)
@@ -72,6 +85,12 @@ public class TeamRestController {
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
+    @Operation(summary = "Create a new team", description = "Creates a new team for the authenticated user")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description = "Team successfully created"),
+            @ApiResponse(responseCode = "401", description = "User not authenticated"),
+            @ApiResponse(responseCode = "404", description = "User not found")
+    })
     @PostMapping
     public ResponseEntity<Team> newTeam(@RequestBody @Valid TeamDTO teamDTO, HttpServletRequest request) {
         String username = jwtService.getAuthUser(request);
@@ -93,23 +112,32 @@ public class TeamRestController {
         return ResponseEntity.status(HttpStatus.CREATED).body(savedTeam);
     }
 
+    @Operation(summary = "Delete a team", description = "Deletes a team by ID, only if the requester is the creator")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "204", description = "Team successfully deleted"),
+            @ApiResponse(responseCode = "403", description = "User not authorized to delete this team"),
+            @ApiResponse(responseCode = "404", description = "Team not found")
+    })
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteTeam(@PathVariable Long id, Authentication auth) {
-    String currentUsername = auth.getName(); 
+        String currentUsername = auth.getName();
 
-    Team team = teamRepository.findById(id)
-            .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Team not found"));
-    
-    if (!team.getCreatedBy().equals(currentUsername)) {
-        throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Only the creator can delete this team.");
+        Team team = teamRepository.findById(id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Team not found"));
+
+        if (!team.getCreatedBy().equals(currentUsername)) {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Only the creator can delete this team.");
+        }
+
+        teamRepository.delete(team);
+        return ResponseEntity.noContent().build();
     }
 
-    teamRepository.delete(team);
-    return ResponseEntity.noContent().build();
-}
-
-
-
+    @Operation(summary = "Edit a team", description = "Updates the name and description of a team")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Team successfully updated"),
+            @ApiResponse(responseCode = "404", description = "Team not found")
+    })
     @PutMapping("/{id}")
     public ResponseEntity<Team> editTeam(@PathVariable Long id, @RequestBody Team teamData) {
 
@@ -126,6 +154,8 @@ public class TeamRestController {
 
     }
 
+    @Operation(summary = "Get current user's teams", description = "Returns all teams where the authenticated user belongs")
+    @ApiResponse(responseCode = "200", description = "Successfully retrieved user's teams")
     @GetMapping("/my")
     public ResponseEntity<List<Team>> getUsersOwnTeams(Authentication auth) {
         String username = auth.getName();

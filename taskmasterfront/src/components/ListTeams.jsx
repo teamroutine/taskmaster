@@ -1,7 +1,21 @@
 import React, { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
-import { Paper, Box, Typography, Divider, Button, MenuItem, Snackbar } from "@mui/material";
-import { fetchMyTeams, handleAddPanel, handleAddTeam, handleAddBlock, deleteTeam } from "../../taskmasterApi";
+import {
+  Paper,
+  Box,
+  Typography,
+  Divider,
+  Button,
+  MenuItem,
+  Snackbar,
+} from "@mui/material";
+import {
+  fetchMyTeams,
+  handleAddPanel,
+  handleAddTeam,
+  handleAddBlock,
+  deleteTeam,
+} from "../../taskmasterApi";
 import ListPanels from "./ListPanels";
 import CreatePanel from "./CreatePanel";
 import CreateTeam from "./CreateTeam";
@@ -60,27 +74,25 @@ function ListTeams({ username }) {
           blockName: "Done",
           description: "Block for completed tickets",
           panelId: addedPanel.panelId,
-        })
-          .then((addedBlock) => {
-            setTeams((prevTeams) =>
-              prevTeams.map((team) =>
-                team.teamId === teamId
-                  ? {
+        }).then((addedBlock) => {
+          setTeams((prevTeams) =>
+            prevTeams.map((team) =>
+              team.teamId === teamId
+                ? {
                     ...team,
                     panels: team.panels.map((panel) =>
                       panel.panelId === addedPanel.panelId
                         ? {
-                          ...panel,
-                          blocks: [...(panel.blocks || []), addedBlock],
-                        }
+                            ...panel,
+                            blocks: [...(panel.blocks || []), addedBlock],
+                          }
                         : panel
                     ),
                   }
-                  : team
-              )
-            );
-          });
-
+                : team
+            )
+          );
+        });
       })
       .catch((err) => {
         console.error("Error adding panel:", err);
@@ -102,9 +114,13 @@ function ListTeams({ username }) {
         setOpenSnackbar(true);
       });
   };
-  
+
   const handleDeleteTeam = (teamId) => {
-    if (window.confirm("Are you sure you want to delete this team and all its contents?")) {
+    if (
+      window.confirm(
+        "Are you sure you want to delete this team and all its contents?"
+      )
+    ) {
       deleteTeam(teamId)
         .then(() => {
           setTeams((prevTeams) =>
@@ -173,7 +189,6 @@ function ListTeams({ username }) {
                       cursor: "pointer",
                     }}
                     variant="h6"
-                    onClick={() => handleTeamClick(team)}
                   >
                     {team.teamName}
                   </Typography>
@@ -193,13 +208,30 @@ function ListTeams({ username }) {
                       <Button
                         variant="contained"
                         color="primary"
+                        sx={{ width: "100%"}}
                         onClick={() => handleInviteUsers(team.teamId)} // Open invite modal
                       >
                         Invite Users
                       </Button>
                     </MenuItem>
                     <MenuItem>
-                      <Button variant="contained" color="error" onClick={() => handleDeleteTeam(team.teamId)} disabled={team.createdBy !== username}>
+                      <Button
+                        variant="contained"
+                        color="info"
+                        sx={{ width: "100%"}}
+                        onClick={() => handleTeamClick(team)}
+                      >
+                        Info
+                      </Button>
+                    </MenuItem>
+                    <MenuItem>
+                      <Button
+                        variant="contained"
+                        color="error"
+                        sx={{ width: "100%"}}
+                        onClick={() => handleDeleteTeam(team.teamId)}
+                        disabled={team.createdBy !== username}
+                      >
                         Delete Team
                       </Button>
                     </MenuItem>

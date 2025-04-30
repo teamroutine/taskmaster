@@ -28,7 +28,9 @@ function App() {
       const decodedToken = jwtDecode(token);
       username = decodedToken.sub;
       email = decodedToken.email;
-      initials = decodedToken.initials;
+      const firstname = decodedToken.firstname || "";
+      const lastname = decodedToken.lastname || "";
+      initials = `${firstname.charAt(0)}${lastname.charAt(0)}`.toUpperCase();
       gravatarUrl = gravatar.url(email, {
         s: "50",
         d: "initials",
@@ -84,7 +86,11 @@ function App() {
                   marginRight: "5px",
                 }}
               >
-                <Typography variant="body1" color="inherit" style={{marginRight:"20px"}}>
+                <Typography
+                  variant="body1"
+                  color="inherit"
+                  style={{ marginRight: "20px" }}
+                >
                   {username.toUpperCase()}
                 </Typography>
                 <img

@@ -30,6 +30,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import fi.haagahelia.taskmaster.taskmaster.config.SecurityConfig;
+import fi.haagahelia.taskmaster.taskmaster.domain.AppUser;
 import fi.haagahelia.taskmaster.taskmaster.domain.AppUserRepository;
 import fi.haagahelia.taskmaster.taskmaster.domain.BlockRepository;
 import fi.haagahelia.taskmaster.taskmaster.domain.InviteRepository;
@@ -109,16 +110,23 @@ class AuthRestControllerTest {
     void testSuccessfulAuthenticationReturnsOkStatus() throws Exception {
         String username = "testuser";
         String password = "testpassword";
+        String email = "testemail";
+        String firstName = "testfirstname";
+        String lastName = "testlastname";
 
         LoginUserDto loginDto = new LoginUserDto(username, password);
-        UserDetails mockUserDetails = new org.springframework.security.core.userdetails.User(
-                username, password, new ArrayList<>());
+        AppUser mockUserDetails = new AppUser();
+        mockUserDetails.setUsername(username);
+        mockUserDetails.setPassword(password);
+        mockUserDetails.setEmail(email);
+        mockUserDetails.setFirstName(firstName);
+        mockUserDetails.setLastName(lastName);
 
         AccessTokenPayloadDto mockToken = new AccessTokenPayloadDto("fake-jwt-token", mockExpiresAt);
 
         // Mock the behavior
         when(userDetailsService.loadUserByUsername(username)).thenReturn(mockUserDetails);
-        when(jwtService.getAccessToken(username)).thenReturn(mockToken);
+        when(jwtService.getAccessToken(username, email, firstName, lastName)).thenReturn(mockToken);
         when(authenticationManager.authenticate(any(Authentication.class))).thenReturn(null); // <-- tämä korjaa virheen
 
         mockMvc.perform(post("/api/auth/login")
@@ -158,19 +166,25 @@ class AuthRestControllerTest {
     void testLoginWithValidCredentialsReturnsToken() throws Exception {
         String username = "testuser";
         String password = "testpassword";
+        String email = "testemail";
+        String firstName = "testfirstname";
+        String lastName = "testlastname";
 
         LoginUserDto loginDto = new LoginUserDto(username, password);
         AccessTokenPayloadDto mockToken = new AccessTokenPayloadDto("valid-jwt-token", mockExpiresAt);
 
-        // Mock UserDetails to avoid NullPointerException
-        UserDetails mockUserDetails = new org.springframework.security.core.userdetails.User(
-                username, password, new ArrayList<>());
+        AppUser mockUserDetails = new AppUser();
+        mockUserDetails.setUsername(username);
+        mockUserDetails.setPassword(password);
+        mockUserDetails.setEmail(email);
+        mockUserDetails.setFirstName(firstName);
+        mockUserDetails.setLastName(lastName);
 
         when(userDetailsService.loadUserByUsername(username)).thenReturn(mockUserDetails);
 
         // Mock authentication and token generation
         when(authenticationManager.authenticate(any(Authentication.class))).thenReturn(null);
-        when(jwtService.getAccessToken(username)).thenReturn(mockToken);
+        when(jwtService.getAccessToken(username, email, firstName, lastName)).thenReturn(mockToken);
 
         mockMvc.perform(post("/api/auth/login")
                 .contentType(MediaType.APPLICATION_JSON)

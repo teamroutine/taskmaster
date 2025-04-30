@@ -52,15 +52,8 @@ public class AuthRestController {
             String email = appUser.getEmail(); 
             String firstName = appUser.getFirstName();
             String lastName = appUser.getLastName();
-            String initials = "";
-            if (firstName != null && !firstName.isEmpty()) {
-                initials += firstName.charAt(0);
-            }
-            if (lastName != null && !lastName.isEmpty()) {
-                initials += lastName.charAt(0);
-            }
 
-            AccessTokenPayloadDto accessTokenPayloadDto = jwtService.getAccessToken(userDetails.getUsername(), email, initials);
+            AccessTokenPayloadDto accessTokenPayloadDto = jwtService.getAccessToken(userDetails.getUsername(), email, firstName, lastName);
 
             return ResponseEntity.ok(accessTokenPayloadDto);
         } catch (BadCredentialsException exception) {

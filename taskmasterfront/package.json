@@ -6,11 +6,11 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
+    "postbuild": "echo 'Copying static.json...' && copy .\\static.json .\\dist\\",
     "lint": "eslint .",
     "preview": "vite preview",
     "test": "vitest",
-    "coverage": "vitest run --coverage",
-    "postbuild": "echo 'Copying static.json...' && copy .\\static.json .\\dist\\"
+    "coverage": "vitest run --coverage"
   },
   "dependencies": {
     "@atlaskit/pragmatic-drag-and-drop": "^1.5.1",

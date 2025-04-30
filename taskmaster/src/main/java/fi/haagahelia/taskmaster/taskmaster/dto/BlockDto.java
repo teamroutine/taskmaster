@@ -1,7 +1,10 @@
 package fi.haagahelia.taskmaster.taskmaster.dto;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+
 import fi.haagahelia.taskmaster.taskmaster.domain.Block;
 
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class BlockDto {
 
     private Long blockId;
@@ -26,7 +29,7 @@ public class BlockDto {
         this.blockName = block.getBlockName();
         this.description = block.getDescription();
         this.highlightColor = block.getHighlightColor();
-        this.panelId = block.getPanel().getPanelId();
+        this.panelId = block.getPanel().getPanelId() != null ? block.getPanel().getPanelId() : null;
     }
 
     public Long getBlockId() {

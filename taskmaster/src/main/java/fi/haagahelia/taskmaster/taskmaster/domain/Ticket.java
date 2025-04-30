@@ -4,8 +4,6 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-import fi.haagahelia.taskmaster.taskmaster.domain.Tag;
-
 import org.hibernate.annotations.CreationTimestamp;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
@@ -14,12 +12,12 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.GenerationType;
 
 @Entity
 public class Ticket {
@@ -29,8 +27,11 @@ public class Ticket {
     private String ticketName;
     private String description;
     private Boolean status;
+    private LocalDate dueDate;
+    private Integer sortOrder;
     @CreationTimestamp
     private LocalDate created;
+    
 
     @ManyToOne
     @JsonBackReference
@@ -49,15 +50,17 @@ public class Ticket {
     public Ticket() {
     }
 
-    public Ticket(Long ticketId, String ticketName, String description, Boolean status, LocalDate created,
-            Block block, List<Tag> tags) {
+    public Ticket(Long ticketId, String ticketName, String description, Boolean status,LocalDate dueDate, LocalDate created,
+            Block block, List<Tag> tags, Integer sortOrder) {
         this.ticketId = ticketId;
         this.ticketName = ticketName;
         this.description = description;
         this.status = status;
+        this.dueDate = dueDate;
         this.created = created;
         this.block = block;
-        this.tags = tags != null ? tags : new ArrayList<>();
+        this.sortOrder = sortOrder;
+        this.tags = tags;
     }
 
     public List<Tag> getTags() {
@@ -92,6 +95,14 @@ public class Ticket {
         this.description = description;
     }
 
+    public LocalDate getDueDate() {
+        return dueDate;
+    }
+
+    public void setDueDate(LocalDate dueDate) {
+        this.dueDate = dueDate;
+    }
+
     public Boolean getStatus() {
         return status;
     }
@@ -119,7 +130,16 @@ public class Ticket {
     @Override
     public String toString() {
         return "Ticket [ticketId=" + ticketId + ", ticketName=" + ticketName + ", description=" + description
-                + ", status=" + status + ", created=" + created + ", block=" + block + "]";
+                + ", status=" + status + ", dueDate=" + dueDate + ", created=" + created + ", block=" + block + ", sortOrder=" + sortOrder + "]";
     }
 
+    public Integer getSortOrder() {
+        return sortOrder;
+    }
+
+    public void setSortOrder(Integer sortOrder) {
+        this.sortOrder = sortOrder;
+    }
+
+   
 }

@@ -26,15 +26,7 @@ function PanelView() {
                 if (panel) {
                     setPanelNameData(panel.panelName);
                     setDescriptionData(panel.description);
-                    
-                    
-                    const sortedBlocks = panel.blocks.sort((a, b) => {
-                        if (a.blockName === "Done") return 1;  
-                        if (b.blockName === "Done") return -1; 
-                        return -1;  
-                    });
-    
-                    setBlocks(sortedBlocks);
+                    setBlocks(panel.blocks);
                 } else {
                     console.error("Panel not found!");
                     setBlocks([]); 

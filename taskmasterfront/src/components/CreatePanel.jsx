@@ -46,7 +46,7 @@ export default function CreatePanel({ createPanel }) {
                         value={panel.panelName}
                         onChange={e => setPanel({ ...panel, panelName: e.target.value })}
                         fullWidth
-                        variant='standard'
+                        variant='outlined'
                     />
                     <TextField
                         margin='dense'
@@ -54,7 +54,8 @@ export default function CreatePanel({ createPanel }) {
                         value={panel.description}
                         onChange={e => setPanel({ ...panel, description: e.target.value })}
                         fullWidth
-                        variant='standard'
+                        multiline
+                        variant='outlined'
                     />
                 </DialogContent>
                 <DialogActions>

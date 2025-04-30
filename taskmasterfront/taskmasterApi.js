@@ -10,12 +10,60 @@ export function fetchTeams() {
   return apiFetch(import.meta.env.VITE_API_URL + "/teams");
 }
 
+export function fetchMyTeams() {
+  return apiFetch(import.meta.env.VITE_API_URL + "/teams/my")
+}
+
 export function fetchTickets() {
   return apiFetch(import.meta.env.VITE_API_URL + "/tickets");
 }
 
 export function fetchAppUsers() {
   return apiFetch(import.meta.env.VITE_API_URL + "/users");
+}
+
+export function fetchTags() {
+  return apiFetch(import.meta.env.VITE_API_URL + "/tags");
+}
+
+export function createTag(newTag) {
+  return apiFetch(import.meta.env.VITE_API_URL + "/tags", {
+    method: "POST",
+    body: JSON.stringify(newTag),
+  });
+}
+
+export function updateTag(tagId, updatedTag) {
+  return apiFetch(import.meta.env.VITE_API_URL + `/tags/${tagId}`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(updatedTag),
+  });
+}
+
+export function deleteTag(tagId) {
+  return apiFetch(import.meta.env.VITE_API_URL + `/tags/${tagId}`, {
+    method: "DELETE",
+  });
+}
+
+export function addTagsToTicket(ticketId, tagIds) {
+  return apiFetch(import.meta.env.VITE_API_URL + `/tickets/${ticketId}/addTags`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(tagIds),
+  });
+}
+
+export function removeTagsFromTicket(ticketId, tagIds) {
+  return apiFetch(import.meta.env.VITE_API_URL + `/tickets/${ticketId}/removeTags`, {
+    method: "PUT",
+    body: JSON.stringify(tagIds),
+  });
 }
 
 export const handleAddTicket = (newTicket) => {
@@ -59,12 +107,26 @@ export function updateTicket(ticketId, ticket) {
   });
 }
 
+export const handleReorderTickets = (blockId, reorderedTickets) => {
+  return apiFetch(`${import.meta.env.VITE_API_URL}/tickets/reorder?blockId=${blockId}`, {
+    method: "PUT",
+    body: JSON.stringify(reorderedTickets),
+  });
+};
+
 export function updateBlock(blockId, block) {
   return apiFetch(import.meta.env.VITE_API_URL + `/blocks/${blockId}`, {
     method: "PUT",
     body: JSON.stringify(block),
   });
 }
+
+export const handleReorderBlocks = (panelId, reorderedBlocks) => {
+  return apiFetch(`${import.meta.env.VITE_API_URL}/blocks/reorder?panelId=${panelId}`, {
+    method: "PUT",
+    body: JSON.stringify(reorderedBlocks),
+  });
+};
 
 export function updatePanel(panelId, panel) {
   return apiFetch(import.meta.env.VITE_API_URL + `/panels/${panelId}`, {
@@ -82,6 +144,11 @@ export function deleteBlock(blockId) {
 export function deletePanel(panelId) {
   return apiFetch(import.meta.env.VITE_API_URL + `/panels/${panelId}`, {
     method: "DELETE",
+  });
+}
+export function  deleteTeam(teamId){
+  return apiFetch(import.meta.env.VITE_API_URL + `/teams/${teamId}`,{
+  method:"DELETE"
   });
 }
 
@@ -105,6 +172,16 @@ export const generateInvite = (teamId, durationHours) => {
       "Content-Type": "application/json",
     },
     body: JSON.stringify({ teamId, durationHours }),
+  });
+};
+
+export const validateInvite = (inviteCode) => {
+  return apiFetch(`${import.meta.env.VITE_API_URL}/invites/validate/${inviteCode}`)
+}
+
+export const joinTeamWithInvite = (inviteCode) => {
+  return apiFetch(`${import.meta.env.VITE_API_URL}/team/join/${inviteCode}`, {
+    method: "POST",
   });
 };
 

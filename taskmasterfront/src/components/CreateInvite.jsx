@@ -21,7 +21,8 @@ function CreateInvite({ teamId, open, onClose }) {
   const handleGenerateInvite = () => {
     generateInvite(teamId, inviteDuration)
       .then((data) => {
-        setInviteLink(data.inviteLink);
+        const inviteURL = `${window.location.origin}/team/join/${data.inviteCode}`;
+        setInviteLink(inviteURL);
         setSnackbarMessage("Invite link generated successfully!");
         setOpenSnackbar(true);
       })

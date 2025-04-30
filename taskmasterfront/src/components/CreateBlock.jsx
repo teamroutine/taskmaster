@@ -15,7 +15,6 @@ export default function CreateBlock({ createBlock, existingBlockNames = [] }) {
     const [block, setBlock] = useState({
         blockName: '',
         description: '',
-        highlightColor: '',
     });
 
     const [errorMessage, setErrorMessage] = useState('');
@@ -37,7 +36,7 @@ export default function CreateBlock({ createBlock, existingBlockNames = [] }) {
         }
 
         createBlock(block);
-        setBlock({ blockName: "", description: "", highlightColor: "" });
+        setBlock({ blockName: "", description: "", });
         setErrorMessage('');
         handleClose();
     };
@@ -57,7 +56,7 @@ export default function CreateBlock({ createBlock, existingBlockNames = [] }) {
                             value={block.blockName}
                             onChange={e => setBlock({ ...block, blockName: e.target.value })}
                             fullWidth
-                            variant='standard'
+                            variant='outlined'
                         />
                         {errorMessage && (
                             <FormHelperText sx={{ fontSize: '0.95rem' }}>{errorMessage}</FormHelperText>
@@ -69,15 +68,8 @@ export default function CreateBlock({ createBlock, existingBlockNames = [] }) {
                         value={block.description}
                         onChange={e => setBlock({ ...block, description: e.target.value })}
                         fullWidth
-                        variant='standard'
-                    />
-                    <TextField
-                        margin='dense'
-                        label='Highlight color'
-                        value={block.highlightColor}
-                        onChange={e => setBlock({ ...block, highlightColor: e.target.value })}
-                        fullWidth
-                        variant='standard'
+                        multiline
+                        variant='outlined'
                     />
                 </DialogContent>
                 <DialogActions>

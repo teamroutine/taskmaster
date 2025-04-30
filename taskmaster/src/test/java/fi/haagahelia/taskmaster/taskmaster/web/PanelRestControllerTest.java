@@ -70,7 +70,7 @@ class PanelRestControllerTest {
     @MockitoBean
     private JwtService jwtService;
 
-    private String generateMockJewString() {
+    private String generateMockJwtToken() {
         return "Bearer mock-jwt-token-more-text-so-its-long-enough";
     }
 
@@ -92,7 +92,7 @@ class PanelRestControllerTest {
         when(panelRepository.findAll()).thenReturn(panels);
 
         mockMvc.perform(get("/api/panels")
-                .header("Authorization", generateMockJewString()))
+                .header("Authorization", generateMockJwtToken()))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(2)))
                 .andExpect(jsonPath("$[0].panelName").value("Panel 1"))
@@ -109,14 +109,14 @@ class PanelRestControllerTest {
         when(panelRepository.findById(1L)).thenReturn(Optional.of(panel1));
 
         mockMvc.perform(get("/api/panels/1")
-                .header("Authorization", generateMockJewString()))
+                .header("Authorization", generateMockJwtToken()))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.panelName").value("Panel 1"));
 
         when(panelRepository.findById(2L)).thenReturn(Optional.of(panel2));
 
         mockMvc.perform(get("/api/panels/2")
-                .header("Authorization", generateMockJewString()))
+                .header("Authorization", generateMockJwtToken()))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.panelName").value("Panel 2"));
     }
@@ -138,7 +138,7 @@ class PanelRestControllerTest {
         when(panelRepository.save(any(Panel.class))).thenReturn(panel);
 
         mockMvc.perform(post("/api/panels")
-                .header("Authorization", generateMockJewString())
+                .header("Authorization", generateMockJwtToken())
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{\"panelName\": \"Panel 1\", \"description\": \"Description for Panel 1\", \"teamId\": 1}"))
                 .andExpect(status().isCreated())
@@ -170,7 +170,7 @@ class PanelRestControllerTest {
         when(panelRepository.save(any(Panel.class))).thenReturn(panel);
 
         mockMvc.perform(put("/api/panels/{id}", panelId)
-                .header("Authorization", generateMockJewString())
+                .header("Authorization", generateMockJwtToken())
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(asJsonString(updatedPanel)))
                 .andExpect(status().isOk())
@@ -204,7 +204,7 @@ class PanelRestControllerTest {
         when(panelRepository.findAll()).thenReturn(panels);
 
         mockMvc.perform(delete("/api/panels/{id}", panelId)
-                .header("Authorization", generateMockJewString()))
+                .header("Authorization", generateMockJwtToken()))
                 .andExpect(status().isNoContent());
 
         Mockito.verify(panelRepository).delete(panel1);

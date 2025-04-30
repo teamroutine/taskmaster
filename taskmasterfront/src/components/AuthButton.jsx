@@ -1,8 +1,11 @@
 import React, { useState } from 'react';
 import { Button, Snackbar } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
+import { useContext } from "react";
+import { AuthContext } from "../context/AuthProvider";
 
 const AuthButton = () => {
+    const { logout } = useContext(AuthContext);
     const navigate = useNavigate();
     const [openSnackbar, setOpenSnackbar] = useState(false);
 
@@ -12,7 +15,8 @@ const AuthButton = () => {
             // Log out
             localStorage.removeItem('accessToken');
             localStorage.removeItem('tokenExpiresAt');
-            setOpenSnackbar(true); 
+            setOpenSnackbar(true);
+            logout();
             navigate('/');
         } else {
             // Log in

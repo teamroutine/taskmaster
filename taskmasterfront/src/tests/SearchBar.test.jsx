@@ -7,8 +7,8 @@ import '@testing-library/jest-dom';
 
 test("Renders page header", () => {
     render(<PanelView />)
-    const header = screen.getByText(/Panel View/i); // Make sure that test suite find the header of the page
-    expect(header).toBeInTheDocument();
+    const button = screen.getByText(/Add Block/i); // Make sure that test suite find the header of the page
+    expect(button).toBeInTheDocument();
 
 });
 

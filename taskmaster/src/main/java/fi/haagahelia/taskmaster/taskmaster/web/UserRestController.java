@@ -29,10 +29,15 @@ import fi.haagahelia.taskmaster.taskmaster.domain.AppUser;
 import fi.haagahelia.taskmaster.taskmaster.domain.AppUserRepository;
 import org.springframework.web.bind.annotation.PutMapping;
 
-@CrossOrigin
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 
+@CrossOrigin
 @RestController
 @RequestMapping("/api/users")
+@Tag(name = "Users", description = "Endpoints for managing users")
 public class UserRestController {
 
     private final AppUserService appUserService;
@@ -48,6 +53,8 @@ public class UserRestController {
     }
 
     // Get All users
+    @Operation(summary = "Get all users", description = "Returns a list of all users")
+    @ApiResponse(responseCode = "200", description = "Successfully retrieved users")
     @GetMapping
     public ResponseEntity<List<AppUser>> getAllAppUsers() {
         List<AppUser> users = appUserRepository.findAll();
@@ -55,6 +62,11 @@ public class UserRestController {
     }
 
     // Get one user
+    @Operation(summary = "Get a user by ID", description = "Returns a single user by their ID")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "User found"),
+            @ApiResponse(responseCode = "404", description = "User not found")
+    })
     @GetMapping("/{id}")
     public ResponseEntity<AppUser> getAppuserById(@PathVariable Long id) {
         return appUserRepository.findById(id)
@@ -63,6 +75,11 @@ public class UserRestController {
     }
 
     // Delete user
+    @Operation(summary = "Delete a user", description = "Deletes a user by ID")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "204", description = "User successfully deleted"),
+            @ApiResponse(responseCode = "404", description = "User not found")
+    })
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteAppUser(@PathVariable Long id) {
         AppUser appuser = appUserRepository.findById(id)
@@ -73,6 +90,12 @@ public class UserRestController {
         return ResponseEntity.noContent().build();
     }
 
+    @Operation(summary = "Register a new user", description = "Creates a new user with validation")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description = "User successfully created"),
+            @ApiResponse(responseCode = "400", description = "Validation error"),
+            @ApiResponse(responseCode = "409", description = "Username already taken")
+    })
     @PostMapping
     public ResponseEntity<AppUser> createAppUser(@Valid @RequestBody RegisterUserDto registration,
             BindingResult bindingResult) {
@@ -94,6 +117,12 @@ public class UserRestController {
         return ResponseEntity.status(HttpStatus.CREATED).body(appUserService.registerUser(registration));
     }
 
+    @Operation(summary = "Edit a user", description = "Updates user's basic info (name, email, etc.) by ID")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "User successfully updated"),
+            @ApiResponse(responseCode = "404", description = "User not found"),
+            @ApiResponse(responseCode = "409", description = "Username already taken")
+    })
     @PutMapping("/{id}")
     public ResponseEntity<AppUser> editAppUser(@PathVariable Long id, @RequestBody AppUser appUserData) {
         AppUser editAppUser = appUserRepository.findById(id)

@@ -76,8 +76,8 @@ class BlockRestControllerTest {
     void testGetAllBlocks() throws Exception {
 
         Panel panel = new Panel();
-        Block block1 = new Block(1L, "Block 1", "Block 1 description", null, panel, new ArrayList<>());
-        Block block2 = new Block(2L, "Block 2", "Block 2 description", null, panel, new ArrayList<>());
+        Block block1 = new Block(1L, "Block 1", "Block 1 description", null, panel, new ArrayList<>(), null);
+        Block block2 = new Block(2L, "Block 2", "Block 2 description", null, panel, new ArrayList<>(), null);
         List<Block> blocks = Arrays.asList(block1, block2);
 
         when(blockRepository.findAll()).thenReturn(blocks);
@@ -94,8 +94,8 @@ class BlockRestControllerTest {
     void testGetBlockById() throws Exception {
 
         Panel panel = new Panel();
-        Block block1 = new Block(1L, "Block 1", "Block 1 description", null, panel, new ArrayList<>());
-        Block block2 = new Block(2L, "Block 2", "Block 2 description", null, panel, new ArrayList<>());
+        Block block1 = new Block(1L, "Block 1", "Block 1 description", null, panel, new ArrayList<>(), null);
+        Block block2 = new Block(2L, "Block 2", "Block 2 description", null, panel, new ArrayList<>(), null);
 
         when(blockRepository.findById(1L)).thenReturn(Optional.of(block1));
 

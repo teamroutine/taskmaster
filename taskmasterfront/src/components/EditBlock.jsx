@@ -3,7 +3,7 @@ import { updateBlock } from "../../taskmasterApi";
 import { Snackbar,Dialog, DialogContent, Box, DialogTitle, TextField, Button, DialogActions } from "@mui/material";
 
 export default function EditBlock({ block, onSave, open, onClose }) {
-    const [blockData, setBlockData] = useState({ blockName: '', description: '', highlightColor: '' });
+    const [blockData, setBlockData] = useState({ blockName: '', description: '', });
 
     const [openSnackbar, setOpenSnackbar] = useState(false);
     const [snackbarMessage, setSnackbarMessage] = useState('');
@@ -12,7 +12,6 @@ export default function EditBlock({ block, onSave, open, onClose }) {
         setBlockData({
             blockName: block.blockName,
             description: block.description,
-            highlightColor: block.highlightColor,
         });
     }, [block]);
 
@@ -48,14 +47,6 @@ export default function EditBlock({ block, onSave, open, onClose }) {
                     label="Description"
                     value={blockData.description}
                     onChange={(e) => setBlockData({ ...blockData, description: e.target.value })}
-                    fullWidth
-                    variant="standard"
-                />
-                <TextField
-                    margin="dense"
-                    label="Highlight color"
-                    value={blockData.highlightColor}
-                    onChange={(e) => setBlockData({ ...blockData, highlightColor: e.target.value })}
                     fullWidth
                     variant="standard"
                 />

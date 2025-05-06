@@ -33,7 +33,7 @@ export default function Login() {
     // Close the modal
     const handleClickClose = () => {
         setOpen(false);
-        navigate('/teams')
+        navigate('/')
     }
 
     const navigate = useNavigate();

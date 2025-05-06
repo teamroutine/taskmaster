@@ -37,7 +37,7 @@ import fi.haagahelia.taskmaster.taskmaster.domain.PanelRepository;
 import fi.haagahelia.taskmaster.taskmaster.domain.Team;
 import fi.haagahelia.taskmaster.taskmaster.domain.TeamRepository;
 import fi.haagahelia.taskmaster.taskmaster.domain.TicketRepository;
-import fi.haagahelia.taskmaster.taskmaster.dto.TeamDTO;
+import fi.haagahelia.taskmaster.taskmaster.dto.TeamDto;
 import fi.haagahelia.taskmaster.taskmaster.service.JwtService;
 import fi.haagahelia.taskmaster.taskmaster.service.TeamService;
 
@@ -107,7 +107,7 @@ class TeamRestControllerTest {
 
     @Test
     void testCreateTeam() throws Exception {
-        TeamDTO teamDTO = new TeamDTO("NewTeam", "NewDescription");
+        TeamDto teamDTO = new TeamDto("NewTeam", "NewDescription");
         AppUser user = new AppUser();
         user.setUsername("user");
 

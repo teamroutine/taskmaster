@@ -31,7 +31,7 @@ public class RegisterUserDto {
     String username;
 
     @NotBlank(message = "Password is required")
-    @Size(min = 6, max = 100, message = "Password must be between 6 and 100 characters.")
+    @Size(min = 5, max = 100, message = "Password must be between 6 and 100 characters.")
     // @Pattern(regexp =
     // "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[!@#%&\\+\\-\\$])[A-Za-z\\d!@#%&\\+\\-\\$]{6,100}$",
     // message = "Password must contain at least one lowercase letter, one uppercase

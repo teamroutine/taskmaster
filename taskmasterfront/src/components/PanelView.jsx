@@ -75,7 +75,7 @@ function PanelView() {
     return (
         <Box sx={{ marginTop: 0 }} >
             <Box>
-                <Typography variant="h4" component="h1" sx={{ marginBottom: 1 }}>
+                <Typography variant="h2" component="h1" sx={{ marginBottom: 1 }}>
                     {panelNameData}
                 </Typography>
                 <Typography variant="body1" component="h3" sx={{ marginBottom: 2 }}>

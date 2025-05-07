@@ -301,7 +301,7 @@ function ListBlocks({ blocks, setBlocks }) {
                 elevation={5}
                 sx={{
                   width: 300,
-                  height: 800,
+                  height: 600,
                   padding: 2,
                   textAlign: "center",
                   display: "flex",

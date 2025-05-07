@@ -151,10 +151,13 @@ function ListTeams({ username }) {
 
   return (
     <>
-      <Box>
-        <h1 sx={{ marginBottom: 2 }}>Your Teams</h1>
+      <Box sx={{ mt: 2, pt: 0, mb: 2 }}>
+        <Typography variant="h4" sx={{ marginBottom: 2, marginTop: 2 }}>
+          Your Teams
+        </Typography>
         {username && (
-          <>
+
+          <Box sx={{ display: "flex", alignItems: "center", gap: 1, marginBottom: 2 }}>
             <CreateTeam createTeam={createTeam} />
             <Button
               variant="contained"
@@ -163,7 +166,9 @@ function ListTeams({ username }) {
             >
               Join Team
             </Button>
-          </>
+          </Box>
+
+
         )}
       </Box>
       <Box sx={{ whiteSpace: "nowrap" }}>
@@ -186,7 +191,7 @@ function ListTeams({ username }) {
                 elevation={5}
                 sx={{
                   width: 300,
-                  height: 800,
+                  minHeight: 500,
                   padding: 2,
                   textAlign: "center",
                   display: "flex",

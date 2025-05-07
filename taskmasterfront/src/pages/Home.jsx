@@ -4,8 +4,8 @@ import taskmasterLogo from "../assets/taskmaster-logo2.png";
 
 function Home() {
     return (
-        <Box  sx={{textAlign: "center",mt: 5, position: "absolute", left: "50%",top: "45%",transform: "translate(-50%, -50%)"}}>
-             <img src={taskmasterLogo}  alt="Taskmaster Logo" />
+        <Box sx={{ textAlign: "center", mt: 5, position: "absolute", left: "50%", top: "45%", transform: "translate(-50%, -50%)" }}>
+            <img src={taskmasterLogo} alt="Taskmaster Logo" />
             <Typography variant="h1" gutterBottom>
                 Taskmaster
             </Typography>

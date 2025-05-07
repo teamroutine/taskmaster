@@ -45,7 +45,7 @@ function App() {
     <ThemeProvider theme={theme}>
       <Router>
         <AppBar position="fixed" sx={{ width: "100%" }}>
-          <Toolbar>
+          <Toolbar sx={{ padding: 0 }}>
             <Typography variant="h6" style={{ flexGrow: 1 }}>
               <img
                 src={taskmasterLogo}

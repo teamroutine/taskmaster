@@ -114,10 +114,13 @@ export default function Register() {
                 color="inherit"
                 sx={{
                     marginRight: 2,
+                    marginTop: 2,
                     fontSize: '1.05rem',
+                    backgroundColor: '#757575', // Tummempi harmaa taustaväri
+                    color: 'white', // Tekstin väri valkoinen
                     '&:hover': {
-                        color: '#1976d2',
-                        backgroundColor: 'rgba(25, 118, 210, 0.1)',
+                        backgroundColor: '#616161', // Vaaleampi harmaa hover-tilassa
+                        color: 'white', // Tekstin väri pysyy valkoisena hover-tilassa
                     },
                 }}
             >

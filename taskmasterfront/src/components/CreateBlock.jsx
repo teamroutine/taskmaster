@@ -43,7 +43,7 @@ export default function CreateBlock({ createBlock, existingBlockNames = [] }) {
 
     return (
         <>
-            <Button variant='contained' color='success' onClick={handleClickOpen} >
+            <Button variant='contained' color='success' onClick={handleClickOpen} sx={{ fontSize: '0.7em' }} >
                 Add Block
             </Button>
             <Dialog open={open} onClose={handleClose}>

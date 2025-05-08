@@ -36,7 +36,7 @@ export default function CreateTicket({ createTicket }) {
     return (
         <>
             {/*Button for adding new Ticket*/}
-            <Button variant='contained' color='success' onClick={handleClickOpen} sx={{ marginTop: 2 }}>
+            <Button variant='contained' color='success' onClick={handleClickOpen} sx={{ marginTop: 2, fontSize: '0.5em' }}>
                 Add Ticket
             </Button>
             <Dialog

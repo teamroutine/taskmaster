@@ -75,10 +75,10 @@ function PanelView() {
     return (
         <Box sx={{ marginTop: 0 }} >
             <Box>
-                <Typography variant="h2" component="h1" sx={{ marginBottom: 1 }}>
+                <Typography variant="h4" component="h1" sx={{ marginTop: 2 }}>
                     {panelNameData}
                 </Typography>
-                <Typography variant="body1" component="h3" sx={{ marginBottom: 2 }}>
+                <Typography variant="body1" component="h3" sx={{}}>
                     {descriptionData}
                 </Typography>
             </Box>
@@ -87,17 +87,16 @@ function PanelView() {
             <Box>
                 <SearchBar searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
             </Box>
-            <Box sx={{ marginTop: 2 }}>
+            <Box sx={{ marginTop: 1 }}>
                 <CreateBlock
                     createBlock={(newBlock) => addNewBlock(newBlock, panelid)}
                     existingBlockNames={blocks.map(block => block.blockName.toLowerCase())}
                 />
             </Box>
             {/*ListBlock component uses data filtered by filteredBLocks() */}
-            <Box sx={{ marginTop: '10px' }}>
+            <Box sx={{ marginTop: 1 }}>
                 <ListBlocks blocks={filteredBlocks} setBlocks={setBlocks} />
             </Box>
-            {/*CreateBlock for creating a new Block */}
 
             <Snackbar
                 open={openSnackbar}

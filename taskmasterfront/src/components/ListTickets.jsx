@@ -414,7 +414,7 @@ export default function ListTickets({
               <Paper
                 elevation={2}
                 sx={{
-                  padding: 3,
+                  padding: 1,
                   cursor: "grab",
                   wordWrap: "break-word",
                   overflow: "hidden",
@@ -428,6 +428,9 @@ export default function ListTickets({
                     wordWrap: "break-word",
                     overflow: "hidden",
                     textOverflow: "ellipsis",
+                    fontSize: 10,
+                    margin: 0,
+                    padding: 0
                   }}
                   variant="body1"
                 >
@@ -439,6 +442,7 @@ export default function ListTickets({
                     wordWrap: "break-word",
                     overflow: "hidden",
                     textOverflow: "ellipsis",
+                    fontSize: 7
                   }}
                   variant="body2"
                 >
@@ -462,7 +466,7 @@ export default function ListTickets({
                 <Button
                   variant="outlined"
                   size="small"
-                  sx={{ mt: 1 }}
+                  sx={{ mt: 1, fontSize: '0.4em' }}
                   onClick={(e) => {
                     e.stopPropagation();
                     setOpenTagSelectorForTicketId(ticket.ticketId);

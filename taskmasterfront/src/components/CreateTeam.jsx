@@ -14,17 +14,14 @@ export default function CreateTeam({ createTeam }) {
     description: "",
   });
 
-  // Open new Team modal
   const handleClickOpen = () => {
     setOpen(true);
   };
 
-  // Close new Team modal
   const handleClose = () => {
     setOpen(false);
   };
 
-  // Save new Team information
   const handleSave = () => {
     createTeam(team);
     setTeam({ teamName: "", description: "" });
@@ -33,12 +30,11 @@ export default function CreateTeam({ createTeam }) {
 
   return (
     <>
-      {/* Button for adding new Team */}
-      <Button variant="contained" color="success" onClick={handleClickOpen}>
+      
+      <Button variant="contained" color="success" onClick={handleClickOpen} sx={{ fontSize: '0.7em', padding: '0.4em 0.8em' }}>
         Add Team
       </Button>
       <Dialog open={open} onClose={handleClose}>
-        {/* Modal for all the mandatory attributes for new Team */}
         <DialogTitle>Add new Team</DialogTitle>
         <DialogContent>
           <TextField
@@ -61,9 +57,7 @@ export default function CreateTeam({ createTeam }) {
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>Close</Button>{" "}
-          {/* Button for closing modal */}
           <Button onClick={handleSave}>Save</Button>{" "}
-          {/* Button for saving Team information */}
         </DialogActions>
       </Dialog>
     </>

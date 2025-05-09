@@ -3,8 +3,13 @@ import { Dialog, DialogActions, DialogContent, DialogTitle, Button, Paper, Typog
 import DropDown from './DropDown';
 import TagListView from './TagListView';
 export default function ViewTicket({ ticket, open, onClose, handleDelete, onEditClick }) {
+
     const [tagModalOpen, setTagModalOpen] = useState(false);
 
+    const formatDate = (dateString) => {
+        const date = new Date(dateString);
+        return date.toLocaleDateString("fi-FI");
+    };
 
     return (
         <>
@@ -52,12 +57,12 @@ export default function ViewTicket({ ticket, open, onClose, handleDelete, onEdit
                             <Typography variant="h5">{ticket.ticketName}</Typography>
                             <Box sx={{ textAlign: 'right' }}>
                                 <Typography variant="body2" color="textSecondary">Due Date</Typography>
-                                <Typography variant="body1" sx={{ color: 'textPrimary', fontSize: 20 }}>
-                                    {ticket.dueDate}
+                                <Typography variant="body1" sx={{ color: 'textPrimary', fontSize: '1em' }}>
+                                    {formatDate(ticket.dueDate)}
                                 </Typography>
                             </Box>
                         </Box>
-                        
+
                         <Box mb={3}>
                             <TextField
                                 label="Description"
@@ -85,7 +90,7 @@ export default function ViewTicket({ ticket, open, onClose, handleDelete, onEdit
                             }}
                         >
                             <Typography variant="body2" color="textSecondary">
-                                Created on: {ticket.created}
+                                Created on: {formatDate(ticket.created)}
                             </Typography>
                             <Button
                                 variant="outlined"
@@ -95,13 +100,14 @@ export default function ViewTicket({ ticket, open, onClose, handleDelete, onEdit
                             >
                                 Manage Tags
                             </Button>
+                            <DialogActions sx={{ display: "flex", justifyContent: "flex-start" }} >
+
+                                <Button sx={{ fontSize: '0.7em' }} variant="contained" color="secondary" onClick={onClose}>Close</Button>
+                            </DialogActions>
                         </Box>
                     </Paper>
                 </DialogContent>
-                <DialogActions sx={{ display: "flex", justifyContent: "flex-start" }} >
 
-                    <Button sx={{ backgroundColor: "#9E9E9E" }} variant="contained" onClick={onClose}>Close</Button>
-                </DialogActions>
             </Dialog>
 
             {tagModalOpen && (

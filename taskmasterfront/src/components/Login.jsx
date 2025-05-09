@@ -13,7 +13,6 @@ import { useNavigate } from 'react-router-dom';
 import { useContext } from "react";
 import { AuthContext } from "../context/AuthProvider";
 
-
 export default function Login() {
     const { login } = useContext(AuthContext);
     const [open, setOpen] = useState(false);
@@ -24,16 +23,14 @@ export default function Login() {
         username: '',
         password: ''
     });
-
     // Open modal right after login button has been clicked
     useEffect(() => {
         setOpen(true);
     }, []);
 
-    // Close the modal
     const handleClickClose = () => {
         setOpen(false);
-        navigate('/teams')
+        navigate('/')
     }
 
     const navigate = useNavigate();
@@ -48,8 +45,6 @@ export default function Login() {
             localStorage.setItem('tokenExpiresAt', expiresAt);
 
             login();
-
-            // Navigate to panels
             navigate('/teams');
         } catch (error) {
             alert(error.message);
@@ -68,6 +63,8 @@ export default function Login() {
     };
 
     return (
+
+
         <Dialog
             open={open}
             onClose={handleClickClose}

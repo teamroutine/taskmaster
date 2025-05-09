@@ -1,6 +1,5 @@
 package fi.haagahelia.taskmaster.taskmaster.web;
 
-import java.net.Authenticator;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,7 +16,7 @@ import fi.haagahelia.taskmaster.taskmaster.domain.AppUser;
 import fi.haagahelia.taskmaster.taskmaster.domain.AppUserRepository;
 import fi.haagahelia.taskmaster.taskmaster.domain.Team;
 import fi.haagahelia.taskmaster.taskmaster.domain.TeamRepository;
-import fi.haagahelia.taskmaster.taskmaster.dto.TeamDTO;
+import fi.haagahelia.taskmaster.taskmaster.dto.TeamDto;
 import fi.haagahelia.taskmaster.taskmaster.service.JwtService;
 import fi.haagahelia.taskmaster.taskmaster.service.TeamService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -58,7 +57,6 @@ public class TeamRestController {
 
     }
 
-    // Get all the teams
     @Operation(summary = "Get all teams", description = "Returns a list of all teams")
     @ApiResponse(responseCode = "200", description = "Successfully retrieved all teams")
     @GetMapping
@@ -72,7 +70,6 @@ public class TeamRestController {
         return ResponseEntity.ok(teams);
     }
 
-    // Get one team
     @Operation(summary = "Get a team by ID", description = "Returns a single team by its ID")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Team found"),
@@ -92,7 +89,7 @@ public class TeamRestController {
             @ApiResponse(responseCode = "404", description = "User not found")
     })
     @PostMapping
-    public ResponseEntity<Team> newTeam(@RequestBody @Valid TeamDTO teamDTO, HttpServletRequest request) {
+    public ResponseEntity<Team> newTeam(@RequestBody @Valid TeamDto teamDTO, HttpServletRequest request) {
         String username = jwtService.getAuthUser(request);
         if (username == null) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "User not authenticated");

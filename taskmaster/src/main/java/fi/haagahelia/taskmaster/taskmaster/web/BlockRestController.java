@@ -2,7 +2,6 @@ package fi.haagahelia.taskmaster.taskmaster.web;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -36,13 +35,11 @@ public class BlockRestController {
         private final BlockRepository blockRepository;
         private final PanelRepository panelRepository;
 
-        @Autowired
         public BlockRestController(BlockRepository blockRepository, PanelRepository panelRepository) {
                 this.blockRepository = blockRepository;
                 this.panelRepository = panelRepository;
         }
 
-        // Get all blocks
         @Operation(summary = "Get all blocks", description = "Returns a list of all blocks")
         @ApiResponses(value = {
                         @ApiResponse(responseCode = "200", description = "Successfully retrieved blocks")
@@ -53,7 +50,6 @@ public class BlockRestController {
                 return ResponseEntity.ok(blocks);
         }
 
-        // Get block by id
         @Operation(summary = "Get a block by ID", description = "Fetch a single block using its ID")
         @ApiResponses(value = {
                         @ApiResponse(responseCode = "200", description = "Block found"),
@@ -66,7 +62,6 @@ public class BlockRestController {
                                 .orElseGet(() -> ResponseEntity.notFound().build());
         }
 
-        // Create a new block
         @Operation(summary = "Create a new block", description = "Adds a new block to the specified panel")
         @ApiResponses(value = {
                         @ApiResponse(responseCode = "201", description = "Block successfully created"),
@@ -101,7 +96,6 @@ public class BlockRestController {
                 return ResponseEntity.status(HttpStatus.CREATED).body(savedBlock);
         }
 
-        // Edit block
         @Operation(summary = "Edit an existing block", description = "Updates the details of an existing block")
         @ApiResponses(value = {
                         @ApiResponse(responseCode = "200", description = "Block successfully updated"),
@@ -124,7 +118,6 @@ public class BlockRestController {
                 return ResponseEntity.ok(editBlock);
         }
 
-        // Delete a block
         @Operation(summary = "Delete a block", description = "Removes a block unless it is the 'Done' block")
         @ApiResponses(value = {
                         @ApiResponse(responseCode = "204", description = "Block successfully deleted"),

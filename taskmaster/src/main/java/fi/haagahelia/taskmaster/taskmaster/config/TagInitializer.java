@@ -2,7 +2,6 @@ package fi.haagahelia.taskmaster.taskmaster.config;
 
 import fi.haagahelia.taskmaster.taskmaster.domain.Tag;
 import fi.haagahelia.taskmaster.taskmaster.domain.TagRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import jakarta.annotation.*;
 import java.util.List;
@@ -12,7 +11,6 @@ public class TagInitializer {
 
     private final TagRepository tagRepository;
 
-    @Autowired
     public TagInitializer(TagRepository tagRepository) {
         this.tagRepository = tagRepository;
     }

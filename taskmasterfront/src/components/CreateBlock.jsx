@@ -25,11 +25,10 @@ export default function CreateBlock({ createBlock, existingBlockNames = [] }) {
 
     const handleClose = () => {
         setOpen(false);
-        setErrorMessage('');  
+        setErrorMessage('');
     };
 
     const handleSave = () => {
-        //Checking that a block with the same name doesn't already exist
         if (existingBlockNames.includes(block.blockName.toLowerCase())) {
             setErrorMessage('Block with this name already exists in this panel!');
             return;
@@ -43,7 +42,7 @@ export default function CreateBlock({ createBlock, existingBlockNames = [] }) {
 
     return (
         <>
-            <Button variant='contained' color='success' onClick={handleClickOpen} sx={{ position:"absolute", top:"110px", right:"40px" }}>
+            <Button variant='contained' color='success' onClick={handleClickOpen} sx={{ fontSize: '0.7em' }} >
                 Add Block
             </Button>
             <Dialog open={open} onClose={handleClose}>

@@ -1,28 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
-import {
-  Paper,
-  Box,
-  Typography,
-  Divider,
-  Button,
-  MenuItem,
-  Snackbar,
-} from "@mui/material";
-import {
-  fetchMyTeams,
-  handleAddPanel,
-  handleAddTeam,
-  handleAddBlock,
-  deleteTeam,
-} from "../../taskmasterApi";
+import { Paper, Box, Typography, Divider, Button, MenuItem, Snackbar } from "@mui/material";
+import { fetchMyTeams, handleAddPanel, handleAddTeam, handleAddBlock, deleteTeam } from "../../taskmasterApi";
 import ListPanels from "./ListPanels";
 import CreatePanel from "./CreatePanel";
 import CreateTeam from "./CreateTeam";
 import ViewTeam from "./ViewTeam";
 import DropDown from "./DropDown";
 import JoinTeamDialog from "./JoinTeamDialog";
-import CreateInvite from "./CreateInvite"; // Import CreateInvite component
+import CreateInvite from "./CreateInvite";
 
 function ListTeams({ username }) {
   const [teams, setTeams] = useState([]);
@@ -30,8 +16,8 @@ function ListTeams({ username }) {
   const [snackbarMessage, setSnackbarMessage] = useState("");
   const [selectedTeam, setSelectedTeam] = useState(null);
   const [openViewTeam, setOpenViewTeam] = useState(false);
-  const [openInviteModal, setOpenInviteModal] = useState(false); // State for invite modal
-  const [selectedTeamId, setSelectedTeamId] = useState(null); // State for selected team ID
+  const [openInviteModal, setOpenInviteModal] = useState(false);
+  const [selectedTeamId, setSelectedTeamId] = useState(null);
   const [joinDialogOpen, setJoinDialogOpen] = useState(false);
 
   useEffect(() => {
@@ -64,8 +50,8 @@ function ListTeams({ username }) {
   };
 
   const handleInviteUsers = (teamId) => {
-    setSelectedTeamId(teamId); // Set the selected team ID
-    setOpenInviteModal(true); // Open the invite modal
+    setSelectedTeamId(teamId);
+    setOpenInviteModal(true);
   };
 
   const addNewPanel = (newPanel, teamId) => {
@@ -81,6 +67,7 @@ function ListTeams({ username }) {
           setOpenSnackbar(true);
           return updatedTeams;
         });
+        // Adding default "Done" block
         handleAddBlock({
           blockName: "Done",
           description: "Block for completed tickets",
@@ -115,13 +102,13 @@ function ListTeams({ username }) {
   const createTeam = (newTeam) => {
     handleAddTeam(newTeam)
       .then((addedTeam) => {
-        setTeams((prevTeams) => [...prevTeams, { ...addedTeam, panels: [] }]); // Initialize panels as an empty array
+        setTeams((prevTeams) => [...prevTeams, { ...addedTeam, panels: [] }]);
         setSnackbarMessage("Team created successfully");
         setOpenSnackbar(true);
       })
       .catch((err) => {
         console.error("Error creating team:", err);
-        setSnackbarMessage("Error creating team");
+        setSnackbarMessage("Error creating team!");
         setOpenSnackbar(true);
       });
   };
@@ -151,19 +138,24 @@ function ListTeams({ username }) {
 
   return (
     <>
-      <Box>
-        <h1 sx={{ marginBottom: 2 }}>Your Teams</h1>
+      <Box sx={{ mt: 2, pt: 0, mb: 2 }}>
+        <Typography variant="h4" sx={{ marginBottom: 2, marginTop: 2 }}>
+          Your Teams
+        </Typography>
         {username && (
-          <>
+
+          <Box sx={{ display: "flex", alignItems: "center", gap: 1, marginBottom: 2 }}>
             <CreateTeam createTeam={createTeam} />
             <Button
               variant="contained"
               onClick={() => setJoinDialogOpen(true)}
-              sx={{ marginLeft: '2%' }}
+              sx={{ marginLeft: '2%', fontSize: '0.7em', padding: '0.4em 0.8em' }}
             >
               Join Team
             </Button>
-          </>
+          </Box>
+
+
         )}
       </Box>
       <Box sx={{ whiteSpace: "nowrap" }}>
@@ -185,8 +177,8 @@ function ListTeams({ username }) {
               <Paper
                 elevation={5}
                 sx={{
-                  width: 300,
-                  height: 800,
+                  width: 240,
+                  minHeight: 465,
                   padding: 2,
                   textAlign: "center",
                   display: "flex",
@@ -209,6 +201,7 @@ function ListTeams({ username }) {
                       maxWidth: "200px",
                       marginBottom: 1,
                       cursor: "pointer",
+                      fontSize: '0.7em'
                     }}
                     variant="h6"
                   >
@@ -218,9 +211,9 @@ function ListTeams({ username }) {
                     sx={{
                       textAlign: "left",
                       opacity: 0.7,
-                      fontSize: "0.9rem",
+                      fontSize: "0.7em",
                       marginLeft: 1,
-                      marginBottom: 1,
+                      marginBottom: 1
                     }}
                   >
                     {team.createdBy === username && " (Owner)"}
@@ -230,7 +223,7 @@ function ListTeams({ username }) {
                       <Button
                         variant="contained"
                         color="primary"
-                        sx={{ width: "100%" }}
+                        sx={{ width: "100%", fontSize: '0.7em' }}
                         onClick={() => handleInviteUsers(team.teamId)} // Open invite modal
                       >
                         Invite Users
@@ -240,7 +233,7 @@ function ListTeams({ username }) {
                       <Button
                         variant="contained"
                         color="info"
-                        sx={{ width: "100%" }}
+                        sx={{ width: "100%", fontSize: '0.7em' }}
                         onClick={() => handleTeamClick(team)}
                       >
                         Info
@@ -250,7 +243,7 @@ function ListTeams({ username }) {
                       <Button
                         variant="contained"
                         color="error"
-                        sx={{ width: "100%" }}
+                        sx={{ width: "100%", fontSize: '0.7em' }}
                         onClick={() => handleDeleteTeam(team.teamId)}
                         disabled={team.createdBy !== username}
                       >
@@ -264,7 +257,8 @@ function ListTeams({ username }) {
                   <ListPanels panels={team.panels} setTeams={setTeams} />
                 </Box>
                 <Box>
-                  <Divider />
+                  <Divider sx={{ marginBottom: 2 }} />
+
                   <CreatePanel
                     createPanel={(newPanel) =>
                       addNewPanel(newPanel, team.teamId)
@@ -282,11 +276,10 @@ function ListTeams({ username }) {
         closeView={handleCloseViewTeam}
       />
 
-      {/* Integrate CreateInvite Modal */}
       <CreateInvite
         teamId={selectedTeamId}
         open={openInviteModal}
-        onClose={() => setOpenInviteModal(false)} // Close the modal
+        onClose={() => setOpenInviteModal(false)}
       />
 
       <JoinTeamDialog

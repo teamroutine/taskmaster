@@ -31,7 +31,6 @@ public class Ticket {
     private Integer sortOrder;
     @CreationTimestamp
     private LocalDate created;
-    
 
     @ManyToOne
     @JsonBackReference
@@ -39,18 +38,15 @@ public class Ticket {
     private Block block;
 
     @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(
-        name = "ticket_tags",
-        joinColumns = @JoinColumn(name = "ticket_id"),
-        inverseJoinColumns = @JoinColumn(name = "tag_id")
-    )
+    @JoinTable(name = "ticket_tags", joinColumns = @JoinColumn(name = "ticket_id"), inverseJoinColumns = @JoinColumn(name = "tag_id"))
     @JsonIgnoreProperties("tickets")
     private List<Tag> tags = new ArrayList<>();
 
     public Ticket() {
     }
 
-    public Ticket(Long ticketId, String ticketName, String description, Boolean status,LocalDate dueDate, LocalDate created,
+    public Ticket(Long ticketId, String ticketName, String description, Boolean status, LocalDate dueDate,
+            LocalDate created,
             Block block, List<Tag> tags, Integer sortOrder) {
         this.ticketId = ticketId;
         this.ticketName = ticketName;
@@ -130,7 +126,8 @@ public class Ticket {
     @Override
     public String toString() {
         return "Ticket [ticketId=" + ticketId + ", ticketName=" + ticketName + ", description=" + description
-                + ", status=" + status + ", dueDate=" + dueDate + ", created=" + created + ", block=" + block + ", sortOrder=" + sortOrder + "]";
+                + ", status=" + status + ", dueDate=" + dueDate + ", created=" + created + ", block=" + block
+                + ", sortOrder=" + sortOrder + "]";
     }
 
     public Integer getSortOrder() {
@@ -141,5 +138,4 @@ public class Ticket {
         this.sortOrder = sortOrder;
     }
 
-   
 }

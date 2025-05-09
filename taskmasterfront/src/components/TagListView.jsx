@@ -1,34 +1,9 @@
 import React, { useEffect, useState } from "react";
-import {
-    Dialog,
-    DialogActions,
-    DialogContent,
-    DialogTitle,
-    Button,
-    Paper,
-    Typography,
-    Box,
-    TextField,
-    IconButton,
-    Stack,
-    Checkbox,
-} from "@mui/material";
+import { Dialog, DialogActions, DialogContent, DialogTitle, Button, Paper, Typography, Box, TextField, IconButton, Stack, Checkbox } from "@mui/material";
 import { Edit, Delete } from "@mui/icons-material";
-import {
-    fetchTags,
-    createTag,
-    updateTag,
-    deleteTag,
-} from "../../taskmasterApi";
+import { fetchTags, createTag, updateTag, deleteTag } from "../../taskmasterApi";
 
-export default function TagListView({
-    open,
-    onClose,
-    selectable = false,
-    selected = [],
-    onSelectTags = () => { },
-    disabledTagIds = [],
-}) {
+export default function TagListView({ open, onClose, selectable = false, selected = [], onSelectTags = () => { }, disabledTagIds = [], }) {
     const [tags, setTags] = useState([]);
     const [selectedTags, setSelectedTags] = useState([]);
     const [newTag, setNewTag] = useState({ name: "", color: "#000000" });
@@ -153,7 +128,7 @@ export default function TagListView({
                                 onChange={(e) => setNewTag({ ...newTag, color: e.target.value })}
                                 style={{ width: 50, height: 50, border: "none", background: "transparent" }}
                             />
-                            <Button variant="contained" onClick={handleAddTag}>Add</Button>
+                            <Button variant="contained" onClick={handleAddTag} sx={{ fontSize: '0.7em' }}>Add Tag</Button>
                         </Box>
                     )}
                 </Stack>
@@ -166,7 +141,7 @@ export default function TagListView({
                         <Button onClick={handleDone} variant="contained">Done</Button>
                     </>
                 ) : (
-                    <Button onClick={onClose} variant="contained" color="secondary">Close</Button>
+                    <Button onClick={onClose} variant="contained" color="secondary" sx={{ fontSize: '0.7em', marginRight: 2 }}>Close</Button>
                 )}
             </DialogActions>
 

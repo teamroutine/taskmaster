@@ -1,6 +1,5 @@
 package fi.haagahelia.taskmaster.taskmaster.web;
 
-import java.net.Authenticator;
 import java.util.ArrayList;
 import java.util.List;
 

@@ -29,7 +29,6 @@ export default function CreateBlock({ createBlock, existingBlockNames = [] }) {
     };
 
     const handleSave = () => {
-        //Checking that a block with the same name doesn't already exist
         if (existingBlockNames.includes(block.blockName.toLowerCase())) {
             setErrorMessage('Block with this name already exists in this panel!');
             return;

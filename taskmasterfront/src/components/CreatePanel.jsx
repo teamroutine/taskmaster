@@ -59,8 +59,8 @@ export default function CreatePanel({ createPanel }) {
                     />
                 </DialogContent>
                 <DialogActions>
-                    <Button onClick={handleClose}>Close</Button> {/*Button for closing modal */}
-                    <Button onClick={handleSave}>Save</Button>  {/*Button for saving Ticket information */}
+                    <Button onClick={handleClose}>Close</Button>
+                    <Button onClick={handleSave}>Save</Button>
                 </DialogActions>
             </Dialog>
         </>

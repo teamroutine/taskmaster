@@ -49,7 +49,7 @@ export default function ListPanels({ panels, setTeams }) {
                 })
                 .catch((err) => {
                     console.error("Error deleting panel:", err);
-                    setSnackbarMessage("Error deleting panel.");
+                    setSnackbarMessage("Error deleting panel!");
                     setOpenSnackbar(true);
                 });
         }

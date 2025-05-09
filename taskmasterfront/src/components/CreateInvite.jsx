@@ -1,19 +1,9 @@
 import React, { useState } from "react";
-import {
-  Dialog,
-  DialogContent,
-  DialogTitle,
-  DialogActions,
-  Button,
-  TextField,
-  Snackbar,
-  Typography,
-  Box,
-} from "@mui/material";
+import { Dialog, DialogContent, DialogTitle, DialogActions, Button, TextField, Snackbar, Typography, Box } from "@mui/material";
 import { generateInvite } from "../../taskmasterApi";
 
 function CreateInvite({ teamId, open, onClose }) {
-  const [inviteDuration, setInviteDuration] = useState(24); // Default duration in hours
+  const [inviteDuration, setInviteDuration] = useState(24);
   const [inviteLink, setInviteLink] = useState("");
   const [openSnackbar, setOpenSnackbar] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState("");
@@ -40,8 +30,8 @@ function CreateInvite({ teamId, open, onClose }) {
     });
   };
   const handleClose = () => {
-    setInviteLink(""); // Clear the invite link
-    onClose(); // Call the parent-provided onClose handler
+    setInviteLink("");
+    onClose();
   };
 
   return (

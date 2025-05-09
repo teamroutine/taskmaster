@@ -9,7 +9,7 @@ on:
       - main  # Workflow starttaa uusiks, ku tehää pull request main-haaraa
 
 jobs:
-  build:
+  backend-build:
     runs-on: ubuntu-latest
 
     steps:
@@ -30,3 +30,31 @@ jobs:
 
     - name: Package project
       run: mvn -f taskmaster/pom.xml package
+
+  frontend-build:
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: ./client
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '22'
+
+    - name: Install dependencies
+      run: npm ci
+
+    - name: Lint code
+      run: npm run lint
+
+    - name: Run tests
+      run: npm run test -- --coverage
+
+    - name: Build project
+      run: npm run build

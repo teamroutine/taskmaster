@@ -4,7 +4,6 @@ import { Dialog, DialogContent, Box, DialogTitle, Button, TextField, DialogActio
 
 export default function EditPanel({ panel, onSave, open, onClose }) {
     const [panelData, setPanelData] = useState({ panelName: '', description: '' });
-
     const [openSnackbar, setOpenSnackbar] = useState(false);
     const [snackbarMessage, setSnackbarMessage] = useState('');
 
@@ -24,9 +23,9 @@ export default function EditPanel({ panel, onSave, open, onClose }) {
                 setOpenSnackbar(true);
             })
             .catch((err) => console.error("Error in editing panel:", err))
-            setSnackbarMessage('Error in updating panel.');
-            setOpenSnackbar(true);
-        };
+        setSnackbarMessage('Error in updating panel!');
+        setOpenSnackbar(true);
+    };
 
     return (
         <>

@@ -1,12 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { useParams } from "react-router-dom";
-import {
-  deleteBlock,
-  handleAddTicket,
-  updateTicket,
-  handleReorderTickets,
-  handleReorderBlocks,
-} from "../../taskmasterApi.js";
+import { deleteBlock, handleAddTicket, updateTicket, handleReorderTickets, handleReorderBlocks } from "../../taskmasterApi.js";
 import Paper from "@mui/material/Paper";
 import Box from "@mui/material/Box";
 import { Button, MenuItem, Snackbar } from "@mui/material";
@@ -16,7 +10,6 @@ import Divider from "@mui/material/Divider";
 import CreateTicket from "./CreateTicket.jsx";
 import EditBlock from "./EditBlock.jsx";
 import DropDown from "./DropDown.jsx";
-
 import { draggable } from "@atlaskit/pragmatic-drag-and-drop/element/adapter";
 import { dropTargetForElements } from "@atlaskit/pragmatic-drag-and-drop/element/adapter";
 import { extractClosestEdge } from "@atlaskit/pragmatic-drag-and-drop-hitbox/closest-edge";
@@ -36,17 +29,15 @@ function ListBlocks({ blocks, setBlocks }) {
     console.log("Updated blocks state:", blocks);
   }, [blocks]);
 
-  // Handles the Edit button opening
   const handleOpen = (block) => {
     setSelectedBlock(block);
     setOpen(true);
   };
-  // Closes the modal after closing or saving
+
   const handleClose = () => {
     setOpen(false);
   };
 
-  // Handle delete
   const handleBlockDelete = (blockId) => {
     const confirmed = window.confirm(
       "Are you sure you want to delete this block and all the tickets it contains?"
@@ -58,17 +49,17 @@ function ListBlocks({ blocks, setBlocks }) {
             prevBlocks.filter((block) => block.blockId !== blockId)
           );
           setSnackbarMessage("Block deleted successfully");
-          setOpenSnackbar(true); //Opens snackbar to show success message
+          setOpenSnackbar(true);
         })
         .catch((err) => {
           console.error("Error deleting block:", err);
-          setSnackbarMessage("Error deleting block");
+          setSnackbarMessage("Error deleting block!");
           setOpenSnackbar(true);
         });
     }
   };
 
-  // Updates blocks in fronend after editing
+  // Updates blocks in frontend after editing
   const handleEditBlockSave = (updatedBlock) => {
     setBlocks((prevBlocks) =>
       prevBlocks.map((block) =>
@@ -79,7 +70,6 @@ function ListBlocks({ blocks, setBlocks }) {
     );
   };
 
-  // Add new ticket function with the Blocks id
   const addNewTicket = (newTicket, blockId) => {
     handleAddTicket({ ...newTicket, blockId })
       .then((addedTicket) => {
@@ -176,7 +166,7 @@ function ListBlocks({ blocks, setBlocks }) {
               console.log(
                 `Adding ticket ${sourceTicketId} to empty block ${block.blockId}`
               );
-              moveTicket(sourceTicketId, null, block.blockId, null); // No targetTicketId or closestEdge needed
+              moveTicket(sourceTicketId, null, block.blockId, null);
             }
           }
         },

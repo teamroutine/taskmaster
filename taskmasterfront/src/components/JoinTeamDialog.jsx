@@ -1,14 +1,5 @@
 import React, { useState } from 'react';
-import {
-    Dialog,
-    DialogTitle,
-    DialogContent,
-    DialogActions,
-    TextField,
-    Button,
-    Snackbar,
-    Alert
-} from '@mui/material';
+import { Dialog, DialogTitle, DialogContent, DialogActions, TextField, Button, Snackbar, Alert } from '@mui/material';
 import { joinTeamWithInvite } from '../../taskmasterApi';
 
 function JoinTeamDialog({ open, onClose, onSuccess }) {
@@ -41,7 +32,6 @@ function JoinTeamDialog({ open, onClose, onSuccess }) {
             setSnackbarOpen(true);
         }
     };
-
 
     const handleSnackbarClose = () => {
         setSnackbarOpen(false);

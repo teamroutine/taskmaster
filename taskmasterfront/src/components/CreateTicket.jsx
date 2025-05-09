@@ -13,20 +13,17 @@ export default function CreateTicket({ createTicket }) {
     const [ticket, setTicket] = useState({
         ticketName: '',
         description: '',
-        dueDate: new Date().toISOString().split('T')[0],//initializinf with today's date
+        dueDate: new Date().toISOString().split('T')[0], // initializing with today's date
     })
 
-    // Open new Ticket modal
     const handleClickOpen = () => {
         setOpen(true);
     };
 
-    // Close new Ticket modal
     const handleClose = () => {
         setOpen(false);
     };
 
-    // Save new Ticket information 
     const handleSave = () => {
         createTicket(ticket);
         setTicket({ ticketName: "", description: "", dueDate: new Date().toISOString().split('T')[0] });
@@ -35,7 +32,6 @@ export default function CreateTicket({ createTicket }) {
 
     return (
         <>
-            {/*Button for adding new Ticket*/}
             <Button variant='contained' color='success' onClick={handleClickOpen}>
                 Add Ticket
             </Button>
@@ -43,7 +39,6 @@ export default function CreateTicket({ createTicket }) {
                 open={open}
                 onClose={handleClose}
             >
-                {/*Modal for all the mandatory atrributes for new Ticket */}
                 <DialogTitle>Add new Ticket</DialogTitle>
                 <DialogContent>
                     <TextField
@@ -53,8 +48,8 @@ export default function CreateTicket({ createTicket }) {
                         onChange={e => setTicket({ ...ticket, ticketName: e.target.value })}
                         fullWidth
                         variant='outlined'
-                        InputLabelProps={{
-                            shrink: true, // label above input
+                        InputLabelProps={{  // label above input
+                            shrink: true, 
                         }}
                     />
                     <TextField
@@ -79,13 +74,13 @@ export default function CreateTicket({ createTicket }) {
                         fullWidth
                         variant='outlined'
                         InputLabelProps={{
-                            shrink: true, // Ensures the label is above the input
+                            shrink: true,
                         }}
                     />
                 </DialogContent>
                 <DialogActions>
-                    <Button onClick={handleClose}>Close</Button> {/*Button for closing modal */}
-                    <Button onClick={handleSave}>Save</Button>  {/*Button for saving Ticket information */}
+                    <Button onClick={handleClose}>Close</Button>
+                    <Button onClick={handleSave}>Save</Button>
                 </DialogActions>
             </Dialog>
         </>

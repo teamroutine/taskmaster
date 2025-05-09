@@ -1,28 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
-import {
-  Paper,
-  Box,
-  Typography,
-  Divider,
-  Button,
-  MenuItem,
-  Snackbar,
-} from "@mui/material";
-import {
-  fetchMyTeams,
-  handleAddPanel,
-  handleAddTeam,
-  handleAddBlock,
-  deleteTeam,
-} from "../../taskmasterApi";
+import { Paper, Box, Typography, Divider, Button, MenuItem, Snackbar } from "@mui/material";
+import { fetchMyTeams, handleAddPanel, handleAddTeam, handleAddBlock, deleteTeam } from "../../taskmasterApi";
 import ListPanels from "./ListPanels";
 import CreatePanel from "./CreatePanel";
 import CreateTeam from "./CreateTeam";
 import ViewTeam from "./ViewTeam";
 import DropDown from "./DropDown";
 import JoinTeamDialog from "./JoinTeamDialog";
-import CreateInvite from "./CreateInvite"; // Import CreateInvite component
+import CreateInvite from "./CreateInvite";
 
 function ListTeams({ username }) {
   const [teams, setTeams] = useState([]);
@@ -30,8 +16,8 @@ function ListTeams({ username }) {
   const [snackbarMessage, setSnackbarMessage] = useState("");
   const [selectedTeam, setSelectedTeam] = useState(null);
   const [openViewTeam, setOpenViewTeam] = useState(false);
-  const [openInviteModal, setOpenInviteModal] = useState(false); // State for invite modal
-  const [selectedTeamId, setSelectedTeamId] = useState(null); // State for selected team ID
+  const [openInviteModal, setOpenInviteModal] = useState(false);
+  const [selectedTeamId, setSelectedTeamId] = useState(null);
   const [joinDialogOpen, setJoinDialogOpen] = useState(false);
 
   useEffect(() => {
@@ -64,8 +50,8 @@ function ListTeams({ username }) {
   };
 
   const handleInviteUsers = (teamId) => {
-    setSelectedTeamId(teamId); // Set the selected team ID
-    setOpenInviteModal(true); // Open the invite modal
+    setSelectedTeamId(teamId);
+    setOpenInviteModal(true);
   };
 
   const addNewPanel = (newPanel, teamId) => {
@@ -81,6 +67,7 @@ function ListTeams({ username }) {
           setOpenSnackbar(true);
           return updatedTeams;
         });
+        // Adding default "Done" block
         handleAddBlock({
           blockName: "Done",
           description: "Block for completed tickets",
@@ -115,13 +102,13 @@ function ListTeams({ username }) {
   const createTeam = (newTeam) => {
     handleAddTeam(newTeam)
       .then((addedTeam) => {
-        setTeams((prevTeams) => [...prevTeams, { ...addedTeam, panels: [] }]); // Initialize panels as an empty array
+        setTeams((prevTeams) => [...prevTeams, { ...addedTeam, panels: [] }]);
         setSnackbarMessage("Team created successfully");
         setOpenSnackbar(true);
       })
       .catch((err) => {
         console.error("Error creating team:", err);
-        setSnackbarMessage("Error creating team");
+        setSnackbarMessage("Error creating team!");
         setOpenSnackbar(true);
       });
   };
@@ -231,7 +218,7 @@ function ListTeams({ username }) {
                         variant="contained"
                         color="primary"
                         sx={{ width: "100%" }}
-                        onClick={() => handleInviteUsers(team.teamId)} // Open invite modal
+                        onClick={() => handleInviteUsers(team.teamId)}
                       >
                         Invite Users
                       </Button>
@@ -282,11 +269,10 @@ function ListTeams({ username }) {
         closeView={handleCloseViewTeam}
       />
 
-      {/* Integrate CreateInvite Modal */}
       <CreateInvite
         teamId={selectedTeamId}
         open={openInviteModal}
-        onClose={() => setOpenInviteModal(false)} // Close the modal
+        onClose={() => setOpenInviteModal(false)}
       />
 
       <JoinTeamDialog

@@ -1,10 +1,7 @@
 import React, { useState, useRef } from "react";
 import { draggable } from "@atlaskit/pragmatic-drag-and-drop/element/adapter";
 import { dropTargetForElements } from "@atlaskit/pragmatic-drag-and-drop/element/adapter";
-import {
-  attachClosestEdge,
-  extractClosestEdge,
-} from "@atlaskit/pragmatic-drag-and-drop-hitbox/closest-edge";
+import { attachClosestEdge, extractClosestEdge } from "@atlaskit/pragmatic-drag-and-drop-hitbox/closest-edge";
 import { DropIndicator } from "@atlaskit/pragmatic-drag-and-drop-react-drop-indicator/box";
 import { reorder } from "@atlaskit/pragmatic-drag-and-drop/reorder";
 import { getReorderDestinationIndex } from "@atlaskit/pragmatic-drag-and-drop-hitbox/util/get-reorder-destination-index";
@@ -19,13 +16,7 @@ import { deleteTicket } from "../../taskmasterApi";
 import TagListView from "./TagListView";
 import { addTagsToTicket, removeTagsFromTicket } from "../../taskmasterApi";
 
-export default function ListTickets({
-  tickets,
-  setBlocks,
-  blockId,
-  reorderTickets,
-  moveTicket,
-}) {
+export default function ListTickets({ tickets, setBlocks, blockId, reorderTickets, moveTicket }) {
   const [selectedTicket, setSelectedTicket] = useState(null);
   const [openView, setOpenView] = useState(false);
   const [openEdit, setOpenEdit] = useState(false);
@@ -62,7 +53,6 @@ export default function ListTickets({
   const calculateDaysUntilDue = (dueDateString) => {
     const dueDate = new Date(dueDateString);
     const today = new Date();
-
     const timeLeft = dueDate - today;
     //Converting milliseconds to days
     const daysLeft = Math.ceil(timeLeft / (1000 * 60 * 60 * 24));
@@ -72,7 +62,7 @@ export default function ListTickets({
   const getTicketColor = (dueDateString) => {
     const remainingDays = calculateDaysUntilDue(dueDateString)
     if (remainingDays <= 0) {
-      return "rgba(255, 0, 0, 0.65)"; //alustin värit niitä voi tästä nyt muuttaa
+      return "rgba(255, 0, 0, 0.65)";
     } else if (remainingDays <= 3) {
       return "rgba(255, 87, 0, 0.7)";
     } else if (remainingDays <= 7) {
@@ -95,7 +85,7 @@ export default function ListTickets({
           );
           setOpenView(false);
           setSnackbarMessage('Ticket deleted successfully');
-          setOpenSnackbar(true);      //Opens snackbar to show success message
+          setOpenSnackbar(true);
         })
         .catch((err) => {
           console.error("Failed to delete ticket:", err);
@@ -119,15 +109,12 @@ export default function ListTickets({
   };
 
   const handleAddTags = async (ticketId, selectedTags) => {
-    // Find the ticket
     const ticket = tickets.find((t) => t.ticketId === ticketId);
     if (!ticket) return;
-
     // Filter out tags that are already on the ticket
     const newTags = selectedTags.filter(
       (tag) => !ticket.tags.some((existingTag) => existingTag.id === tag.id)
     );
-
     // If there's nothing new to add, just close and return
     if (newTags.length === 0) {
       setSnackbarMessage("Tag already exists on ticket");
@@ -165,9 +152,7 @@ export default function ListTickets({
 
   const handleRemoveTag = async (ticketId, tagId) => {
     try {
-      // Remove tag from the ticket via API call
       await removeTagsFromTicket(ticketId, [tagId]);
-
       // Update blocks and tickets state to reflect the removed tag
       setBlocks((prevBlocks) =>
         prevBlocks.map((block) => ({
@@ -182,8 +167,6 @@ export default function ListTickets({
           ),
         }))
       );
-
-      // Update the selectedTags state to remove the tag from selected tags if it was selected
       setSelectedTags((prevSelectedTags) =>
         prevSelectedTags.filter((id) => id !== tagId)
       );
@@ -200,8 +183,6 @@ export default function ListTickets({
   const handleTagSelection = (selected) => {
     setSelectedTags(selected);
   };
-
-
 
   const handleDrop = ({ source, self }) => {
     if (source.data.type === "ticket") {
@@ -237,7 +218,7 @@ export default function ListTickets({
       closestEdge,
     });
     setBlocks((prevBlocks) => {
-      console.log("prevBlocks:", prevBlocks); // Log prevBlocks here
+      console.log("prevBlocks:", prevBlocks);
 
       return prevBlocks.map((block) => {
         console.log(
@@ -272,7 +253,6 @@ export default function ListTickets({
           startIndex: sourceIndex,
           finishIndex: destinationIndex,
         });
-
         // Update sortOrder for each ticket
         const updatedTickets = reorderedTickets.map((ticket, index) => ({
           ...ticket,
@@ -308,7 +288,7 @@ export default function ListTickets({
               key={ticket.ticketId}
               sx={{
                 marginBottom: 1,
-                position: "relative", // Ensure relative positioning for DropIndicator
+                position: "relative",
               }}
               ref={(el) => {
                 if (el && !registeredElements.current.has(el)) {
@@ -337,7 +317,6 @@ export default function ListTickets({
                         blockId,
                       };
 
-                      // Attach closest edge data
                       return attachClosestEdge(data, {
                         input,
                         element,

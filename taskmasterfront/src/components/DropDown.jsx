@@ -2,11 +2,9 @@ import React, { useState } from "react";
 import { Menu, IconButton } from "@mui/material";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 
-// DropDown component to get children props from listblocks and render them to dropdown
 export default function DropDown({ children }) {
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
-
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -15,16 +13,15 @@ export default function DropDown({ children }) {
   const handleClose = () => {
     setAnchorEl(null);
   };
+  // Closes dropdown when option is selected
   const handleSelect = () => {
     handleClose();
   };
 
-
   return (
     <div>
-      {/* This is the icon og the dropdown */}
-      <IconButton onClick={handleClick}  style={{outline: 'none'}}>
-        <MoreVertIcon fontSize="large"/>
+      <IconButton onClick={handleClick} style={{ outline: 'none' }}>
+        <MoreVertIcon fontSize="large" />
       </IconButton>
 
 

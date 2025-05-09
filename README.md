@@ -241,6 +241,11 @@ spring.profiles.active=rahti
 ```bash
 http://localhost:8080/swagger-ui/index.html
 ```
+
+## License
+
+This project is licensed under the MIT License – see the [LICENSE](./LICENSE) file for details.
+
 ## Work in progress
  - Firebase / Spring security authentication
  - Custom styling for projects 

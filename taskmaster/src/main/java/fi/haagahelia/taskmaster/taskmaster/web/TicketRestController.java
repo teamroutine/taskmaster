@@ -2,7 +2,6 @@ package fi.haagahelia.taskmaster.taskmaster.web;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.lang.NonNull;
@@ -39,7 +38,6 @@ public class TicketRestController {
         private final BlockRepository blockRepository;
         private final TagRepository tagRepository;
 
-        @Autowired
         public TicketRestController(TicketRepository ticketRepository, BlockRepository blockRepository,
                         TagRepository tagRepository) {
                 this.ticketRepository = ticketRepository;

@@ -3,7 +3,7 @@
   <img src="./taskmaster-logo.png" alt="Taskmaster logo">
 </div>
 
-# Taskmaster [![Github Actions](https://github.com/teamroutine/taskmaster/actions/workflows/ci.yml/badge.svg)](https://github.com/teamroutine/taskmaster/actions/workflows/ci.yml)
+# Taskmaster [![Github Actions](https://github.com/teamroutine/taskmaster/actions/workflows/ci.yml/badge.svg)](https://github.com/teamroutine/taskmaster/actions/workflows/ci.yml) [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 Task management for individuals and teams. This project has been done as part of the course Software project 2 @Haaga-helia University of applied sciences.
 Taskmaster will provide simple and fluent task and project management for groups and individuals.
 ## Key features
@@ -241,11 +241,14 @@ spring.profiles.active=rahti
 ```bash
 http://localhost:8080/swagger-ui/index.html
 ```
+
+## License
+
+This project is licensed under the MIT License – see the [LICENSE](./LICENSE.md) file for details.
+
 ## Work in progress
- - Firebase / Spring security authentication
  - Custom styling for projects 
  - Custom emoji upload 
- - Use modals
  - Calendar + Calendar invites
  - Due dates
  - Assign and view random task 

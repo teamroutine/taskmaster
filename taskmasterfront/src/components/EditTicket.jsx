@@ -1,14 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { Snackbar, Dialog, Typography, DialogActions, DialogContent, DialogTitle, Button, TextField, Paper, Box, Divider } from '@mui/material';
+import { Snackbar, Dialog, DialogActions, DialogContent, DialogTitle, Button, TextField, Paper, Box } from '@mui/material';
 import { updateTicket } from '../../taskmasterApi';
 
 export default function EditTicket({ open, ticket, onClose, onSave }) {
-    const [ticketData, setTicketData] = useState({
-        ticketName: '',
-        description: '',
-        dueDate:'',
-    });
-
+    const [ticketData, setTicketData] = useState({ ticketName: '', description: '', dueDate: '' });
     const [openSnackbar, setOpenSnackbar] = useState(false);
     const [snackbarMessage, setSnackbarMessage] = useState('');
 
@@ -27,16 +22,14 @@ export default function EditTicket({ open, ticket, onClose, onSave }) {
                 onSave(ticketData);
                 onClose();
                 setSnackbarMessage('Ticket updated successfully!');
-                setOpenSnackbar(true); // Shows success message
+                setOpenSnackbar(true);
             })
             .catch((err) => {
                 console.error("Error updating ticket:", err);
-                setSnackbarMessage('Error updating ticket.');
-                setOpenSnackbar(true); // Shows error message
+                setSnackbarMessage('Error updating ticket!');
+                setOpenSnackbar(true);
             });
     };
-
-
 
     return (
         <>
@@ -54,10 +47,9 @@ export default function EditTicket({ open, ticket, onClose, onSave }) {
                             justifyContent: 'flex-start',
                             wordWrap: 'break-word',
                             overflow: 'hidden'
-                        }}
-                    >
-                        <Box mb={3}>
+                        }}>
 
+                        <Box mb={3}>
                             <TextField sx={{ marginTop: 1, borderRadius: 2, fontSize: "20px" }}
                                 margin="dense"
                                 label="Ticket Name"
@@ -68,7 +60,6 @@ export default function EditTicket({ open, ticket, onClose, onSave }) {
                                 InputProps={{
                                     style: { fontSize: '20px' }
                                 }}
-
                             />
                         </Box>
 
@@ -114,7 +105,6 @@ export default function EditTicket({ open, ticket, onClose, onSave }) {
                         Save
                     </Button>
                 </DialogActions>
-
 
             </Dialog>
             <Snackbar

@@ -49,7 +49,7 @@ export default function ListPanels({ panels, setTeams }) {
                 })
                 .catch((err) => {
                     console.error("Error deleting panel:", err);
-                    setSnackbarMessage("Error deleting panel.");
+                    setSnackbarMessage("Error deleting panel!");
                     setOpenSnackbar(true);
                 });
         }
@@ -59,9 +59,9 @@ export default function ListPanels({ panels, setTeams }) {
         <>
             <Box sx={{ display: "flex", flexWrap: "wrap", gap: 2 }}>
                 {panels.map((panel) => (
-                    <Paper key={panel.panelId} elevation={5} sx={{ width: 300, padding: 2,  display: "flex", flexDirection: "column", justifyContent: "space-between",overflow: "hidden"}}>
+                    <Paper key={panel.panelId} elevation={5} sx={{ width: 300, padding: 2, display: "flex", flexDirection: "column", justifyContent: "space-between", overflow: "hidden", maxHeight: 80 }}>
                         <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-                            <Typography sx={{ whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }} variant="h6">
+                            <Typography sx={{ whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis", fontSize: '0.7em' }} variant="h6">
                                 <Link to={`/panels/${panel.panelId}`} style={{ textDecoration: "none", color: "inherit" }}>
                                     {panel.panelName || "Unnamed Panel"}
                                 </Link>
@@ -81,7 +81,7 @@ export default function ListPanels({ panels, setTeams }) {
                             </DropDown>
                         </Box>
 
-                        <Typography variant="body2" color="textSecondary" sx={{ marginTop: 1, overflow: "hidden", textOverflow: "ellipsis",textAlign:'left' }}>
+                        <Typography variant="body2" color="textSecondary" sx={{ marginTop: 1, overflow: "hidden", textOverflow: "ellipsis", textAlign: 'left', fontSize: '0.7em' }}>
                             {panel.description || "No description available"}
                         </Typography>
 

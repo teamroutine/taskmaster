@@ -23,6 +23,7 @@ function App() {
   let email = null;
   let gravatarUrl = null;
   let initials = null;
+
   if (token) {
     try {
       const decodedToken = jwtDecode(token);
@@ -45,7 +46,7 @@ function App() {
     <ThemeProvider theme={theme}>
       <Router>
         <AppBar position="fixed" sx={{ width: "100%" }}>
-          <Toolbar>
+          <Toolbar sx={{ padding: 0 }}>
             <Typography variant="h6" style={{ flexGrow: 1 }}>
               <img
                 src={taskmasterLogo}
@@ -57,7 +58,7 @@ function App() {
               color="inherit"
               component={Link}
               to="/"
-              sx={{ marginRight: 2, fontSize: "1.05rem" }}
+              sx={{ marginRight: 2, fontSize: "0.9em" }}
             >
               Home
             </Button>
@@ -65,7 +66,7 @@ function App() {
               color="inherit"
               component={Link}
               to={isAuthenticated ? "/teams" : "/login"}
-              sx={{ marginRight: 2, fontSize: "1.05rem" }}
+              sx={{ marginRight: 2, fontSize: "0.9em" }}
             >
               Your Teams
             </Button>

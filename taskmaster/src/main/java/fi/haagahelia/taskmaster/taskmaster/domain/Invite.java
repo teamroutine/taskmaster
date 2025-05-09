@@ -1,6 +1,7 @@
 package fi.haagahelia.taskmaster.taskmaster.domain;
 
 import java.util.Date;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -29,7 +30,6 @@ public class Invite {
         this.team = team;
     }
 
-    // Getters and setters
     public Long getInviteId() {
         return inviteId;
     }

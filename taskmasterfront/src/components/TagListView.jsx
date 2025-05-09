@@ -1,34 +1,9 @@
 import React, { useEffect, useState } from "react";
-import {
-    Dialog,
-    DialogActions,
-    DialogContent,
-    DialogTitle,
-    Button,
-    Paper,
-    Typography,
-    Box,
-    TextField,
-    IconButton,
-    Stack,
-    Checkbox,
-} from "@mui/material";
+import { Dialog, DialogActions, DialogContent, DialogTitle, Button, Paper, Typography, Box, TextField, IconButton, Stack, Checkbox } from "@mui/material";
 import { Edit, Delete } from "@mui/icons-material";
-import {
-    fetchTags,
-    createTag,
-    updateTag,
-    deleteTag,
-} from "../../taskmasterApi";
+import { fetchTags, createTag, updateTag, deleteTag } from "../../taskmasterApi";
 
-export default function TagListView({
-    open,
-    onClose,
-    selectable = false,
-    selected = [],
-    onSelectTags = () => { },
-    disabledTagIds = [],
-}) {
+export default function TagListView({ open, onClose, selectable = false, selected = [], onSelectTags = () => { }, disabledTagIds = [], }) {
     const [tags, setTags] = useState([]);
     const [selectedTags, setSelectedTags] = useState([]);
     const [newTag, setNewTag] = useState({ name: "", color: "#000000" });

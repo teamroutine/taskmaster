@@ -4,8 +4,6 @@ public class TeamDto {
     private String teamName;
     private String description;
 
-    // Constructors, getters, and setters
-
     public TeamDto() {
     }
 

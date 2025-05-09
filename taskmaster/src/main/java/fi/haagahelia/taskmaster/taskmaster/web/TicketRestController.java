@@ -69,7 +69,6 @@ public class TicketRestController {
                                 .orElseGet(() -> ResponseEntity.notFound().build());
         }
 
-        // Create a new Ticket
         @Operation(summary = "Create a new ticket", description = "Creates and returns a new ticket")
         @ApiResponses(value = {
                         @ApiResponse(responseCode = "201", description = "Ticket successfully created"),
@@ -108,8 +107,6 @@ public class TicketRestController {
                                 .orElseThrow(() -> new ResponseStatusException(
                                                 HttpStatus.NOT_FOUND,
                                                 "Ticket " + id + " can't be edited, since it doesn't exist."));
-
-                // Update fields of editTicket with ticketData
                 if (ticketData.getTicketName() != null) {
                         editTicket.setTicketName(ticketData.getTicketName());
                 }

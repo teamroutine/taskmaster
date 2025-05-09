@@ -3,10 +3,11 @@ import { Box, InputBase } from "@mui/material";
 import { Search as SearchIcon } from "@mui/icons-material";
 
 export default function SearchBar({ searchQuery, setSearchQuery }) {
+
     const handleSearchChange = (e) => {
         setSearchQuery(e.target.value.toLowerCase());
-
     };
+
     return (
         <Box
             sx={{

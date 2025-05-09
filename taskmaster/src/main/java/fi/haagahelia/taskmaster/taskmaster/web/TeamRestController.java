@@ -58,7 +58,6 @@ public class TeamRestController {
 
     }
 
-    // Get all the teams
     @Operation(summary = "Get all teams", description = "Returns a list of all teams")
     @ApiResponse(responseCode = "200", description = "Successfully retrieved all teams")
     @GetMapping
@@ -72,7 +71,6 @@ public class TeamRestController {
         return ResponseEntity.ok(teams);
     }
 
-    // Get one team
     @Operation(summary = "Get a team by ID", description = "Returns a single team by its ID")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Team found"),

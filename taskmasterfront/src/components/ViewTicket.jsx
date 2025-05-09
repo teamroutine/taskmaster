@@ -3,6 +3,7 @@ import { Dialog, DialogActions, DialogContent, DialogTitle, Button, Paper, Typog
 import DropDown from './DropDown';
 import TagListView from './TagListView';
 export default function ViewTicket({ ticket, open, onClose, handleDelete, onEditClick }) {
+
     const [tagModalOpen, setTagModalOpen] = useState(false);
 
     const formatDate = (dateString) => {

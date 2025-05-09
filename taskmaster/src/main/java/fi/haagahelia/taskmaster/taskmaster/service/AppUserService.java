@@ -23,7 +23,6 @@ public class AppUserService {
         this.passwordEncoder = passwordEncoder;
     }
 
-    // Register the new user and save in the database
     public AppUser registerUser(RegisterUserDto registerUserDto) {
         String encodedPassword = passwordEncoder.encode(registerUserDto.getPassword());
 
@@ -38,7 +37,6 @@ public class AppUserService {
         return appUserRepository.save(newUser);
     }
 
-    // Return authenticated users data
     public Optional<AppUser> getAuthenticatedUser() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 

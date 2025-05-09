@@ -1,9 +1,6 @@
 package fi.haagahelia.taskmaster.taskmaster.web;
 
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import io.swagger.v3.oas.annotations.responses.ApiResponses;
-import io.swagger.v3.oas.annotations.tags.Tag;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -11,27 +8,28 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.lang.NonNull;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
 
 import fi.haagahelia.taskmaster.taskmaster.domain.Panel;
 import fi.haagahelia.taskmaster.taskmaster.domain.PanelRepository;
 import fi.haagahelia.taskmaster.taskmaster.domain.Team;
-import fi.haagahelia.taskmaster.taskmaster.dto.PanelDto;
 import fi.haagahelia.taskmaster.taskmaster.domain.TeamRepository;
-
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.server.ResponseStatusException;
-
-import java.util.List;
-import org.springframework.web.bind.annotation.PutMapping;
+import fi.haagahelia.taskmaster.taskmaster.dto.PanelDto;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 
 @CrossOrigin
 @RestController
-@RequestMapping("/api/panels") // Is (api/teams/{teamId}/panels) better?
+@RequestMapping("/api/panels")
 @Tag(name = "Panels", description = "Endpoints for managing panels within teams")
 public class PanelRestController {
 
@@ -44,7 +42,6 @@ public class PanelRestController {
                 this.teamRepository = teamRepository;
         }
 
-        // Get all the team's Panels
         @Operation(summary = "Get all panels", description = "Returns a list of all panels")
         @ApiResponse(responseCode = "200", description = "Successfully retrieved panels")
         @GetMapping
@@ -53,7 +50,6 @@ public class PanelRestController {
                 return ResponseEntity.ok(panels);
         }
 
-        // Get one of the team's Panel
         @Operation(summary = "Get panel by ID", description = "Fetch a panel by its ID")
         @ApiResponses(value = {
                         @ApiResponse(responseCode = "200", description = "Panel found"),
@@ -66,7 +62,6 @@ public class PanelRestController {
                                 .orElseGet(() -> ResponseEntity.notFound().build());
         }
 
-        // Create a new panel
         @Operation(summary = "Create a new panel", description = "Creates a new panel under a specific team")
         @ApiResponses(value = {
                         @ApiResponse(responseCode = "201", description = "Panel successfully created"),
@@ -87,7 +82,6 @@ public class PanelRestController {
                 return ResponseEntity.status(HttpStatus.CREATED).body(savedPanel);
         }
 
-        // Edit one panel
         @Operation(summary = "Edit an existing panel", description = "Update the name and description of a panel")
         @ApiResponses(value = {
                         @ApiResponse(responseCode = "200", description = "Panel successfully updated"),
@@ -109,7 +103,6 @@ public class PanelRestController {
                 return ResponseEntity.ok(editPanel);
         }
 
-        // Delete a panel
         @Operation(summary = "Delete a panel", description = "Deletes a panel by its ID")
         @ApiResponses(value = {
                         @ApiResponse(responseCode = "204", description = "Panel successfully deleted"),

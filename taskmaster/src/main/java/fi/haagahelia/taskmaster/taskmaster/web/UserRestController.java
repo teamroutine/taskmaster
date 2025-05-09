@@ -3,36 +3,30 @@ package fi.haagahelia.taskmaster.taskmaster.web;
 import java.util.List;
 import java.util.Optional;
 
-import fi.haagahelia.taskmaster.taskmaster.domain.BlockRepository;
-import fi.haagahelia.taskmaster.taskmaster.dto.RegisterUserDto;
-import fi.haagahelia.taskmaster.taskmaster.service.AppUserService;
-
-import jakarta.validation.Valid;
-
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-
 import org.springframework.validation.BindingResult;
-
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-
 import org.springframework.web.server.ResponseStatusException;
 
 import fi.haagahelia.taskmaster.taskmaster.domain.AppUser;
 import fi.haagahelia.taskmaster.taskmaster.domain.AppUserRepository;
-import org.springframework.web.bind.annotation.PutMapping;
-
+import fi.haagahelia.taskmaster.taskmaster.domain.BlockRepository;
+import fi.haagahelia.taskmaster.taskmaster.dto.RegisterUserDto;
+import fi.haagahelia.taskmaster.taskmaster.service.AppUserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 
 @CrossOrigin
 @RestController
@@ -52,7 +46,6 @@ public class UserRestController {
         this.appUserService = appUserService;
     }
 
-    // Get All users
     @Operation(summary = "Get all users", description = "Returns a list of all users")
     @ApiResponse(responseCode = "200", description = "Successfully retrieved users")
     @GetMapping
@@ -61,7 +54,6 @@ public class UserRestController {
         return ResponseEntity.ok(users);
     }
 
-    // Get one user
     @Operation(summary = "Get a user by ID", description = "Returns a single user by their ID")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "User found"),
@@ -74,7 +66,6 @@ public class UserRestController {
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
-    // Delete user
     @Operation(summary = "Delete a user", description = "Deletes a user by ID")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "204", description = "User successfully deleted"),
@@ -146,7 +137,7 @@ public class UserRestController {
             if (existingUser.isPresent()) {
                 throw new ResponseStatusException(HttpStatus.CONFLICT, "Username is already taken.");
             }
-            // Vain silloin, kun käyttäjänimi on vapaa, asetetaan se
+            // works only when username is not already taken
             editAppUser.setUsername(appUserData.getUsername());
         }
         if (appUserData.getPassword() != null) {

@@ -35,8 +35,6 @@ function PanelView() {
             .catch((err) => setError(err.message));
     }, [panelid]);
 
-
-    // Add new block
     const addNewBlock = (newBlock, panelId) => {
         handleAddBlock({ ...newBlock, panelId })
             .then((addedBlock) => {
@@ -52,9 +50,6 @@ function PanelView() {
             });
     };
 
-    // Update query when user writes in the InputBase
-
-
     // Filter blocks based on search query
     const filteredBlocks = blocks
         .map(block => {
@@ -62,13 +57,13 @@ function PanelView() {
             const filteredTickets = block.tickets?.filter(ticket =>
                 ticket.ticketName.toLowerCase().includes(searchQuery) ||
                 ticket.description.toLowerCase().includes(searchQuery)
-            ) || []; // Fallback to empty array if tickets is undefined or null
+            ) || [];
 
             if (block.blockName.toLowerCase().includes(searchQuery) || filteredTickets.length > 0) {
                 return { ...block, tickets: filteredTickets }; // If query is similar to blocks or tickets, return a copy of the block/blocks and ticket/tickets
             }
 
-            return null; // If blocks don't have similar tickets as the query, return null
+            return null;
         })
         .filter(block => block !== null); // Delete null values, so only the blocks with query hits remain
 
@@ -83,7 +78,6 @@ function PanelView() {
                 </Typography>
             </Box>
             {error && <Alert severity="error">{error}</Alert>}
-            {/* Search bar component for the frontend */}
             <Box>
                 <SearchBar searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
             </Box>
@@ -93,7 +87,6 @@ function PanelView() {
                     existingBlockNames={blocks.map(block => block.blockName.toLowerCase())}
                 />
             </Box>
-            {/*ListBlock component uses data filtered by filteredBLocks() */}
             <Box sx={{ marginTop: 1 }}>
                 <ListBlocks blocks={filteredBlocks} setBlocks={setBlocks} />
             </Box>

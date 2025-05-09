@@ -33,7 +33,7 @@ const AuthButton = () => {
                 color="inherit"
                 sx={{
                     marginRight: 2,
-                    fontSize: '1.05rem',
+                    fontSize: "0.9em",
                     '&:hover': {
                         color: '#1976d2',
                         backgroundColor: 'rgba(25, 118, 210, 0.1)',

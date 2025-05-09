@@ -25,7 +25,7 @@ export default function CreateBlock({ createBlock, existingBlockNames = [] }) {
 
     const handleClose = () => {
         setOpen(false);
-        setErrorMessage('');  
+        setErrorMessage('');
     };
 
     const handleSave = () => {
@@ -43,7 +43,7 @@ export default function CreateBlock({ createBlock, existingBlockNames = [] }) {
 
     return (
         <>
-            <Button variant='contained' color='success' onClick={handleClickOpen} sx={{ position:"absolute", top:"110px", right:"40px" }}>
+            <Button variant='contained' color='success' onClick={handleClickOpen} sx={{ fontSize: '0.7em' }} >
                 Add Block
             </Button>
             <Dialog open={open} onClose={handleClose}>

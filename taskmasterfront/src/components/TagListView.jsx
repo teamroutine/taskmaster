@@ -153,7 +153,7 @@ export default function TagListView({
                                 onChange={(e) => setNewTag({ ...newTag, color: e.target.value })}
                                 style={{ width: 50, height: 50, border: "none", background: "transparent" }}
                             />
-                            <Button variant="contained" onClick={handleAddTag}>Add</Button>
+                            <Button variant="contained" onClick={handleAddTag} sx={{ fontSize: '0.7em' }}>Add Tag</Button>
                         </Box>
                     )}
                 </Stack>
@@ -166,7 +166,7 @@ export default function TagListView({
                         <Button onClick={handleDone} variant="contained">Done</Button>
                     </>
                 ) : (
-                    <Button onClick={onClose} variant="contained" color="secondary">Close</Button>
+                    <Button onClick={onClose} variant="contained" color="secondary" sx={{ fontSize: '0.7em', marginRight: 2 }}>Close</Button>
                 )}
             </DialogActions>
 

@@ -19,7 +19,7 @@ test('SearchBar updates searchQuery state when user types', () => {
     render(<SearchBar searchQuery={searchQuery} setSearchQuery={setSearchQuery} />);
 
     // Get the input field in the search bar
-    const searchInput = screen.getByPlaceholderText('Search...');
+    const searchInput = screen.getByPlaceholderText('Search');
 
     // Simulate typing into the search input
     fireEvent.change(searchInput, { target: { value: 'new query' } });

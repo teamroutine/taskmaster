@@ -15,13 +15,14 @@ export default function SearchBar({ searchQuery, setSearchQuery }) {
                 border: '1px solid #ccc',
                 borderRadius: '4px',
                 padding: '0 10px',
-                width: '300px',
+                width: 160,
+                marginTop: 1
             }}
         >
             <SearchIcon sx={{ color: 'gray', marginRight: '8px' }} />
             <InputBase
                 sx={{ width: '100%', color: 'black' }}
-                placeholder="Search..."
+                placeholder="Search"
                 value={searchQuery}
                 onChange={handleSearchChange}
             />

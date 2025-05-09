@@ -30,7 +30,8 @@ export default function CreateTeam({ createTeam }) {
 
   return (
     <>
-      <Button variant="contained" color="success" onClick={handleClickOpen}>
+      
+      <Button variant="contained" color="success" onClick={handleClickOpen} sx={{ fontSize: '0.7em', padding: '0.4em 0.8em' }}>
         Add Team
       </Button>
       <Dialog open={open} onClose={handleClose}>

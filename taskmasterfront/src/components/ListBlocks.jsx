@@ -290,8 +290,8 @@ function ListBlocks({ blocks, setBlocks }) {
               <Paper
                 elevation={5}
                 sx={{
-                  width: 300,
-                  height: 800,
+                  width: 150,
+                  height: 400,
                   padding: 2,
                   textAlign: "center",
                   display: "flex",
@@ -312,6 +312,7 @@ function ListBlocks({ blocks, setBlocks }) {
                       overflow: "hidden",
                       textOverflow: "ellipsis",
                       maxWidth: "200px",
+                      fontSize: '0.7em'
                     }}
                     variant="h6"
                   >

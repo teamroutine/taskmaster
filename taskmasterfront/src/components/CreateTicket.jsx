@@ -32,7 +32,8 @@ export default function CreateTicket({ createTicket }) {
 
     return (
         <>
-            <Button variant='contained' color='success' onClick={handleClickOpen}>
+           
+            <Button variant='contained' color='success' onClick={handleClickOpen} sx={{ marginTop: 2, fontSize: '0.5em' }}>
                 Add Ticket
             </Button>
             <Dialog
@@ -62,7 +63,7 @@ export default function CreateTicket({ createTicket }) {
                         rows={3}
                         variant='outlined'
                         InputLabelProps={{
-                            shrink: true, 
+                            shrink: true,
                         }}
                     />
                     <TextField

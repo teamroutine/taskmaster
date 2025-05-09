@@ -31,7 +31,7 @@ export default function CreatePanel({ createPanel }) {
 
     return (
         <>
-            <Button variant='contained' color='success' onClick={handleClickOpen}>
+            <Button variant='contained' color='success' onClick={handleClickOpen} sx={{ fontSize: '0.7em' }}>
                 Add Panel
             </Button>
             <Dialog

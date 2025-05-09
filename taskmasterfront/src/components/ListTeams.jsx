@@ -138,19 +138,24 @@ function ListTeams({ username }) {
 
   return (
     <>
-      <Box>
-        <h1 sx={{ marginBottom: 2 }}>Your Teams</h1>
+      <Box sx={{ mt: 2, pt: 0, mb: 2 }}>
+        <Typography variant="h4" sx={{ marginBottom: 2, marginTop: 2 }}>
+          Your Teams
+        </Typography>
         {username && (
-          <>
+
+          <Box sx={{ display: "flex", alignItems: "center", gap: 1, marginBottom: 2 }}>
             <CreateTeam createTeam={createTeam} />
             <Button
               variant="contained"
               onClick={() => setJoinDialogOpen(true)}
-              sx={{ marginLeft: '2%' }}
+              sx={{ marginLeft: '2%', fontSize: '0.7em', padding: '0.4em 0.8em' }}
             >
               Join Team
             </Button>
-          </>
+          </Box>
+
+
         )}
       </Box>
       <Box sx={{ whiteSpace: "nowrap" }}>
@@ -172,8 +177,8 @@ function ListTeams({ username }) {
               <Paper
                 elevation={5}
                 sx={{
-                  width: 300,
-                  height: 800,
+                  width: 240,
+                  minHeight: 465,
                   padding: 2,
                   textAlign: "center",
                   display: "flex",
@@ -196,6 +201,7 @@ function ListTeams({ username }) {
                       maxWidth: "200px",
                       marginBottom: 1,
                       cursor: "pointer",
+                      fontSize: '0.7em'
                     }}
                     variant="h6"
                   >
@@ -205,9 +211,9 @@ function ListTeams({ username }) {
                     sx={{
                       textAlign: "left",
                       opacity: 0.7,
-                      fontSize: "0.9rem",
+                      fontSize: "0.7em",
                       marginLeft: 1,
-                      marginBottom: 1,
+                      marginBottom: 1
                     }}
                   >
                     {team.createdBy === username && " (Owner)"}
@@ -217,8 +223,8 @@ function ListTeams({ username }) {
                       <Button
                         variant="contained"
                         color="primary"
-                        sx={{ width: "100%" }}
-                        onClick={() => handleInviteUsers(team.teamId)}
+                        sx={{ width: "100%", fontSize: '0.7em' }}
+                        onClick={() => handleInviteUsers(team.teamId)} // Open invite modal
                       >
                         Invite Users
                       </Button>
@@ -227,7 +233,7 @@ function ListTeams({ username }) {
                       <Button
                         variant="contained"
                         color="info"
-                        sx={{ width: "100%" }}
+                        sx={{ width: "100%", fontSize: '0.7em' }}
                         onClick={() => handleTeamClick(team)}
                       >
                         Info
@@ -237,7 +243,7 @@ function ListTeams({ username }) {
                       <Button
                         variant="contained"
                         color="error"
-                        sx={{ width: "100%" }}
+                        sx={{ width: "100%", fontSize: '0.7em' }}
                         onClick={() => handleDeleteTeam(team.teamId)}
                         disabled={team.createdBy !== username}
                       >
@@ -251,7 +257,8 @@ function ListTeams({ username }) {
                   <ListPanels panels={team.panels} setTeams={setTeams} />
                 </Box>
                 <Box>
-                  <Divider />
+                  <Divider sx={{ marginBottom: 2 }} />
+
                   <CreatePanel
                     createPanel={(newPanel) =>
                       addNewPanel(newPanel, team.teamId)

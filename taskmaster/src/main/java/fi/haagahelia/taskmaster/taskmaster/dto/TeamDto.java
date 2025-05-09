@@ -1,15 +1,15 @@
 package fi.haagahelia.taskmaster.taskmaster.dto;
 
-public class TeamDTO {
+public class TeamDto {
     private String teamName;
     private String description;
 
     // Constructors, getters, and setters
 
-    public TeamDTO() {
+    public TeamDto() {
     }
 
-    public TeamDTO(String teamName, String description) {
+    public TeamDto(String teamName, String description) {
         this.teamName = teamName;
         this.description = description;
     }

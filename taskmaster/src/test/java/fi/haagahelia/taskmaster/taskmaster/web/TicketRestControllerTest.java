@@ -36,7 +36,7 @@ import fi.haagahelia.taskmaster.taskmaster.domain.TagRepository;
 import fi.haagahelia.taskmaster.taskmaster.domain.TeamRepository;
 import fi.haagahelia.taskmaster.taskmaster.domain.Ticket;
 import fi.haagahelia.taskmaster.taskmaster.domain.TicketRepository;
-import fi.haagahelia.taskmaster.taskmaster.dto.TicketDTO;
+import fi.haagahelia.taskmaster.taskmaster.dto.TicketDto;
 import fi.haagahelia.taskmaster.taskmaster.service.JwtService;
 
 @WebMvcTest(TicketRestController.class)
@@ -85,8 +85,10 @@ class TicketRestControllerTest {
 
                 // Mock the data to be returned
                 Block block = new Block();
-                Ticket ticket1 = new Ticket(1L, "Ticket 1", "Description 1", true, LocalDate.of(2025, 5, 10), LocalDate.now(), block, null, null);
-                Ticket ticket2 = new Ticket(2L, "Ticket 2", "Description 2", true, LocalDate.of(2025, 5, 11), LocalDate.now(), block, null, null);
+                Ticket ticket1 = new Ticket(1L, "Ticket 1", "Description 1", true, LocalDate.of(2025, 5, 10),
+                                LocalDate.now(), block, null, null);
+                Ticket ticket2 = new Ticket(2L, "Ticket 2", "Description 2", true, LocalDate.of(2025, 5, 11),
+                                LocalDate.now(), block, null, null);
                 List<Ticket> tickets = Arrays.asList(ticket1, ticket2);
 
                 // Mock the functions of the repository
@@ -105,8 +107,10 @@ class TicketRestControllerTest {
         void testGetTicketById() throws Exception {
 
                 Block block = new Block();
-                Ticket ticket1 = new Ticket(1L, "Ticket 1", "Description 1", true,LocalDate.of(2025, 5, 10), LocalDate.now(), block, null, null);
-                Ticket ticket2 = new Ticket(2L, "Ticket 2", "Description 2", true, LocalDate.of(2025, 5, 11), LocalDate.now(), block, null, null);
+                Ticket ticket1 = new Ticket(1L, "Ticket 1", "Description 1", true, LocalDate.of(2025, 5, 10),
+                                LocalDate.now(), block, null, null);
+                Ticket ticket2 = new Ticket(2L, "Ticket 2", "Description 2", true, LocalDate.of(2025, 5, 11),
+                                LocalDate.now(), block, null, null);
 
                 when(ticketRepository.findById(1L)).thenReturn(Optional.of(ticket1));
 
@@ -130,7 +134,7 @@ class TicketRestControllerTest {
                 Block block = new Block();
                 block.setBlockId(blockId);
 
-                TicketDTO ticketDTO = new TicketDTO();
+                TicketDto ticketDTO = new TicketDto();
                 ticketDTO.setTicketName("New Ticket");
                 ticketDTO.setDescription("New Ticket Description");
                 ticketDTO.setDueDate(LocalDate.of(2025, 6, 10));

@@ -17,7 +17,7 @@ import fi.haagahelia.taskmaster.taskmaster.domain.AppUser;
 import fi.haagahelia.taskmaster.taskmaster.domain.AppUserRepository;
 import fi.haagahelia.taskmaster.taskmaster.domain.Team;
 import fi.haagahelia.taskmaster.taskmaster.domain.TeamRepository;
-import fi.haagahelia.taskmaster.taskmaster.dto.TeamDTO;
+import fi.haagahelia.taskmaster.taskmaster.dto.TeamDto;
 import fi.haagahelia.taskmaster.taskmaster.service.JwtService;
 import fi.haagahelia.taskmaster.taskmaster.service.TeamService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -92,7 +92,7 @@ public class TeamRestController {
             @ApiResponse(responseCode = "404", description = "User not found")
     })
     @PostMapping
-    public ResponseEntity<Team> newTeam(@RequestBody @Valid TeamDTO teamDTO, HttpServletRequest request) {
+    public ResponseEntity<Team> newTeam(@RequestBody @Valid TeamDto teamDTO, HttpServletRequest request) {
         String username = jwtService.getAuthUser(request);
         if (username == null) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "User not authenticated");

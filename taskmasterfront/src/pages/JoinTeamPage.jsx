@@ -14,6 +14,7 @@ function JoinTeamPage() {
     const [invite, setInvite] = useState(null);
     const [error, setError] = useState("");
     const [snackbarMessage, setSnackbarMessage] = useState("");
+    const code = inviteCode?.split("/").pop();
 
     useEffect(() => {
         if (token) {
@@ -28,7 +29,7 @@ function JoinTeamPage() {
     }, [token])
 
     useEffect(() => {
-        validateInvite(inviteCode)
+        validateInvite(code)
             .then((data) => {
                 console.log(data)
                 setInvite(data);
@@ -36,7 +37,7 @@ function JoinTeamPage() {
             .catch((err) => {
                 setError("Invite link is invalid or it has expired" + err);
             });
-    }, [inviteCode]);
+    }, [code]);
 
     const handleJoinTeam = () => {
         if (!token || !username) {
@@ -44,10 +45,12 @@ function JoinTeamPage() {
             return;
         }
 
-        joinTeamWithInvite(inviteCode)
+
+        joinTeamWithInvite(code)
             .then(() => {
-                setSnackbarMessage("You joined the team succesfully!");
-                setTimeout(() => navigate("/teams"), 2000);
+                navigate("/teams", {
+                    state: { message: "You joined the team successfully!" }
+                });
             })
             .catch(() => {
                 setSnackbarMessage("Failed to join the team.");

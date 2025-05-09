@@ -7,18 +7,18 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import fi.haagahelia.taskmaster.taskmaster.domain.Ticket;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class TicketDTO {
+public class TicketDto {
     private Long ticketId;
     private String ticketName;
     private String description;
     private LocalDate dueDate;
     private Long blockId;
 
-    public TicketDTO() {
+    public TicketDto() {
 
     }
 
-    public TicketDTO(Long ticketId, String ticketName, String description, LocalDate dueDate, Long blockId) {
+    public TicketDto(Long ticketId, String ticketName, String description, LocalDate dueDate, Long blockId) {
         this.ticketId = ticketId;
         this.ticketName = ticketName;
         this.description = description;
@@ -26,7 +26,7 @@ public class TicketDTO {
         this.blockId = blockId;
     }
 
-    public TicketDTO(Ticket ticket) {
+    public TicketDto(Ticket ticket) {
         this.ticketId = ticket.getTicketId();
         this.ticketName = ticket.getTicketName();
         this.description = ticket.getDescription();
@@ -80,5 +80,4 @@ public class TicketDTO {
                 + ", dueDate=" + dueDate + ", blockId=" + blockId + "]";
     }
 
-   
 }

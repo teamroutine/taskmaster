@@ -21,6 +21,7 @@ import CreatePanel from "./CreatePanel";
 import CreateTeam from "./CreateTeam";
 import ViewTeam from "./ViewTeam";
 import DropDown from "./DropDown";
+import JoinTeamDialog from "./JoinTeamDialog";
 import CreateInvite from "./CreateInvite"; // Import CreateInvite component
 
 function ListTeams({ username }) {
@@ -31,6 +32,7 @@ function ListTeams({ username }) {
   const [openViewTeam, setOpenViewTeam] = useState(false);
   const [openInviteModal, setOpenInviteModal] = useState(false); // State for invite modal
   const [selectedTeamId, setSelectedTeamId] = useState(null); // State for selected team ID
+  const [joinDialogOpen, setJoinDialogOpen] = useState(false);
 
   useEffect(() => {
     fetchMyTeams()
@@ -41,6 +43,15 @@ function ListTeams({ username }) {
         console.error("Error fetching teams: " + err.message);
       });
   }, []);
+
+  const location = useLocation();
+
+  useEffect(() => {
+    if (location.state?.message) {
+      setSnackbarMessage(location.state.message);
+      setOpenSnackbar(true);
+    }
+  }, [location.state]);
 
   const handleTeamClick = (team) => {
     setSelectedTeam(team);
@@ -79,16 +90,16 @@ function ListTeams({ username }) {
             prevTeams.map((team) =>
               team.teamId === teamId
                 ? {
-                    ...team,
-                    panels: team.panels.map((panel) =>
-                      panel.panelId === addedPanel.panelId
-                        ? {
-                            ...panel,
-                            blocks: [...(panel.blocks || []), addedBlock],
-                          }
-                        : panel
-                    ),
-                  }
+                  ...team,
+                  panels: team.panels.map((panel) =>
+                    panel.panelId === addedPanel.panelId
+                      ? {
+                        ...panel,
+                        blocks: [...(panel.blocks || []), addedBlock],
+                      }
+                      : panel
+                  ),
+                }
                 : team
             )
           );
@@ -142,7 +153,18 @@ function ListTeams({ username }) {
     <>
       <Box>
         <h1 sx={{ marginBottom: 2 }}>Your Teams</h1>
-        <CreateTeam createTeam={createTeam} />
+        {username && (
+          <>
+            <CreateTeam createTeam={createTeam} />
+            <Button
+              variant="contained"
+              onClick={() => setJoinDialogOpen(true)}
+              sx={{ marginLeft: '2%' }}
+            >
+              Join Team
+            </Button>
+          </>
+        )}
       </Box>
       <Box sx={{ whiteSpace: "nowrap" }}>
         <Box
@@ -208,7 +230,7 @@ function ListTeams({ username }) {
                       <Button
                         variant="contained"
                         color="primary"
-                        sx={{ width: "100%"}}
+                        sx={{ width: "100%" }}
                         onClick={() => handleInviteUsers(team.teamId)} // Open invite modal
                       >
                         Invite Users
@@ -218,7 +240,7 @@ function ListTeams({ username }) {
                       <Button
                         variant="contained"
                         color="info"
-                        sx={{ width: "100%"}}
+                        sx={{ width: "100%" }}
                         onClick={() => handleTeamClick(team)}
                       >
                         Info
@@ -228,7 +250,7 @@ function ListTeams({ username }) {
                       <Button
                         variant="contained"
                         color="error"
-                        sx={{ width: "100%"}}
+                        sx={{ width: "100%" }}
                         onClick={() => handleDeleteTeam(team.teamId)}
                         disabled={team.createdBy !== username}
                       >
@@ -266,6 +288,17 @@ function ListTeams({ username }) {
         open={openInviteModal}
         onClose={() => setOpenInviteModal(false)} // Close the modal
       />
+
+      <JoinTeamDialog
+        open={joinDialogOpen}
+        onClose={() => setJoinDialogOpen(false)}
+        onSuccess={() => {
+          fetchMyTeams().then((data) => {
+            setTeams(data || []);
+          });
+        }}
+      />
+
       <Snackbar
         open={openSnackbar}
         autoHideDuration={2000}

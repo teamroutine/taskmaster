@@ -39,7 +39,7 @@ import fi.haagahelia.taskmaster.taskmaster.domain.PanelRepository;
 import fi.haagahelia.taskmaster.taskmaster.domain.TeamRepository;
 import fi.haagahelia.taskmaster.taskmaster.domain.Ticket;
 import fi.haagahelia.taskmaster.taskmaster.domain.TicketRepository;
-import fi.haagahelia.taskmaster.taskmaster.dto.TicketDTO;
+import fi.haagahelia.taskmaster.taskmaster.dto.TicketDto;
 import fi.haagahelia.taskmaster.taskmaster.service.JwtService;
 
 @WebMvcTest(BlockRestController.class)

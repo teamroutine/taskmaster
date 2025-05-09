@@ -40,7 +40,7 @@ function PanelView() {
     const addNewBlock = (newBlock, panelId) => {
         handleAddBlock({ ...newBlock, panelId })
             .then((addedBlock) => {
-                setBlocks((prevBlocks) => [addedBlock, ...prevBlocks]);
+                setBlocks((prevBlocks) => [...prevBlocks, addedBlock]);
                 setSnackbarMessage('Block added successfully!');
                 setOpenSnackbar(true);
             })

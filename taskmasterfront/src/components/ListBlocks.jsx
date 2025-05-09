@@ -31,6 +31,11 @@ function ListBlocks({ blocks, setBlocks }) {
   const registeredBlocks = useRef(new Set());
   const [openSnackbar, setOpenSnackbar] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState("");
+  const prevBlocksRef = useRef(blocks);
+
+  useEffect(() => {
+    prevBlocksRef.current = blocks;
+  }, [blocks]);
 
   useEffect(() => {
     console.log("Updated blocks state:", blocks);
@@ -46,7 +51,7 @@ function ListBlocks({ blocks, setBlocks }) {
     setOpen(false);
   };
 
-  // Handle delete
+  
   const handleBlockDelete = (blockId) => {
     const confirmed = window.confirm(
       "Are you sure you want to delete this block and all the tickets it contains?"
@@ -58,7 +63,7 @@ function ListBlocks({ blocks, setBlocks }) {
             prevBlocks.filter((block) => block.blockId !== blockId)
           );
           setSnackbarMessage("Block deleted successfully");
-          setOpenSnackbar(true); //Opens snackbar to show success message
+          setOpenSnackbar(true);
         })
         .catch((err) => {
           console.error("Error deleting block:", err);
@@ -68,7 +73,7 @@ function ListBlocks({ blocks, setBlocks }) {
     }
   };
 
-  // Updates blocks in fronend after editing
+  
   const handleEditBlockSave = (updatedBlock) => {
     setBlocks((prevBlocks) =>
       prevBlocks.map((block) =>
@@ -79,7 +84,7 @@ function ListBlocks({ blocks, setBlocks }) {
     );
   };
 
-  // Add new ticket function with the Blocks id
+ 
   const addNewTicket = (newTicket, blockId) => {
     handleAddTicket({ ...newTicket, blockId })
       .then((addedTicket) => {
@@ -107,9 +112,10 @@ function ListBlocks({ blocks, setBlocks }) {
       const reorderedBlocks = reorder({
         list: prevBlocks,
         startIndex: index,
-        finishIndex: index - 1, // Ensure the index doesn't go below 0
+        finishIndex: index - 1, 
       });
 
+      console.log(reorderedBlocks);
       // Sync with backend
       handleReorderBlocks(panelid, reorderedBlocks)
         .then(() => {
@@ -169,14 +175,17 @@ function ListBlocks({ blocks, setBlocks }) {
         element: el,
         getData: () => ({ type: "block", blockId: block.blockId }),
         onDrop: ({ source }) => {
-          if (block.tickets?.length === 0) {
-            // Handle drop only if the block is empty
+          // Use prevBlocksRef.current for the latest blocks state
+          const latestBlocks = prevBlocksRef.current;
+          const thisBlock = latestBlocks.find(b => b.blockId === block.blockId);
+
+          if (thisBlock.tickets?.length === 0) {
             if (source.data.type === "ticket") {
               const sourceTicketId = source.data.ticketId;
               console.log(
                 `Adding ticket ${sourceTicketId} to empty block ${block.blockId}`
               );
-              moveTicket(sourceTicketId, null, block.blockId, null); // No targetTicketId or closestEdge needed
+              moveTicket(sourceTicketId, null, block.blockId, null);
             }
           }
         },

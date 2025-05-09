@@ -36,7 +36,7 @@ jobs:
 
     defaults:
       run:
-        working-directory: ./client
+        working-directory: ./taskmasterfront
 
     steps:
     - name: Checkout repository

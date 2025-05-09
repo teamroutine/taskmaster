@@ -15,49 +15,23 @@ import Snackbar from '@mui/material/Snackbar';
 
 export default function Register() {
     const [open, setOpen] = useState(false);
-
     const [error, setError] = useState("");
-
     const [confirmPassword, setConfirmPassword] = useState('');
-
     const [showPassword, setShowPassword] = useState(false);
-
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-
-
     const [openSnackbar, setOpenSnackbar] = useState(false);
     const [snackbarMessage, setSnackbarMessage] = useState('');
-
     const navigate = useNavigate();
-
-    const [user, setUser] = useState({
-        firstName: '',
-        lastName: '',
-        email: '',
-        phone: '',
-        username: '',
-        password: '',
-
-    })
-
-
+    const [user, setUser] = useState({ firstName: '', lastName: '', email: '', phone: '', username: '', password: '' })
 
     // Open modal right after register button has been clicked
     const handleOpen = () => {
         setOpen(true);
     };
 
-    // Close the modal
     const handleClickClose = () => {
         setOpen(false);
-        setUser({
-            firstName: '',
-            lastName: '',
-            email: '',
-            phone: '',
-            username: '',
-            password: '',
-        });
+        setUser({ firstName: '', lastName: '', email: '', phone: '', username: '', password: '' });
         setConfirmPassword("");
         setError("");
     };
@@ -196,8 +170,6 @@ export default function Register() {
                                 )
                             }
                         }}
-
-
                     />
                     <TextField
                         margin='dense'

@@ -1,21 +1,11 @@
 import React from "react";
-import {
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogTitle,
-  Button,
-  Paper,
-  Typography,
-  Box,
-  MenuItem,
-  TextField,
-  Divider,
-} from "@mui/material";
+import { Dialog, DialogActions, DialogContent, DialogTitle, Button, Paper, Typography, Box, Divider } from "@mui/material";
 import gravatar from "gravatar";
 
 export default function ViewTeam({ team, openView, closeView }) {
+
   if (!team) return null;
+
   return (
     <Dialog open={openView} onClose={closeView}>
       <DialogTitle
@@ -85,11 +75,11 @@ export default function ViewTeam({ team, openView, closeView }) {
                   });
                   return (
                     <Box key={index}
-                    sx={{
-                      display: "flex",
-                      alignItems: "center",
-                      marginBottom: "8px",
-                    }}>
+                      sx={{
+                        display: "flex",
+                        alignItems: "center",
+                        marginBottom: "8px",
+                      }}>
                       <img
                         src={gravatarUrl}
                         alt="User Gravatar"

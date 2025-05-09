@@ -23,6 +23,7 @@ function App() {
   let email = null;
   let gravatarUrl = null;
   let initials = null;
+
   if (token) {
     try {
       const decodedToken = jwtDecode(token);

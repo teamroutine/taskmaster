@@ -247,10 +247,8 @@ http://localhost:8080/swagger-ui/index.html
 This project is licensed under the MIT License – see the [LICENSE](./LICENSE.md) file for details.
 
 ## Work in progress
- - Firebase / Spring security authentication
  - Custom styling for projects 
  - Custom emoji upload 
- - Use modals
  - Calendar + Calendar invites
  - Due dates
  - Assign and view random task 

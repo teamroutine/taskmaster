@@ -3,7 +3,6 @@ package fi.haagahelia.taskmaster.taskmaster.domain;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import jakarta.persistence.Entity;
@@ -27,7 +26,8 @@ public class Tag {
     @JsonIgnoreProperties("tags")
     private List<Ticket> tickets = new ArrayList<>();
 
-    public Tag() {}
+    public Tag() {
+    }
 
     public Tag(String name, String color) {
         this.name = name;
@@ -62,6 +62,5 @@ public class Tag {
     public String toString() {
         return "Tag [id=" + id + ", name=" + name + ", color=" + color + "]";
     }
-    
 
 }

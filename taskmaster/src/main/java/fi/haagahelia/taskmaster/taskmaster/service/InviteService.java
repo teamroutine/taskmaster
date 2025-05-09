@@ -3,7 +3,7 @@ package fi.haagahelia.taskmaster.taskmaster.service;
 import java.util.Date;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
-import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.stereotype.Service;
 
 import com.soundicly.jnanoidenhanced.jnanoid.NanoIdUtils;

@@ -2,7 +2,6 @@ package fi.haagahelia.taskmaster.taskmaster.web;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -36,7 +35,6 @@ public class BlockRestController {
         private final BlockRepository blockRepository;
         private final PanelRepository panelRepository;
 
-        @Autowired
         public BlockRestController(BlockRepository blockRepository, PanelRepository panelRepository) {
                 this.blockRepository = blockRepository;
                 this.panelRepository = panelRepository;

@@ -2,7 +2,6 @@ package fi.haagahelia.taskmaster.taskmaster.domain;
 
 import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import jakarta.persistence.CascadeType;
@@ -23,7 +22,7 @@ public class Panel {
     private String description;
 
     @ManyToOne
-    @JsonIgnoreProperties("panels") 
+    @JsonIgnoreProperties("panels")
     @JoinColumn(name = "teamId")
     private Team team;
 
